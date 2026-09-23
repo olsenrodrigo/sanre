@@ -1,11 +1,12 @@
-import { type ReactNode, useState, useEffect } from "react";
+import { type ReactNode, useState } from "react";
 import { Link, useLocation } from "wouter";
 import {
   LayoutDashboard, Package, ShoppingBag, Users as UsersIcon, Settings,
-  Upload, Tag, LogOut, Menu, X, ExternalLink, Store, FolderOpen, Star,
+  Upload, Tag, LogOut, Menu, X, ExternalLink, FolderOpen, Star,
   BarChart2, UserCog, Repeat, ShoppingCart, MessageSquare, Package2
 , Inbox } from "lucide-react";
 import { useAdminAuth } from "@/context/AdminAuthContext";
+import Logo from "@/components/brand/Logo";
 
 const ALL_NAV_ITEMS = [
   { href: "/admin", icon: LayoutDashboard, label: "Dashboard", roles: ["admin", "financeiro", "operacao"] },
@@ -31,17 +32,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const [, navigate] = useLocation();
   const [location] = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [logoUrl, setLogoUrl] = useState<string | null>(null);
 
   const userRole = admin?.role || "operacao";
   const NAV_ITEMS = ALL_NAV_ITEMS.filter(item => item.roles.includes(userRole));
-
-  useEffect(() => {
-    fetch("/api/store/settings")
-      .then(r => r.json())
-      .then((s: any) => { if (s.logoUrl) setLogoUrl(s.logoUrl); })
-      .catch(() => {});
-  }, []);
 
   if (!isAuthenticated) {
     navigate("/admin/login");
@@ -58,14 +51,11 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const Sidebar = ({ mobile = false }: { mobile?: boolean }) => (
     <aside className={`flex flex-col bg-gray-900 text-white ${mobile ? "w-full" : "w-56 flex-shrink-0"} min-h-screen`}>
       <div className="p-5 border-b border-gray-800">
-        {logoUrl ? (
-          <img src={logoUrl} alt="Logo" className="h-8 object-contain max-w-[120px]" />
-        ) : (
-          <div className="flex items-center gap-2">
-            <Store size={20} />
-            <span className="font-bold text-sm">Loja Admin</span>
-          </div>
-        )}
+        {/* Marca fixa em branco: a logo das configurações é preta e sumia no fundo escuro */}
+        <Link href="/admin" className="block text-white no-underline" aria-label="Óticas Sanrê — painel">
+          <Logo className="h-10 w-auto" decorativo />
+        </Link>
+        <p className="text-[11px] uppercase tracking-[0.18em] text-gray-400 mt-3">Painel</p>
         {admin && <p className="text-xs text-gray-400 mt-1 truncate">{admin.email}</p>}
       </div>
       <nav className="flex-1 p-3 space-y-1">
@@ -117,7 +107,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-gray-600">
             <Menu size={22} />
           </button>
-          <span className="font-semibold text-gray-800 text-sm">Admin</span>
+          <Logo className="h-7 w-auto text-gray-900" />
           <button onClick={handleLogout} className="text-gray-400">
             <LogOut size={18} />
           </button>

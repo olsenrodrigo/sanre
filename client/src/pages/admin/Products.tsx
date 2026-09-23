@@ -98,7 +98,7 @@ export default function AdminProducts() {
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-gray-100 rounded-lg flex-shrink-0 overflow-hidden">
-                            {p.mainImage && <img src={p.mainImage} alt="" className="w-full h-full object-cover" />}
+                            {p.mainImage && <img src={p.mainImage} alt="" loading="lazy" className="w-full h-full object-contain bg-white" />}
                           </div>
                           <div>
                             <p className="text-sm font-medium text-gray-800 line-clamp-1">{p.title}</p>

@@ -1566,7 +1566,15 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       status: status || undefined,
       limit: Number(limit), offset: (Number(page) - 1) * Number(limit),
     });
-    return res.json(result);
+    // A lista do painel mostra a miniatura: sem isto chegava sem imagem nenhuma.
+    const porProduto = await storage.getImagesForProducts(result.products.map(p => p.id));
+    return res.json({
+      ...result,
+      products: result.products.map(p => {
+        const imgs = porProduto.get(p.id) ?? [];
+        return { ...p, mainImage: imgs.find(i => i.isMain)?.url || imgs[0]?.url || null };
+      }),
+    });
   });
   app.get("/api/admin/products/:id", requireAdmin, async (req, res) => {
     const product = await storage.getProductById(Number(req.params.id));

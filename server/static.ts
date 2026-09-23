@@ -17,7 +17,9 @@ export function serveStatic(app: Express) {
     express.static(path.join(distPath, "assets"), { maxAge: "365d", immutable: true, index: false }),
   );
   // `index: false`: a raiz "/" não pode sair do static — precisa passar pelo SEO por rota.
-  app.use(express.static(distPath, { index: false, maxAge: "1h" }));
+  // `redirect: false`: a pasta public/provador (modelo do MediaPipe) tem o mesmo
+  // nome da rota /provador — sem isto o static respondia 301 para "/provador/".
+  app.use(express.static(distPath, { index: false, redirect: false, maxAge: "1h" }));
 
   const template = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
 

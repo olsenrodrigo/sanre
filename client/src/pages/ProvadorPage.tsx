@@ -143,7 +143,7 @@ export default function ProvadorPage() {
 
   const produtos = useQuery<RespostaProdutos>({
     queryKey: ["/api/store/products", "provador"],
-    queryFn: () => buscarJson<RespostaProdutos>("/api/store/products?tryon=1&limit=100"),
+    queryFn: () => buscarJson<RespostaProdutos>("/api/store/products?tryon=1&limit=100&sort=destaque"),
     staleTime: 5 * 60_000,
   });
 

@@ -60,7 +60,7 @@ EPI_PRECO_MINIMO = 29.90
 
 # Lente incolor em fundo branco: a remoção de fundo leva a lente junto e sobram
 # só hastes — no rosto isso não informa nada. Ficam fora do provador.
-SEM_PROVADOR = {"kalipso-010413-leopardo-incolor", "kalipso-010813-castor-ii-incolor"}
+SEM_PROVADOR = {"kalipso-010413-leopardo-incolor", "kalipso-010813-castor-ii-incolor", "steelflex-vs201640-neon-in-out"}
 
 # Curadoria da home: um "rosto" de cada grife forte, na ordem em que aparecem.
 MARCAS_DESTAQUE = ["Ray-Ban", "Prada", "Gucci", "Tom Ford", "Oakley", "Valentino", "Carrera", "Ana Hickmann",

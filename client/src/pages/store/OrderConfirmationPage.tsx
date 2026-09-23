@@ -3,7 +3,6 @@ import { useParams, Link } from "wouter";
 import { CheckCircle, Package, Clock, Copy, ExternalLink, MessageCircle } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import WhatsAppFloat from "@/components/layout/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { trackPurchase, useAnalyticsReady } from "@/lib/analytics";
@@ -195,7 +194,6 @@ export default function OrderConfirmationPage() {
         </div>
       </main>
       <Footer />
-      <WhatsAppFloat />
     </div>
   );
 }

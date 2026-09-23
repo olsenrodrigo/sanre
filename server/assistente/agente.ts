@@ -10,7 +10,7 @@
  * LGPD: o log registra só o TIPO da falha e a latência, nunca o texto.
  */
 import { createHmac } from "crypto";
-import type { SaidaAssistente } from "../../client/src/components/assistente/protocolo";
+import type { SaidaAssistente } from "@shared/assistente-protocolo";
 import { respostaAgenteSchema, type ContextoValidado } from "./contrato";
 
 export type FalhaAgente =

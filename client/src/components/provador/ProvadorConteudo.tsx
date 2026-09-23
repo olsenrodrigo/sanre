@@ -28,7 +28,7 @@ import { precoBR } from "@/lib/marca";
 import { medidaArmacao } from "@/lib/oculos";
 import { cn } from "@/lib/utils";
 import type { OculosProvador, ProvadorARProps } from "./ProvadorAR";
-import { carregarMotor, type Motor } from "./motor";
+import { carregarMotor, navegadorSuportaProvador, ProvadorSemSuporte, type Motor } from "./motor";
 import { calcularPose, desenharOculos, SuavizadorPose, type PoseRosto } from "./geometria";
 import { carregarArmacao, type ArmacaoPronta } from "./armacao";
 
@@ -143,6 +143,8 @@ export default function ProvadorConteudo({
 
   const [fase, setFase] = useState<Fase>("inicio");
   const [motivo, setMotivo] = useState<MotivoIndisponivel>("sem-camera");
+  /** Erro do motor: falha de carga (tentar de novo resolve) ou navegador sem suporte. */
+  const [semSuporte, setSemSuporte] = useState(false);
   const [carregandoMotor, setCarregandoMotor] = useState(false);
   const [motorVideoPronto, setMotorVideoPronto] = useState(false);
   const [semRosto, setSemRosto] = useState(false);
@@ -177,6 +179,7 @@ export default function ProvadorConteudo({
   const ultimaPoseRef = useRef<PoseRosto | null>(null);
   const ultimoRostoRef = useRef(0);
   const ultimoQuadroRef = useRef(-1);
+  const ultimoProcessoRef = useRef(0);
   const semRostoRef = useRef(false);
   const capturaUrlRef = useRef<string | null>(null);
   const onTrocarRef = useRef(onTrocar);
@@ -199,10 +202,16 @@ export default function ProvadorConteudo({
 
   // Dependências pelo conteúdo, não pela identidade: a página pode recriar a
   // lista a cada render sem disparar recarga nem aviso de troca.
+  // O aviso de troca só sai quando a seleção muda depois da montagem — abrir a
+  // página não reescreve a URL por conta própria.
   const atualRef = useRef(atual);
   atualRef.current = atual;
+  const slugAvisado = useRef(atual?.slug);
   useEffect(() => {
-    if (atualRef.current) onTrocarRef.current?.(atualRef.current);
+    const o = atualRef.current;
+    if (!o || o.slug === slugAvisado.current) return;
+    slugAvisado.current = o.slug;
+    onTrocarRef.current?.(o);
   }, [atual?.slug]);
 
   const trocar = useCallback(
@@ -309,6 +318,9 @@ export default function ProvadorConteudo({
       const m = await carregarMotor();
       motorRef.current = m;
       return m;
+    } catch (erro) {
+      if (montado.current) setSemSuporte(erro instanceof ProvadorSemSuporte);
+      throw erro;
     } finally {
       if (montado.current) setCarregandoMotor(false);
     }
@@ -325,8 +337,12 @@ export default function ProvadorConteudo({
     const v = videoRef.current;
     const c = canvasRef.current;
     if (!v || !c || v.readyState < 2 || !v.videoWidth) return;
-    if (v.currentTime === ultimoQuadroRef.current) return; // mesmo quadro: nada a fazer
+    // Mesmo quadro: nada a fazer. O limite de tempo cobre navegador que não
+    // avança `currentTime` a cada quadro de um stream ao vivo.
+    const agora = performance.now();
+    if (v.currentTime === ultimoQuadroRef.current && agora - ultimoProcessoRef.current < 66) return;
     ultimoQuadroRef.current = v.currentTime;
+    ultimoProcessoRef.current = agora;
 
     const w = v.videoWidth;
     const h = v.videoHeight;
@@ -344,7 +360,6 @@ export default function ProvadorConteudo({
 
     const motor = motorRef.current;
     if (!motor || !videoProntoRef.current) return;
-    const agora = performance.now();
     let r;
     try {
       r = motor.detectarVideo(v, agora);
@@ -390,6 +405,12 @@ export default function ProvadorConteudo({
     semRostoRef.current = false;
     setSemRosto(false);
 
+    // Sem WebGL não adianta pedir a câmera: avisa antes da permissão.
+    if (!navegadorSuportaProvador()) {
+      setSemSuporte(true);
+      setFase("erro");
+      return;
+    }
     const md = typeof navigator !== "undefined" ? navigator.mediaDevices : undefined;
     if (!md?.getUserMedia) {
       setMotivo(window.isSecureContext ? "sem-camera" : "inseguro");
@@ -816,13 +837,21 @@ export default function ProvadorConteudo({
         )}
 
       {fase === "erro" &&
-        aviso(
-          "O provador não carregou",
-          "Não foi possível iniciar o reconhecimento do rosto neste navegador. Confira a conexão e tente de novo; se continuar, atualize o navegador.",
-          <button type="button" className="btn-light" onClick={voltarAoInicio}>
-            Tentar de novo
-          </button>,
-        )}
+        (semSuporte
+          ? aviso(
+              "Este navegador não roda o provador",
+              "O provador usa a aceleração gráfica do aparelho (WebGL), que está desligada ou indisponível neste navegador. Tente pelo Chrome, Safari, Edge ou Firefox atualizados.",
+              <button type="button" className="btn-light" onClick={voltarAoInicio}>
+                Voltar
+              </button>,
+            )
+          : aviso(
+              "O provador não carregou",
+              "Não foi possível iniciar o reconhecimento do rosto neste navegador. Confira a conexão e tente de novo; se continuar, atualize o navegador.",
+              <button type="button" className="btn-light" onClick={voltarAoInicio}>
+                Tentar de novo
+              </button>,
+            ))}
 
       {/* Barra superior do palco */}
       {(ativo || modal) && (
@@ -906,14 +935,20 @@ export default function ProvadorConteudo({
 
       {captura && (
         <div
-          className="absolute inset-0 z-20 flex flex-col bg-sr-ink/95"
+          className="absolute inset-0 z-20 flex flex-col bg-sr-ink"
           role="group"
           aria-label="Foto tirada no provador"
         >
-          <div className="relative min-h-0 flex-1 p-4 pt-16 sm:p-6 sm:pt-16">
+          <div className="flex justify-end p-3 sm:p-4">
+            <button type="button" className={botaoPalco} onClick={limparCaptura} aria-label="Voltar ao provador">
+              <X className="h-4 w-4" aria-hidden="true" />
+              Voltar
+            </button>
+          </div>
+          <div className="relative min-h-0 flex-1 px-4 sm:px-6">
             <img src={captura.url} alt={`Foto no provador com ${nome}`} className="h-full w-full object-contain" />
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-3 border-t border-white/10 p-4">
+          <div className="flex flex-wrap items-center justify-center gap-2 p-3 sm:gap-3 sm:p-4">
             {erroCaptura && <p className="w-full text-center text-sm text-sr-paper">{erroCaptura}</p>}
             <a href={captura.url} download={captura.arquivo.name} className="btn-gold">
               <Download className="h-4 w-4" aria-hidden="true" />
@@ -925,9 +960,6 @@ export default function ProvadorConteudo({
                 Compartilhar
               </button>
             )}
-            <button type="button" className="btn-light-line" onClick={limparCaptura}>
-              Voltar
-            </button>
           </div>
         </div>
       )}

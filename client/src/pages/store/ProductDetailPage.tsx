@@ -209,7 +209,7 @@ export default function ProductDetailPage() {
     product.lensMirrored && "espelhada",
     product.lensGradient && "degradê",
     product.lensPhotochromic && "fotossensível",
-  ].filter(Boolean);
+  ].filter((l): l is string => !!l && !(product.lensColor ?? "").toLowerCase().includes(l as string));
   const ehEpi = product.categoria?.slug === "epi" || !!product.caNumber;
 
   const produtoResumo = {

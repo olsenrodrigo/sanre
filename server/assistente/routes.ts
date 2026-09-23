@@ -17,7 +17,7 @@ import {
   pareceDadoSensivel,
   type ConfigAssistente,
   type SaidaAssistente,
-} from "../../client/src/components/assistente/protocolo";
+} from "@shared/assistente-protocolo";
 import { configAgente, consultarAgente } from "./agente";
 import { entradaSchema, saidaSchema } from "./contrato";
 import { consumirLimite } from "./limites";

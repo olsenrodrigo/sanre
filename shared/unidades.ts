@@ -63,7 +63,7 @@ export const UNIDADES: Unidade[] = [
       { dias: "Sábado", abre: "09:00", fecha: "13:00" },
     ],
     resumo:
-      "A loja onde tudo começou, no centro de Cravinhos, desde 17 de dezembro de 2004. Exame de vista marcado com parceiros, ajuste de armação e consultoria de lentes com quem conhece a clientela há duas décadas.",
+      "A loja onde tudo começou, no centro de Cravinhos, desde 17 de dezembro de 2004. Ajuste de armação e consultoria de lentes com quem conhece a clientela há duas décadas.",
     destaque: "Desde 2004",
     foto: "/uploads/produtos/sr-loja-cravinhos.webp",
   },

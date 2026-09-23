@@ -79,7 +79,7 @@ sudo -u "$PM2_USER" bash -c "set -a; source '$SITE_DIR/.env'; set +a; npx drizzl
 echo ">>> Schema: migrations/*.sql"
 sudo -u "$PM2_USER" bash -c "set -a; source '$SITE_DIR/.env'; set +a; \
   for f in '$SITE_DIR'/migrations/*.sql; do \
-    psql \"\$DATABASE_URL\" -q -v ON_ERROR_STOP=1 -f \"\$f\" >/dev/null || { echo \"falhou: \$f\"; exit 1; }; \
+    PGOPTIONS=\"-c client_min_messages=warning\" psql \"\$DATABASE_URL\" -q -v ON_ERROR_STOP=1 -f \"\$f\" >/dev/null || { echo \"falhou: \$f\"; exit 1; }; \
   done"
 
 # Catálogo-semente só quando a vitrine está vazia (nunca apaga catálogo real)

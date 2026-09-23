@@ -7,8 +7,8 @@
  * Contrato documentado: docs/ASSISTENTE.md.
  */
 import { z } from "zod";
-import type { SaidaAssistente } from "../../client/src/components/assistente/protocolo";
-import { LIMITE_TEXTO } from "../../client/src/components/assistente/protocolo";
+import type { SaidaAssistente } from "@shared/assistente-protocolo";
+import { LIMITE_TEXTO } from "@shared/assistente-protocolo";
 import { limparControle } from "./normalizar";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;

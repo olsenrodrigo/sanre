@@ -177,11 +177,11 @@ export default function AssistenteWidget() {
           aria-expanded={false}
           aria-controls={carregado ? "assistente-sanre" : undefined}
           aria-label="Fale com a Sanrê: abrir a assistente"
-          className="fixed right-4 z-[55] flex h-[3.25rem] w-[3.25rem] items-center justify-center gap-2.5 bg-sr-ink text-sr-paper outline outline-1 outline-sr-paper/30 transition-[bottom,background-color] duration-300 hover:bg-sr-chumbo motion-reduce:transition-none sm:right-6 sm:h-12 sm:w-auto sm:px-5"
+          className="group fixed right-4 z-[55] flex h-[3.25rem] min-w-[3.25rem] items-center justify-center gap-0 bg-sr-ink px-[0.95rem] text-sr-paper outline outline-1 outline-sr-paper/30 transition-[bottom,background-color] duration-300 hover:gap-2.5 hover:bg-sr-chumbo focus-visible:gap-2.5 motion-reduce:transition-none sm:right-6"
           style={{ bottom: `calc(${deslocamento}px + max(1rem, env(safe-area-inset-bottom)))` }}
         >
           <MessageSquareText size={20} strokeWidth={1.6} aria-hidden />
-          <span aria-hidden className="hidden font-label text-[0.72rem] font-medium uppercase tracking-[0.18em] sm:inline">
+          <span aria-hidden className="max-w-0 overflow-hidden whitespace-nowrap font-label text-[0.72rem] font-medium uppercase tracking-[0.18em] transition-[max-width] duration-300 group-hover:max-w-[12rem] group-focus-visible:max-w-[12rem] motion-reduce:transition-none">
             Fale com a Sanrê
           </span>
         </button>

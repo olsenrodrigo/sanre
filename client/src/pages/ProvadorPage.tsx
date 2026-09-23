@@ -82,7 +82,7 @@ function AcoesOculos({ oculos }: { oculos: OculosProvador }) {
     setEstado("enviando");
     try {
       const antes = await quantidadeNaSacola(sessionId, oculos.id);
-      await addToCart(oculos.id, null, 1);
+      await addToCart(oculos.id, (oculos as { variantId?: number | null }).variantId ?? null, 1);
       // addToCart não devolve erro: a confirmação é o item aparecer na sacola.
       const depois = await quantidadeNaSacola(sessionId, oculos.id);
       setEstado(depois > antes ? "ok" : "erro");

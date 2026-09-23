@@ -9,7 +9,7 @@
  * Preço de produto específico (intenção "preço") é sempre lido na hora.
  */
 import type { Category, Product } from "@shared/schema";
-import type { ProdutoCard } from "../../client/src/components/assistente/protocolo";
+import type { ProdutoCard } from "@shared/assistente-protocolo";
 import { storage } from "../storage";
 import { chave, normalizar } from "./normalizar";
 

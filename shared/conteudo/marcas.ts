@@ -68,6 +68,11 @@ export const MARCAS: Record<string, FichaMarca> = {
     origem: "Florença, Itália, 1927",
     resumo: "Da tradição do couro e dos sapatos italianos, óculos com o detalhe Gancini e acabamento refinado.",
   },
+  "salvatore-ferragamo": {
+    nome: "Salvatore Ferragamo",
+    origem: "Florença, Itália, 1927",
+    resumo: "Da tradição do couro e dos sapatos italianos, óculos com o detalhe Gancini e acabamento refinado.",
+  },
   lacoste: {
     nome: "Lacoste",
     origem: "França, 1933",

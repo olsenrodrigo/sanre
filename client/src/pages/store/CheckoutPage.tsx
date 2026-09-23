@@ -4,7 +4,6 @@ import { useLocation, Link } from "wouter";
 import { ChevronRight, Check, CreditCard, Smartphone, FileText } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import WhatsAppFloat from "@/components/layout/WhatsAppFloat";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -584,7 +583,6 @@ export default function CheckoutPage() {
         </div>
       </main>
       <Footer />
-      <WhatsAppFloat />
     </div>
   );
 }

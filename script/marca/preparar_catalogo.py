@@ -51,9 +51,20 @@ SINONIMOS_MATERIAL = {
 }
 PUBLICOS = {"feminino", "masculino", "unissex", "infantil"}
 
+# Mesma marca com grafias diferentes nas fontes
+MARCA_ALIAS = {"Hickmann": "Ana Hickmann"}
+
+# EPI: algumas fontes são distribuidores com preço de caixa fechada (R$ 3,69).
+# Abaixo disto usa-se um preço de balcão provisório, a confirmar com a loja.
+EPI_PRECO_MINIMO = 29.90
+
+# Lente incolor em fundo branco: a remoção de fundo leva a lente junto e sobram
+# só hastes — no rosto isso não informa nada. Ficam fora do provador.
+SEM_PROVADOR = {"kalipso-010413-leopardo-incolor", "kalipso-010813-castor-ii-incolor"}
+
 # Curadoria da home: um "rosto" de cada grife forte, na ordem em que aparecem.
 MARCAS_DESTAQUE = ["Ray-Ban", "Prada", "Gucci", "Tom Ford", "Oakley", "Valentino", "Carrera", "Ana Hickmann",
-                   "Michael Kors", "Ferragamo"]
+                   "Michael Kors", "Salvatore Ferragamo"]
 
 
 def sem_acento(s: str) -> str:
@@ -213,7 +224,7 @@ def main():
             para_vitrine(extra, d)
             urls.append(f"/uploads/produtos/{d.name}")
 
-        if frente:
+        if frente and slug not in SEM_PROVADOR:
             d = DESTINO_IMG / f"oc-{slug}-tryon.png"
             if para_tryon(frente, d):
                 tryon = f"/uploads/produtos/{d.name}"
@@ -230,7 +241,7 @@ def main():
         if item.get("material") and not material:
             problemas.append(f"{slug}: material não reconhecido '{item.get('material')}'")
 
-        marca = item["marca"].strip()
+        marca = MARCA_ALIAS.get(item["marca"].strip(), item["marca"].strip())
         destaque = marca in MARCAS_DESTAQUE and marca not in destaques_usados and bool(modelo or tres)
         if destaque:
             destaques_usados.add(marca)
@@ -257,7 +268,8 @@ def main():
                 "protecao_uv": lente.get("protecao_uv"),
             },
             "medidas": item.get("medidas") or {},
-            "preco_brl": round(float(item["preco_brl"]), 2),
+            "preco_brl": (EPI_PRECO_MINIMO if categoria_de(item) == "epi" and float(item["preco_brl"]) < 25
+                          else round(float(item["preco_brl"]), 2)),
             "preco_fonte": item.get("preco_fonte"),
             "descricao": item.get("descricao", "").strip(),
             "ca": item.get("ca"),

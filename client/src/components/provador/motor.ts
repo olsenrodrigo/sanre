@@ -40,8 +40,32 @@ export interface Motor {
 
 let promessa: Promise<Motor> | null = null;
 
+/** O navegador não tem o mínimo para o provador (wasm + WebGL). Tentar de novo não resolve. */
+export class ProvadorSemSuporte extends Error {}
+
+let suporte: boolean | null = null;
+
+/**
+ * true se o navegador roda o provador. Além do wasm, o MediaPipe precisa de
+ * WebGL mesmo no modo CPU (converte a imagem de entrada na GPU): com o WebGL
+ * desligado, até a foto falha.
+ */
+export function navegadorSuportaProvador(): boolean {
+  if (suporte !== null) return suporte;
+  try {
+    const c = document.createElement("canvas");
+    suporte = typeof WebAssembly === "object" && !!(c.getContext("webgl2") || c.getContext("webgl"));
+  } catch {
+    suporte = false;
+  }
+  return suporte;
+}
+
 /** Carrega (uma vez por aba) o FaceLandmarker. Rejeita se o modelo não puder rodar. */
 export function carregarMotor(): Promise<Motor> {
+  if (!navegadorSuportaProvador()) {
+    return Promise.reject(new ProvadorSemSuporte("navegador sem WebGL ou WebAssembly"));
+  }
   if (!promessa) {
     promessa = criarMotor().catch((erro) => {
       // Falhou (rede, navegador sem wasm): permite tentar de novo.
@@ -50,11 +74,6 @@ export function carregarMotor(): Promise<Motor> {
     });
   }
   return promessa;
-}
-
-/** true se o navegador tem o mínimo para rodar o provador (wasm + canvas). */
-export function navegadorSuportaProvador(): boolean {
-  return typeof WebAssembly === "object" && typeof document !== "undefined" && !!document.createElement("canvas").getContext;
 }
 
 async function criarMotor(): Promise<Motor> {

@@ -482,10 +482,11 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     });
     // attach main image + as 2 primeiras (o card usa a segunda no hover)
     const ids = prods.map(p => p.id);
-    const [porProduto, tamanhosPorProduto, estoqueUnidades] = await Promise.all([
+    const [porProduto, tamanhosPorProduto, estoqueUnidades, variantesPorProduto] = await Promise.all([
       storage.getImagesForProducts(ids),
       storage.getSizesForProducts(ids),
       storage.getUnitStockForProducts(ids),
+      storage.getVariantsForProducts(ids),
     ]);
     const enriched = prods.map(p => {
       const imgs = porProduto.get(p.id) ?? [];
@@ -496,6 +497,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         images: imgs.slice(0, 2),
         tamanhos: tamanhosPorProduto.get(p.id) ?? [],
         unidades: estoqueUnidades.get(p.id) ?? {},
+        // Variante padrão: a sacola aceita direto da vitrine/provador
+        variantId: (variantesPorProduto.get(p.id) ?? [])[0]?.id ?? null,
       };
     });
     return res.json({ products: enriched, total, page: Number(page), pages: Math.ceil(total / lim) });
@@ -636,7 +639,10 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   app.post("/api/cart/:sessionId/add", async (req, res) => {
     const { productId, variantId, quantity } = req.body;
     const product = await storage.getProductById(Number(productId));
-    if (!product) return res.status(404).json({ message: "Produto não encontrado" });
+    // Rascunho/arquivado não entra na sacola, mesmo com o id certo.
+    if (!product || product.status !== "active" || !product.published) {
+      return res.status(404).json({ message: "Produto não encontrado" });
+    }
 
     // Quantidade sempre positiva: sem clamp, `quantity: -10` zerava/negativava o
     // item já no carrinho e levaria subtotal negativo para o checkout.
@@ -645,10 +651,16 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     // A variante precisa ser DESTE produto — senão o pedido registra a grade
     // (tamanho/cor) de outra peça.
     let variante = null;
+    const doProduto = (await storage.getVariantsByProduct(product.id)).filter(v => v.active);
     if (variantId != null) {
-      const doProduto = await storage.getVariantsByProduct(product.id);
       variante = doProduto.find(v => v.id === Number(variantId)) ?? null;
       if (!variante) return res.status(400).json({ message: "Variante inválida para este produto" });
+    } else if (doProduto.length === 1) {
+      // Óculos costuma ter uma variante só (a cor do modelo): sem ela a baixa
+      // de estoque por variante não acontece. Quem chama sem escolher recebe a única.
+      variante = doProduto[0];
+    } else if (doProduto.length > 1) {
+      return res.status(400).json({ message: "Escolha a cor antes de adicionar à sacola" });
     }
 
     await storage.addToCart(

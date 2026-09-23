@@ -64,6 +64,9 @@ function hash(txt: string): number {
   return Math.abs(h);
 }
 
+/** Medida em mm inteiro (as fontes trazem 40,9 mm; a coluna é INTEGER). */
+const mm = (v: number | null | undefined) => (v == null || !Number.isFinite(Number(v)) ? null : Math.round(Number(v)));
+
 function sku(item: ItemCatalogo, seq: number) {
   const marca = item.marca.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^A-Za-z0-9]/g, "").slice(0, 3).toUpperCase();
   return `SR-${marca}-${String(seq).padStart(3, "0")}`;
@@ -140,7 +143,7 @@ async function seedProdutos(catIds: Map<string, number>) {
     const ecommerce = item.categoria === "epi" ? 20 : 2 + ((h >> 6) % 4);
     const total = ecommerce;
     const titulo = `${item.marca} ${item.nome}`.replace(/\s+/g, " ").trim();
-    const tamanho = item.medidas?.lente_mm && item.medidas?.ponte_mm ? `${item.medidas.lente_mm}□${item.medidas.ponte_mm}` : "Único";
+    const tamanho = item.medidas?.lente_mm && item.medidas?.ponte_mm ? `${mm(item.medidas.lente_mm)}□${mm(item.medidas.ponte_mm)}` : "Único";
 
     const [prod] = await db.insert(products).values({
       categoryId,
@@ -176,10 +179,10 @@ async function seedProdutos(catIds: Map<string, number>) {
       lensPhotochromic: !!item.lente?.fotossensivel,
       uvProtection: item.lente?.protecao_uv ?? null,
       acceptsRx: item.aceita_grau,
-      lensWidthMm: item.medidas?.lente_mm ?? null,
-      bridgeMm: item.medidas?.ponte_mm ?? null,
-      templeMm: item.medidas?.haste_mm ?? null,
-      lensHeightMm: item.medidas?.altura_mm ?? null,
+      lensWidthMm: mm(item.medidas?.lente_mm),
+      bridgeMm: mm(item.medidas?.ponte_mm),
+      templeMm: mm(item.medidas?.haste_mm),
+      lensHeightMm: mm(item.medidas?.altura_mm),
       caNumber: item.ca,
       safetyNorms: item.normas,
       tryonImageUrl: item.tryon,

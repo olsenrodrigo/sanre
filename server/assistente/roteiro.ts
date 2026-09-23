@@ -20,8 +20,8 @@ import {
   type AcaoAssistente,
   type RespostaAssistente,
   type SaidaAssistente,
-} from "../../client/src/components/assistente/protocolo";
-import { PARCELAS_SEM_JUROS, WHATSAPP_LABEL, parcela, precoBR } from "../../client/src/lib/marca";
+} from "@shared/assistente-protocolo";
+import { PARCELAS_SEM_JUROS, WHATSAPP_LABEL, parcela, precoBR } from "@shared/marca";
 import { loadConfig as configFrete } from "../smartenvios/config";
 import {
   MARCAS,

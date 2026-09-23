@@ -1,0 +1,2648 @@
+[
+ {
+  "slug": "ana-hickmann-ah90017-20-anos-havana",
+  "marca": "Ana Hickmann",
+  "codigo": "AH90017",
+  "nome": "20 Anos",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "feminino",
+  "formato": "gatinho",
+  "material": "acetato",
+  "cor_armacao": "Havana (marrom mesclado) com detalhes dourados",
+  "cor_armacao_hex": "#5b2a1c",
+  "lente": {
+   "cor": "Marrom",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 57,
+   "ponte_mm": 16,
+   "haste_mm": 150,
+   "altura_mm": 46
+  },
+  "preco_brl": 618.0,
+  "preco_fonte": "https://oculosshop.com.br/products/ana-hickmann-20-anos-ah90017-g21-lente-5-7-cm",
+  "descricao": "Óculos de sol feminino da coleção 20 Anos da Ana Hickmann, em formato gatinho, com frente em acetato havana e aplicações metálicas douradas nas hastes e nos cantos da frente. Lentes marrons com proteção 100% UV. Calibre 57 mm, indicado para rostos médios a grandes.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": true,
+  "imagens": [
+   "/uploads/produtos/oc-ana-hickmann-ah90017-20-anos-havana-1.webp",
+   "/uploads/produtos/oc-ana-hickmann-ah90017-20-anos-havana-modelo.webp",
+   "/uploads/produtos/oc-ana-hickmann-ah90017-20-anos-havana-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-ana-hickmann-ah90017-20-anos-havana-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0275/9049/2259/files/AH-56596-1.jpg",
+   "https://cdn.shopify.com/s/files/1/0275/9049/2259/files/AH-56596-2.jpg",
+   "https://anahickmanneyewear.com.br/wp-content/uploads/2024/01/ana-hickmann-oculos.jpg"
+  ]
+ },
+ {
+  "slug": "calvin-klein-ck25101s-redondo-havana-cinza",
+  "marca": "Calvin Klein",
+  "codigo": "CK25101S",
+  "nome": "Redondo em metal",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "unissex",
+  "formato": "redondo",
+  "material": "metal",
+  "cor_armacao": "Havana cinza e prata",
+  "cor_armacao_hex": "#4a4744",
+  "lente": {
+   "cor": "Cinza degradê",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": true,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 50,
+   "ponte_mm": 20,
+   "haste_mm": 145,
+   "altura_mm": 46
+  },
+  "preco_brl": 1190.0,
+  "preco_fonte": "https://www.calvinklein.com.br/oculos-de-sol-full-mount-calvin-klein_havana-grey_ck25101s_223/p",
+  "descricao": "Óculos de sol Calvin Klein CK25101S em formato redondo, com armação de metal prateada e aro das lentes em havana cinza. Lentes cinza degradê com proteção contra raios UVA e UVB, plaquetas ajustáveis e ponteiras em acetato. Modelo unissex.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": false,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-calvin-klein-ck25101s-redondo-havana-cinza-1.webp",
+   "/uploads/produtos/oc-calvin-klein-ck25101s-redondo-havana-cinza-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-calvin-klein-ck25101s-redondo-havana-cinza-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0551/3304/4809/files/owsxt7j8ds0ekyqi8ldf.png",
+   "https://cdn.shopify.com/s/files/1/0551/3304/4809/files/rwhdo2uezajtwjkgupop.png"
+  ]
+ },
+ {
+  "slug": "carrera-8064s-esportivo-preto-cinza-polarizado",
+  "marca": "Carrera",
+  "codigo": "8064/S",
+  "nome": "Esportivo retangular",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "masculino",
+  "formato": "retangular",
+  "material": "injetado",
+  "cor_armacao": "Preto fosco e cinza",
+  "cor_armacao_hex": "#1b1b1b",
+  "lente": {
+   "cor": "Cinza polarizada",
+   "polarizada": true,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "UV400"
+  },
+  "medidas": {
+   "lente_mm": 57,
+   "ponte_mm": 17,
+   "haste_mm": 145,
+   "altura_mm": 45
+  },
+  "preco_brl": 1139.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/oc-carr-carrera-8064s-08a-57m9-sol-1776112/p",
+  "descricao": "Óculos de sol Carrera 8064/S, da linha esportiva da marca, com frente retangular em material bi-injetado leve e hastes com detalhes emborrachados antideslizantes. Lentes cinza polarizadas, categoria 3, que reduzem reflexos em água e asfalto. A frente aceita lentes de grau.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": true,
+  "imagens": [
+   "/uploads/produtos/oc-carrera-8064s-esportivo-preto-cinza-polarizado-1.webp",
+   "/uploads/produtos/oc-carrera-8064s-esportivo-preto-cinza-polarizado-modelo.webp",
+   "/uploads/produtos/oc-carrera-8064s-esportivo-preto-cinza-polarizado-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-carrera-8064s-esportivo-preto-cinza-polarizado-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0602/0156/6447/files/ecomm_4d50ae03-d3ad-48ef-b923-777164cd1ace.jpg",
+   "https://cdn.shopify.com/s/files/1/0602/0156/6447/files/ecomm_02370e62-10aa-4980-96dc-434476b7cb16.jpg",
+   "https://cdn.shopify.com/s/files/1/0602/0156/6447/files/ecomm_bd454fda-ce96-45a0-9100-ce8438eac42c.jpg",
+   "https://cdn.shopify.com/s/files/1/0602/0156/6447/files/ecomm_b7e6783e-3aaa-452f-93a6-f9e24bd33463.jpg"
+  ]
+ },
+ {
+  "slug": "carrera-1071s-navigator-preto-fosco-dourado",
+  "marca": "Carrera",
+  "codigo": "1071/S",
+  "nome": "Navigator ponte dupla",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "masculino",
+  "formato": "aviador",
+  "material": "misto",
+  "cor_armacao": "Preto fosco e dourado",
+  "cor_armacao_hex": "#1e1e1e",
+  "lente": {
+   "cor": "Marrom degradê",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": true,
+   "fotossensivel": false,
+   "protecao_uv": "UV400"
+  },
+  "medidas": {
+   "lente_mm": 61,
+   "ponte_mm": 16,
+   "haste_mm": 145,
+   "altura_mm": 49
+  },
+  "preco_brl": 1189.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/oc-carr-carrera-1071s-i46-6186-sol-1784913/p",
+  "descricao": "Óculos de sol Carrera 1071/S em formato navigator, com frente em metal revestida de poliamida injetada e ponte dupla com o logo 'C'. Hastes metálicas com ponteiras em acetato e dobradiças flexíveis; lentes marrons degradê com proteção UV400. A armação aceita lentes de grau.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-carrera-1071s-navigator-preto-fosco-dourado-1.webp",
+   "/uploads/produtos/oc-carrera-1071s-navigator-preto-fosco-dourado-modelo.webp",
+   "/uploads/produtos/oc-carrera-1071s-navigator-preto-fosco-dourado-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-carrera-1071s-navigator-preto-fosco-dourado-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0602/0156/6447/files/ecomm_24dfb0e2-b002-41ab-a2cf-6b56aff62f20.jpg",
+   "https://cdn.shopify.com/s/files/1/0602/0156/6447/files/ecomm_df81ed02-7197-48b0-888f-2c29d34782b6.jpg",
+   "https://cdn.shopify.com/s/files/1/0602/0156/6447/files/ecomm_d6417ff0-d3d2-4e3b-95d3-449462db71b9.jpg",
+   "https://cdn.shopify.com/s/files/1/0602/0156/6447/files/ecomm_23554801-ec00-4d8e-b697-5d723b781906.jpg"
+  ]
+ },
+ {
+  "slug": "emporio-armani-ea4224-retangular-preto-polarizado",
+  "marca": "Emporio Armani",
+  "codigo": "EA4224",
+  "nome": "Retangular Polarizado",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "masculino",
+  "formato": "retangular",
+  "material": "acetato",
+  "cor_armacao": "Preto brilhante",
+  "cor_armacao_hex": "#101010",
+  "lente": {
+   "cor": "Cinza-escuro degradê polarizada",
+   "polarizada": true,
+   "espelhada": false,
+   "degrade": true,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 57,
+   "ponte_mm": 19,
+   "haste_mm": 145,
+   "altura_mm": 40.9
+  },
+  "preco_brl": 1280.0,
+  "preco_fonte": "https://www.eotica.com.br/8056262034729-emporio-armani-ea4224/p?skuId=56554",
+  "descricao": "Óculos de sol masculino Emporio Armani EA4224 (5017/T3), retangular, com frente em acetato preto brilhante e hastes com placa da águia EA e ponteiras transparentes. Lentes polarizadas cinza-escuro em degradê, que reduzem reflexos. Para uso diário e para dirigir.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-emporio-armani-ea4224-retangular-preto-polarizado-1.webp",
+   "/uploads/produtos/oc-emporio-armani-ea4224-retangular-preto-polarizado-modelo.webp",
+   "/uploads/produtos/oc-emporio-armani-ea4224-retangular-preto-polarizado-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-emporio-armani-ea4224-retangular-preto-polarizado-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8056262049099__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8056262049099__STD__shad__qt.png",
+   "https://assets-cf.armani.com/image/upload/f_jpg,q_auto:best,ar_4:5,w_1536,c_fill/EA4224L_NLP_5017T3L_D_FW2025.jpg"
+  ]
+ },
+ {
+  "slug": "gucci-gg1681s-gatinho-logo-preto",
+  "marca": "Gucci",
+  "codigo": "GG1681S",
+  "nome": "Gatinho GG Logo",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "feminino",
+  "formato": "gatinho",
+  "material": "acetato",
+  "cor_armacao": "Preto brilhante",
+  "cor_armacao_hex": "#141414",
+  "lente": {
+   "cor": "Cinza",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 53,
+   "ponte_mm": 14,
+   "haste_mm": 140,
+   "altura_mm": 34
+  },
+  "preco_brl": 2499.0,
+  "preco_fonte": "https://www.oticaswanny.com/gucci-1681-001-oculos-de-sol/p",
+  "descricao": "Óculos de sol feminino Gucci GG1681S em acetato preto brilhante, com frente gatinho estreita e logo G metálico prateado nas hastes. Lentes cinza sólidas. Fabricado na Itália.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": false,
+  "destaque": true,
+  "imagens": [
+   "/uploads/produtos/oc-gucci-gg1681s-gatinho-logo-preto-1.webp",
+   "/uploads/produtos/oc-gucci-gg1681s-gatinho-logo-preto-modelo.webp",
+   "/uploads/produtos/oc-gucci-gg1681s-gatinho-logo-preto-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-gucci-gg1681s-gatinho-logo-preto-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0474/7182/0967/files/kering_2Fgg1681s_001_233.png",
+   "https://cdn.shopify.com/s/files/1/0474/7182/0967/files/kering_2Fgg1681s_001_41e250ea-edee-40e8-9fb5-8674967ab873.png",
+   "https://wanny.vteximg.com.br/arquivos/ids/190079/Produto.jpg"
+  ]
+ },
+ {
+  "slug": "guess-gu00111-gatinho-preto",
+  "marca": "Guess",
+  "codigo": "GU00111",
+  "nome": "Gatinho com hastes de corrente",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "feminino",
+  "formato": "gatinho",
+  "material": "injetado",
+  "cor_armacao": "Preto brilho",
+  "cor_armacao_hex": "#0f0f10",
+  "lente": {
+   "cor": "Cinza degradê",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": true,
+   "fotossensivel": false,
+   "protecao_uv": "UV400"
+  },
+  "medidas": {
+   "lente_mm": 56,
+   "ponte_mm": 14,
+   "haste_mm": 130,
+   "altura_mm": 39
+  },
+  "preco_brl": 810.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/oculos-de-sol-feminino-guess-gu00111-preto-brilho-1777686/p",
+  "descricao": "Óculos de sol feminino Guess GU00111 em formato gatinho, com armação em material injetado preto brilhante. As hastes têm desenho vazado em elos de corrente; lentes cinza degradê, não polarizadas, com filtro UV400.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": false,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-guess-gu00111-gatinho-preto-1.webp",
+   "/uploads/produtos/oc-guess-gu00111-gatinho-preto-modelo.webp",
+   "/uploads/produtos/oc-guess-gu00111-gatinho-preto-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-guess-gu00111-gatinho-preto-tryon.png",
+  "fontes": [
+   "https://oticasdiniz.vteximg.com.br/arquivos/ids/724706/26747---oculos-de-sol-guess-gu0011-1.png",
+   "https://img.guess.com/image/upload/v1/NA/Style/ECOMM/GU00111-01B-ALT2",
+   "https://img.guess.com/image/upload/v1/EU/Style/ECOMM/G0011156QQQ-01B-ALT1"
+  ]
+ },
+ {
+  "slug": "hb-quad-x-2-0-matte-black-red-chrome",
+  "marca": "HB",
+  "codigo": "Quad X 2.0",
+  "nome": "Quad X 2.0",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "unissex",
+  "formato": "mascara",
+  "material": "injetado",
+  "cor_armacao": "Preto fosco",
+  "cor_armacao_hex": "#1e1e1e",
+  "lente": {
+   "cor": "Red Chrome (vermelho espelhado)",
+   "polarizada": false,
+   "espelhada": true,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": null,
+   "ponte_mm": null,
+   "haste_mm": 130.5,
+   "altura_mm": 56.5
+  },
+  "preco_brl": 489.9,
+  "preco_fonte": "https://www.hb.com.br/products/oculos-de-sol-hb-quad-x-matte-black-red-chrome",
+  "descricao": "Óculos de sol esportivo HB Quad X 2.0 com lente única tipo máscara em nylon com tecnologia Photon e acabamento vermelho espelhado. Hastes em Polytech, nosepads e ponteiras em borracha e recortes na lente para ventilação. Pesa 22 g e é voltado para corrida, ciclismo e esportes ao ar livre.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": false,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-hb-quad-x-2-0-matte-black-red-chrome-1.webp",
+   "/uploads/produtos/oc-hb-quad-x-2-0-matte-black-red-chrome-modelo.webp",
+   "/uploads/produtos/oc-hb-quad-x-2-0-matte-black-red-chrome-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-hb-quad-x-2-0-matte-black-red-chrome-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0266/5948/7830/products/P_10103750243027_1.jpg",
+   "https://cdn.shopify.com/s/files/1/0266/5948/7830/products/P_10103750243027_2.jpg",
+   "https://cdn.shopify.com/s/files/1/0275/9049/2259/files/shooting_7_2cb105d3-3bec-4510-bf4c-496f3e2ca633.jpg"
+  ]
+ },
+ {
+  "slug": "hb-h-bomb-2-0-matte-black-gray-polarizado",
+  "marca": "HB",
+  "codigo": "H-Bomb 2.0",
+  "nome": "H-Bomb 2.0",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "masculino",
+  "formato": "retangular",
+  "material": "injetado",
+  "cor_armacao": "Preto fosco",
+  "cor_armacao_hex": "#1c1c1c",
+  "lente": {
+   "cor": "Cinza polarizada",
+   "polarizada": true,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 56,
+   "ponte_mm": 12,
+   "haste_mm": 145,
+   "altura_mm": 43
+  },
+  "preco_brl": 519.9,
+  "preco_fonte": "https://www.hb.com.br/products/oculos-de-sol-hb-h-bomb-2-0-matte-black-gray-polarizado",
+  "descricao": "Óculos de sol HB H-Bomb 2.0, linha lifestyle, com armação retangular em Polytech preto fosco e hastes com decorativo estilizado. Lentes cinza polarizadas em policarbonato com tecnologia Photon e proteção UV total.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": false,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-hb-h-bomb-2-0-matte-black-gray-polarizado-1.webp",
+   "/uploads/produtos/oc-hb-h-bomb-2-0-matte-black-gray-polarizado-modelo.webp",
+   "/uploads/produtos/oc-hb-h-bomb-2-0-matte-black-gray-polarizado-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-hb-h-bomb-2-0-matte-black-gray-polarizado-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0266/5948/7830/files/p_10103210243032_1_e083979c-1bfb-4f6d-95be-1aa1a9440d3c.jpg",
+   "https://cdn.shopify.com/s/files/1/0266/5948/7830/files/p_10103210243032_2_98f3ef85-445b-4e08-902f-592bbf302daa.jpg",
+   "https://cdn.shopify.com/s/files/1/0275/9049/2259/files/shooting_13_4d310a4e-4a93-4fff-854b-57305350d930.jpg",
+   "https://cdn.shopify.com/s/files/1/0275/9049/2259/files/shooting_12_42fb7dd7-c948-4d13-b773-8f2bbecc2a7b.jpg"
+  ]
+ },
+ {
+  "slug": "just-cavalli-vald31-id273-statement-gatinho-preto",
+  "marca": "Just Cavalli",
+  "codigo": "VALD31-ID273",
+  "nome": "Statement Front",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "feminino",
+  "formato": "gatinho",
+  "material": "acetato",
+  "cor_armacao": "Preto brilhante",
+  "cor_armacao_hex": "#121212",
+  "lente": {
+   "cor": "Cinza degradê",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": true,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 51,
+   "ponte_mm": 18,
+   "haste_mm": 140,
+   "altura_mm": null
+  },
+  "preco_brl": 1215.0,
+  "preco_fonte": "https://www.robertocavalli.com/en-br/justcavalli/women/sunglasses/statement-front-sunglasses--VALD31-ID273-D9889.html",
+  "descricao": "Óculos de sol feminino Just Cavalli com frente gatinho marcada em acetato preto brilhante e logo lettering nas hastes. Lentes cinza degradê. Fabricado no Camboja.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": false,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-just-cavalli-vald31-id273-statement-gatinho-preto-1.webp",
+   "/uploads/produtos/oc-just-cavalli-vald31-id273-statement-gatinho-preto-modelo.webp",
+   "/uploads/produtos/oc-just-cavalli-vald31-id273-statement-gatinho-preto-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-just-cavalli-vald31-id273-statement-gatinho-preto-tryon.png",
+  "fontes": [
+   "https://www.robertocavalli.com/dw/image/v2/BGDG_PRD/on/demandware.static/-/Sites-50/default/images/zoom/VALD31ID273D9889_ECOM_STILL.jpg?sw=2000",
+   "https://www.robertocavalli.com/dw/image/v2/BGDG_PRD/on/demandware.static/-/Sites-50/default/images/zoom/VALD31ID273D9889_ECOM_DETAIL2.jpg?sw=2000",
+   "https://www.robertocavalli.com/dw/image/v2/BGDG_PRD/on/demandware.static/-/Sites-50/default/images/zoom/VALD31ID273D9889_ECOM_FRONT.jpg?sw=1600"
+  ]
+ },
+ {
+  "slug": "lacoste-l6063s-monogram-preto",
+  "marca": "Lacoste",
+  "codigo": "L6063S",
+  "nome": "Monogram",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "feminino",
+  "formato": "retangular",
+  "material": "injetado",
+  "cor_armacao": "Preto",
+  "cor_armacao_hex": "#121212",
+  "lente": {
+   "cor": "Cinza",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 55,
+   "ponte_mm": 18,
+   "haste_mm": 145,
+   "altura_mm": null
+  },
+  "preco_brl": 1490.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/oculos-de-sol-feminino-lacoste-l6063s-preto-1798762/p",
+  "descricao": "Óculos de sol feminino Lacoste L6063S, com frente retangular em material bio-injetado (G820) na cor preta e lentes cinza. As hastes têm alma metálica com padrão monograma e ponteiras com o detalhe verde da marca.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": false,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-lacoste-l6063s-monogram-preto-1.webp",
+   "/uploads/produtos/oc-lacoste-l6063s-monogram-preto-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-lacoste-l6063s-monogram-preto-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0551/3304/4809/files/zs4lhug1tpzpryjxldjd.png",
+   "https://cdn.shopify.com/s/files/1/0551/3304/4809/files/lydmbpr2p07tab6q8fui.png"
+  ]
+ },
+ {
+  "slug": "michael-kors-mk5004-chelsea-dourado-marrom-degrade-polarizado",
+  "marca": "Michael Kors",
+  "codigo": "MK5004",
+  "nome": "Chelsea",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "feminino",
+  "formato": "aviador",
+  "material": "metal",
+  "cor_armacao": "Dourado com aro marrom",
+  "cor_armacao_hex": "#c4a15a",
+  "lente": {
+   "cor": "Marrom degradê polarizada",
+   "polarizada": true,
+   "espelhada": false,
+   "degrade": true,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 59,
+   "ponte_mm": 13,
+   "haste_mm": 135,
+   "altura_mm": 52
+  },
+  "preco_brl": 1170.0,
+  "preco_fonte": "https://www.eotica.com.br/725125941907-michael-kors-chelsea/p?skuId=51572",
+  "descricao": "Óculos de sol feminino Michael Kors Chelsea (MK5004 1014T5), aviador em metal dourado com aro interno marrom, ponte dupla e plaquetas de silicone. Lentes marrons em degradê e polarizadas, que reduzem o reflexo. Tamanho 59, de boa cobertura.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": true,
+  "imagens": [
+   "/uploads/produtos/oc-michael-kors-mk5004-chelsea-dourado-marrom-degrade-polarizado-1.webp",
+   "/uploads/produtos/oc-michael-kors-mk5004-chelsea-dourado-marrom-degrade-polarizado-modelo.webp",
+   "/uploads/produtos/oc-michael-kors-mk5004-chelsea-dourado-marrom-degrade-polarizado-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-michael-kors-mk5004-chelsea-dourado-marrom-degrade-polarizado-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/725125941907__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/725125941907__STD__shad__qt.png",
+   "https://m.media-amazon.com/images/I/81j45RPDv9L._AC_SL1500_.jpg"
+  ]
+ },
+ {
+  "slug": "oakley-oo9406-sutro-branco-fosco-prizm-road",
+  "marca": "Oakley",
+  "codigo": "OO9406",
+  "nome": "Sutro",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "unissex",
+  "formato": "mascara",
+  "material": "injetado",
+  "cor_armacao": "Branco fosco",
+  "cor_armacao_hex": "#efefec",
+  "lente": {
+   "cor": "Prizm Road (vermelha espelhada)",
+   "polarizada": false,
+   "espelhada": true,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": null,
+   "ponte_mm": null,
+   "haste_mm": 140,
+   "altura_mm": 56.7
+  },
+  "preco_brl": 1130.0,
+  "preco_fonte": "https://www.eotica.com.br/888392404756-oakley-sutro/p?skuId=55786",
+  "descricao": "Óculos Oakley Sutro (OO9406-06) de lente única estilo máscara, com armação aro fechado em O Matter branca fosca. Lente Prizm Road, desenvolvida para realçar o contraste do asfalto e da sinalização no ciclismo de estrada. Cobertura ampla, usado no esporte e também no dia a dia.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": true,
+  "imagens": [
+   "/uploads/produtos/oc-oakley-oo9406-sutro-branco-fosco-prizm-road-1.webp",
+   "/uploads/produtos/oc-oakley-oo9406-sutro-branco-fosco-prizm-road-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-oakley-oo9406-sutro-branco-fosco-prizm-road-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/888392404800__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/888392404800__STD__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "oakley-oo9102-holbrook-preto-fosco-prizm-sapphire-polarizado",
+  "marca": "Oakley",
+  "codigo": "OO9102",
+  "nome": "Holbrook",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "masculino",
+  "formato": "quadrado",
+  "material": "injetado",
+  "cor_armacao": "Preto fosco",
+  "cor_armacao_hex": "#1e1e1e",
+  "lente": {
+   "cor": "Prizm Sapphire polarizada (azul espelhada)",
+   "polarizada": true,
+   "espelhada": true,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 57,
+   "ponte_mm": 18,
+   "haste_mm": 137,
+   "altura_mm": 43
+  },
+  "preco_brl": 1340.0,
+  "preco_fonte": "https://www.eotica.com.br/888392335920-oakley-holbrook/p?skuId=55888",
+  "descricao": "Óculos de sol Oakley Holbrook (OO9102-F0) de formato quadrado, com armação em O Matter (injetado leve e resistente) preta fosca e rebites metálicos na frente. Lentes Prizm Sapphire polarizadas, que reduzem reflexos e realçam contraste, com acabamento espelhado azul. Modelo lifestyle para uso diário, dirigir e atividades ao ar livre.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-oakley-oo9102-holbrook-preto-fosco-prizm-sapphire-polarizado-1.webp",
+   "/uploads/produtos/oc-oakley-oo9102-holbrook-preto-fosco-prizm-sapphire-polarizado-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-oakley-oo9102-holbrook-preto-fosco-prizm-sapphire-polarizado-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/888392327031__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/888392327031__STD__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "oakley-oo9208-radar-ev-path-preto-fosco-prizm-black-polarizado",
+  "marca": "Oakley",
+  "codigo": "OO9208",
+  "nome": "Radar EV Path",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "unissex",
+  "formato": "esportivo",
+  "material": "injetado",
+  "cor_armacao": "Preto fosco",
+  "cor_armacao_hex": "#1c1c1c",
+  "lente": {
+   "cor": "Prizm Black polarizada",
+   "polarizada": true,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": null,
+   "ponte_mm": null,
+   "haste_mm": 128,
+   "altura_mm": 50.5
+  },
+  "preco_brl": 1670.0,
+  "preco_fonte": "https://www.eotica.com.br/888392243683-oakley-radar-ev-path/p?skuId=51575",
+  "descricao": "Óculos esportivo Oakley Radar EV Path (OO9208-51) com lente única tipo escudo, estendida na parte superior para ampliar o campo de visão em posição de corrida ou pedal. Armação semiaro em O Matter preta fosca, com lente Prizm Black polarizada. Indicado para ciclismo, corrida e esportes ao ar livre.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-oakley-oo9208-radar-ev-path-preto-fosco-prizm-black-polarizado-1.webp",
+   "/uploads/produtos/oc-oakley-oo9208-radar-ev-path-preto-fosco-prizm-black-polarizado-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-oakley-oo9208-radar-ev-path-preto-fosco-prizm-black-polarizado-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/888392280015__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/888392280015__STD__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "persol-po0649-original-havana-verde",
+  "marca": "Persol",
+  "codigo": "PO0649",
+  "nome": "649 Original",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "masculino",
+  "formato": "aviador",
+  "material": "acetato",
+  "cor_armacao": "Havana",
+  "cor_armacao_hex": "#6b3f24",
+  "lente": {
+   "cor": "Verde (cristal)",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 54,
+   "ponte_mm": 20,
+   "haste_mm": 140,
+   "altura_mm": 48
+  },
+  "preco_brl": 2080.0,
+  "preco_fonte": "https://br.persol.com/0po0649-713132003343/p",
+  "descricao": "Modelo ícone da Persol, criado em 1957, com armação piloto em acetato havana, ponte em buraco de fechadura, a seta Supreme nas hastes e o sistema de hastes flexíveis Meflecto. Lentes verdes de cristal, tamanho 54-20-140 mm. Também pode receber lentes de grau.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-persol-po0649-original-havana-verde-1.webp",
+   "/uploads/produtos/oc-persol-po0649-original-havana-verde-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-persol-po0649-original-havana-verde-tryon.png",
+  "fontes": [
+   "https://assets.lenscrafters.com/is/image/LensCrafters/713132003343__STD__noshad__fr.png",
+   "https://assets.lenscrafters.com/is/image/LensCrafters/713132003343__STD__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "prada-pr-17ws-symbole-preto",
+  "marca": "Prada",
+  "codigo": "PR 17WS",
+  "nome": "Symbole",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "feminino",
+  "formato": "retangular",
+  "material": "acetato",
+  "cor_armacao": "Preto",
+  "cor_armacao_hex": "#111111",
+  "lente": {
+   "cor": "Cinza ardósia (Dark Grey)",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV (UVA/UVB)"
+  },
+  "medidas": {
+   "lente_mm": 49,
+   "ponte_mm": 20,
+   "haste_mm": 145,
+   "altura_mm": 35
+  },
+  "preco_brl": 3250.0,
+  "preco_fonte": "https://www.prada.com/br/pt/p/oculos-de-sol-prada-symbole/SPR17W_E1AB_F05S0_C_049",
+  "descricao": "Óculos de sol da linha Prada Symbole, com armação frontal em acetato preto de formato retangular e hastes largas com o logotipo triangular da marca. Lentes cinza-escuras com proteção UV e medidas 49-20-145 mm. Modelo feminino.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": false,
+  "destaque": true,
+  "imagens": [
+   "/uploads/produtos/oc-prada-pr-17ws-symbole-preto-1.webp",
+   "/uploads/produtos/oc-prada-pr-17ws-symbole-preto-modelo.webp",
+   "/uploads/produtos/oc-prada-pr-17ws-symbole-preto-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-prada-pr-17ws-symbole-preto-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8056597418478__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8056597418478__STD__shad__qt.png",
+   "https://www.prada.com/content/dam/pradabkg_products/S/SPR/SPR17W/E1ABF05S0/SPR17W_E1AB_F05S0_C_049_MDF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.2000.2000.jpg",
+   "https://www.prada.com/content/dam/pradabkg_products/S/SPR/SPR17W/E1ABF05S0/SPR17W_E1AB_F05S0_C_049_MDL.jpg/_jcr_content/renditions/cq5dam.web.hebebed.2000.2000.jpg"
+  ]
+ },
+ {
+  "slug": "prada-linea-rossa-ps-b51s-preto-fosco",
+  "marca": "Prada Linea Rossa",
+  "codigo": "PS B51S",
+  "nome": "Aviador Linea Rossa",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "masculino",
+  "formato": "aviador",
+  "material": "metal",
+  "cor_armacao": "Preto fosco",
+  "cor_armacao_hex": "#2b2b2b",
+  "lente": {
+   "cor": "Cinza ardósia (Dark Grey)",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV (UVA/UVB)"
+  },
+  "medidas": {
+   "lente_mm": 56,
+   "ponte_mm": 17,
+   "haste_mm": 145,
+   "altura_mm": 45
+  },
+  "preco_brl": 2500.0,
+  "preco_fonte": "https://www.prada.com/br/pt/p/x/SPSB51_E1BO_FE06F_C_056",
+  "descricao": "Óculos de sol Prada Linea Rossa com frente em metal preto fosco, ponte dupla no estilo piloto e hastes com o detalhe vermelho da linha esportiva. Lentes cinza-escuras não polarizadas, medidas 56-17-145 mm. Modelo masculino de uso urbano e esportivo.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": false,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-prada-linea-rossa-ps-b51s-preto-fosco-1.webp",
+   "/uploads/produtos/oc-prada-linea-rossa-ps-b51s-preto-fosco-modelo.webp",
+   "/uploads/produtos/oc-prada-linea-rossa-ps-b51s-preto-fosco-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-prada-linea-rossa-ps-b51s-preto-fosco-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8056262674673__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8056262674673__STD__shad__qt.png",
+   "https://www.prada.com/content/dam/pradabkg_products/S/SPS/SPSB51/E1BOFE06F/SPSB51_E1BO_FE06F_C_056_MDL.jpg/_jcr_content/renditions/cq5dam.web.hebebed.2000.2000.jpg",
+   "https://www.prada.com/content/dam/pradabkg_products/S/SPS/SPSB51/E1BOFE06F/SPSB51_E1BO_FE06F_C_056_MDF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.2000.2000.jpg"
+  ]
+ },
+ {
+  "slug": "ray-ban-rb3548-hexagonal-dourado-verde-g15",
+  "marca": "Ray-Ban",
+  "codigo": "RB3548NL",
+  "nome": "Hexagonal Flat Lenses",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "unissex",
+  "formato": "hexagonal",
+  "material": "metal",
+  "cor_armacao": "Dourado (arista)",
+  "cor_armacao_hex": "#c0a26c",
+  "lente": {
+   "cor": "Verde G-15 (cristal)",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 51,
+   "ponte_mm": 21,
+   "haste_mm": 145,
+   "altura_mm": 44.8
+  },
+  "preco_brl": 990.0,
+  "preco_fonte": "https://www.eotica.com.br/7895653150782-rayban-hexagonal/p",
+  "descricao": "Óculos de sol Ray-Ban Hexagonal (RB3548NL) com armação de metal dourado em formato hexagonal, hastes finas e plaquetas ajustáveis. Lentes planas de cristal na cor verde G-15, com 100% de proteção UV. Modelo unissex no tamanho 51 mm, que também pode receber lentes de grau.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": true,
+  "imagens": [
+   "/uploads/produtos/oc-ray-ban-rb3548-hexagonal-dourado-verde-g15-1.webp",
+   "/uploads/produtos/oc-ray-ban-rb3548-hexagonal-dourado-verde-g15-modelo.webp",
+   "/uploads/produtos/oc-ray-ban-rb3548-hexagonal-dourado-verde-g15-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-ray-ban-rb3548-hexagonal-dourado-verde-g15-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/7895653150782__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/7895653150782__STD__shad__qt.png",
+   "https://cdn.shopify.com/s/files/1/1001/7996/8329/files/RB3548N_001_model_1.jpg"
+  ]
+ },
+ {
+  "slug": "ray-ban-rb2140-original-wayfarer-preto-verde-g15",
+  "marca": "Ray-Ban",
+  "codigo": "RB2140",
+  "nome": "Original Wayfarer Classic",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "unissex",
+  "formato": "quadrado",
+  "material": "acetato",
+  "cor_armacao": "Preto",
+  "cor_armacao_hex": "#161616",
+  "lente": {
+   "cor": "Verde G-15",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 50,
+   "ponte_mm": 22,
+   "haste_mm": 150,
+   "altura_mm": 41
+  },
+  "preco_brl": 990.0,
+  "preco_fonte": "https://www.eotica.com.br/805289126638-rayban-wayfarer/p?skuId=51601",
+  "descricao": "Óculos de sol Ray-Ban Original Wayfarer Classic (RB2140) com armação de acetato preto polido e lentes verdes G-15 com 100% de proteção UV. Desenho criado em 1952, unissex, aqui no tamanho 50 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-ray-ban-rb2140-original-wayfarer-preto-verde-g15-1.webp",
+   "/uploads/produtos/oc-ray-ban-rb2140-original-wayfarer-preto-verde-g15-modelo.webp",
+   "/uploads/produtos/oc-ray-ban-rb2140-original-wayfarer-preto-verde-g15-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-ray-ban-rb2140-original-wayfarer-preto-verde-g15-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/805289126577__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/805289126577__STD__shad__qt.png",
+   "https://cdn.shopify.com/s/files/1/1001/7996/8329/files/RB2140_901_model_1.jpg",
+   "https://cdn.shopify.com/s/files/1/1001/7996/8329/files/RB2140_901_model_2.jpg"
+  ]
+ },
+ {
+  "slug": "ray-ban-rb3016-clubmaster-classic-preto-dourado-verde-g15",
+  "marca": "Ray-Ban",
+  "codigo": "RB3016",
+  "nome": "Clubmaster Classic",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "unissex",
+  "formato": "browline",
+  "material": "misto",
+  "cor_armacao": "Preto sobre dourado",
+  "cor_armacao_hex": "#1a1a1a",
+  "lente": {
+   "cor": "Verde G-15",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 51,
+   "ponte_mm": 21,
+   "haste_mm": 145,
+   "altura_mm": 43.9
+  },
+  "preco_brl": 990.0,
+  "preco_fonte": "https://www.eotica.com.br/805289346906-rayban-clubmaster/p?skuId=55855",
+  "descricao": "Óculos de sol Ray-Ban Clubmaster Classic (RB3016) em estilo browline, com parte superior de acetato preto e aros inferiores de metal dourado. Lentes verdes G-15 com 100% de proteção UV. Modelo unissex no tamanho 51 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-ray-ban-rb3016-clubmaster-classic-preto-dourado-verde-g15-1.webp",
+   "/uploads/produtos/oc-ray-ban-rb3016-clubmaster-classic-preto-dourado-verde-g15-modelo.webp",
+   "/uploads/produtos/oc-ray-ban-rb3016-clubmaster-classic-preto-dourado-verde-g15-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-ray-ban-rb3016-clubmaster-classic-preto-dourado-verde-g15-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/805289304449__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/805289304449__STD__shad__qt.png",
+   "https://cdn.shopify.com/s/files/1/1001/7996/8329/files/RB3016_W0365_model_1.jpg",
+   "https://cdn.shopify.com/s/files/1/1001/7996/8329/files/RB3016_W0365_model_2.jpg"
+  ]
+ },
+ {
+  "slug": "ray-ban-rb4171-erika-preto-cinza-degrade-polarizado",
+  "marca": "Ray-Ban",
+  "codigo": "RB4171",
+  "nome": "Erika Classic",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "feminino",
+  "formato": "redondo",
+  "material": "injetado",
+  "cor_armacao": "Preto emborrachado",
+  "cor_armacao_hex": "#222222",
+  "lente": {
+   "cor": "Cinza degradê polarizada",
+   "polarizada": true,
+   "espelhada": false,
+   "degrade": true,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 54,
+   "ponte_mm": 18,
+   "haste_mm": 145,
+   "altura_mm": 46
+  },
+  "preco_brl": 1070.0,
+  "preco_fonte": "https://www.eotica.com.br/8056597142526-rayban-erika/p?skuId=51669",
+  "descricao": "Óculos de sol Ray-Ban Erika Classic (RB4171) com frente de náilon injetado preto de acabamento emborrachado e formato arredondado (panto). Lentes cinza degradê polarizadas com 100% de proteção UV. Tamanho 54 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-ray-ban-rb4171-erika-preto-cinza-degrade-polarizado-1.webp",
+   "/uploads/produtos/oc-ray-ban-rb4171-erika-preto-cinza-degrade-polarizado-modelo.webp",
+   "/uploads/produtos/oc-ray-ban-rb4171-erika-preto-cinza-degrade-polarizado-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-ray-ban-rb4171-erika-preto-cinza-degrade-polarizado-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8056597142526__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8056597142526__STD__shad__qt.png",
+   "https://cdn.shopify.com/s/files/1/1001/7996/8329/files/RB4171_622_T3_model_1.jpg"
+  ]
+ },
+ {
+  "slug": "ray-ban-rb3025-aviator-classic-dourado-marrom-polarizado",
+  "marca": "Ray-Ban",
+  "codigo": "RB3025",
+  "nome": "Aviator Classic",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "unissex",
+  "formato": "aviador",
+  "material": "metal",
+  "cor_armacao": "Dourado (arista)",
+  "cor_armacao_hex": "#c0a26c",
+  "lente": {
+   "cor": "Marrom polarizada",
+   "polarizada": true,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 58,
+   "ponte_mm": 14,
+   "haste_mm": 135,
+   "altura_mm": 50.1
+  },
+  "preco_brl": 1290.0,
+  "preco_fonte": "https://www.eotica.com.br/8056597316675-rayban-aviator/p?skuId=55850",
+  "descricao": "Óculos de sol Ray-Ban Aviator Classic (RB3025) com armação de metal dourado em formato piloto e ponte dupla. Lentes marrons polarizadas, que reduzem reflexos, com 100% de proteção UV. Modelo unissex no tamanho 58 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-ray-ban-rb3025-aviator-classic-dourado-marrom-polarizado-1.webp",
+   "/uploads/produtos/oc-ray-ban-rb3025-aviator-classic-dourado-marrom-polarizado-modelo.webp",
+   "/uploads/produtos/oc-ray-ban-rb3025-aviator-classic-dourado-marrom-polarizado-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-ray-ban-rb3025-aviator-classic-dourado-marrom-polarizado-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/805289346623__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/805289346623__STD__shad__qt.png",
+   "https://cdn.shopify.com/s/files/1/1001/7996/8329/files/RB3025_001_58_model_1.jpg",
+   "https://cdn.shopify.com/s/files/1/1001/7996/8329/files/RB3025_001_58_model_2.jpg"
+  ]
+ },
+ {
+  "slug": "salvatore-ferragamo-sf2083se-preto",
+  "marca": "Salvatore Ferragamo",
+  "codigo": "SF2083SE",
+  "nome": "Gancini",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "feminino",
+  "formato": "quadrado",
+  "material": "acetato",
+  "cor_armacao": "Preto",
+  "cor_armacao_hex": "#111111",
+  "lente": {
+   "cor": "Cinza",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 55,
+   "ponte_mm": 18,
+   "haste_mm": 140,
+   "altura_mm": null
+  },
+  "preco_brl": 2952.0,
+  "preco_fonte": "https://www.oticaswanny.com/salvatore-ferragamo-2083se-001-oculos-de-sol/p",
+  "descricao": "Óculos de sol feminino Ferragamo de formato quadrado com armação robusta em Acetato Renew, material com bioplástico de polpa de madeira e conteúdo reciclado. As dobradiças trazem o detalhe entrelaçado Gancini em metal dourado. Lentes cinza, medidas 55-18-140 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": false,
+  "destaque": true,
+  "imagens": [
+   "/uploads/produtos/oc-salvatore-ferragamo-sf2083se-preto-1.webp",
+   "/uploads/produtos/oc-salvatore-ferragamo-sf2083se-preto-modelo.webp",
+   "/uploads/produtos/oc-salvatore-ferragamo-sf2083se-preto-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-salvatore-ferragamo-sf2083se-preto-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0583/3185/7095/files/gurizc7esllbgxp8pgne.webp",
+   "https://wanny.vteximg.com.br/arquivos/ids/197200/SF2083SE5518001.jpg",
+   "https://wanny.vteximg.com.br/arquivos/ids/197199/SF2083SE5518001-1.jpg"
+  ]
+ },
+ {
+  "slug": "speedo-float-13-a11-preto-fosco-verde-g15-polarizado",
+  "marca": "Speedo",
+  "codigo": "FLOAT 13",
+  "nome": "Float 13",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "masculino",
+  "formato": "retangular",
+  "material": "injetado",
+  "cor_armacao": "Preto fosco",
+  "cor_armacao_hex": "#1f1f1f",
+  "lente": {
+   "cor": "Verde G-15 polarizada",
+   "polarizada": true,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 57,
+   "ponte_mm": 17,
+   "haste_mm": 140,
+   "altura_mm": 44
+  },
+  "preco_brl": 395.0,
+  "preco_fonte": "https://oculosshop.com.br/products/speedo-float-13-a11-preto-solar-57-mm",
+  "descricao": "Óculos de sol Speedo Float 13 (cor A11) em formato retangular, com armação de plástico injetado preto fosco e logotipo Speedo nas hastes. Lentes de policarbonato verde G-15 polarizadas, com 100% de proteção UV. Modelo masculino para uso casual e esportivo, calibre 57 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": false,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-speedo-float-13-a11-preto-fosco-verde-g15-polarizado-1.webp",
+   "/uploads/produtos/oc-speedo-float-13-a11-preto-fosco-verde-g15-polarizado-modelo.webp",
+   "/uploads/produtos/oc-speedo-float-13-a11-preto-fosco-verde-g15-polarizado-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-speedo-float-13-a11-preto-fosco-verde-g15-polarizado-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0275/9049/2259/files/101049-1_1.jpg",
+   "https://cdn.shopify.com/s/files/1/0275/9049/2259/files/101049.jpg",
+   "https://cdn.shopify.com/s/files/1/0275/9049/2259/files/IMG_1309.jpg"
+  ]
+ },
+ {
+  "slug": "tom-ford-ft1364-iggy-havana-escuro-verde",
+  "marca": "Tom Ford",
+  "codigo": "FT1364",
+  "nome": "Iggy",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "feminino",
+  "formato": "oval",
+  "material": "acetato",
+  "cor_armacao": "Havana escuro",
+  "cor_armacao_hex": "#4b2a1a",
+  "lente": {
+   "cor": "Verde",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 49,
+   "ponte_mm": 21,
+   "haste_mm": 140,
+   "altura_mm": 38
+  },
+  "preco_brl": 2420.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/oculos-de-sol-feminino-tom-ford-ft1364-havana-escuro-1820934/p",
+  "descricao": "Óculos de sol feminino Tom Ford Iggy (FT1364) em acetato havana escuro brilhante, com frente oval de perfil fino e logo T metálico na frente. Lentes verdes com 100% de proteção UV. Fabricado na Itália.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": false,
+  "destaque": true,
+  "imagens": [
+   "/uploads/produtos/oc-tom-ford-ft1364-iggy-havana-escuro-verde-1.webp",
+   "/uploads/produtos/oc-tom-ford-ft1364-iggy-havana-escuro-verde-modelo.webp",
+   "/uploads/produtos/oc-tom-ford-ft1364-iggy-havana-escuro-verde-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-tom-ford-ft1364-iggy-havana-escuro-verde-tryon.png",
+  "fontes": [
+   "https://cdn.media.amplience.net/i/tom_ford/FT1364_52N_49MM_A?w=2000",
+   "https://cdn.media.amplience.net/i/tom_ford/FT1364_52N_49MM_B?w=2000",
+   "https://cdn.media.amplience.net/i/tom_ford/FT1364_01A_49MM_CAMPAIGN2?w=1600"
+  ]
+ },
+ {
+  "slug": "valentino-vg0008s-gatinho-acetato-preto-cinza",
+  "marca": "Valentino",
+  "codigo": "VG0008S",
+  "nome": "Gatinho em acetato",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "feminino",
+  "formato": "gatinho",
+  "material": "acetato",
+  "cor_armacao": "Preto",
+  "cor_armacao_hex": "#101010",
+  "lente": {
+   "cor": "Cinza",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 52,
+   "ponte_mm": 20,
+   "haste_mm": 140,
+   "altura_mm": 36
+  },
+  "preco_brl": 2949.0,
+  "preco_fonte": "https://www.oticaswanny.com/valentino-8-001-dauphin-oculos-de-sol/p",
+  "descricao": "Óculos de sol feminino Valentino VG0008S com frente gatinho arredondada toda em acetato preto e VLogo metálico laqueado nas hastes. Lentes cinza categoria 3 em Bio Nylon, com bloqueio total de UV. Fabricado na Itália.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": false,
+  "destaque": true,
+  "imagens": [
+   "/uploads/produtos/oc-valentino-vg0008s-gatinho-acetato-preto-cinza-1.webp",
+   "/uploads/produtos/oc-valentino-vg0008s-gatinho-acetato-preto-cinza-modelo.webp",
+   "/uploads/produtos/oc-valentino-vg0008s-gatinho-acetato-preto-cinza-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-valentino-vg0008s-gatinho-acetato-preto-cinza-tryon.png",
+  "fontes": [
+   "https://wanny.vteximg.com.br/arquivos/ids/197719/889652665771-1.jpg",
+   "https://wanny.vteximg.com.br/arquivos/ids/197718/889652665771.jpg",
+   "https://valentino-cdn.thron.com/delivery/public/image/valentino/8db8fd91-a950-47e2-95b7-19c8d68ee48b/ihqstx/std/1600x0/Cat-Eye-Acetate-Eyewear-?quality=90&format=jpg"
+  ]
+ },
+ {
+  "slug": "vogue-eyewear-vo5672s-gatinho-preto-cinza-degrade",
+  "marca": "Vogue Eyewear",
+  "codigo": "VO5672S",
+  "nome": "Gatinho",
+  "tipo": "sol",
+  "categoria": "oculos-de-sol",
+  "publico": "feminino",
+  "formato": "gatinho",
+  "material": "injetado",
+  "cor_armacao": "Preto",
+  "cor_armacao_hex": "#141414",
+  "lente": {
+   "cor": "Cinza degradê",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": true,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 57,
+   "ponte_mm": 16,
+   "haste_mm": 140,
+   "altura_mm": 40.9
+  },
+  "preco_brl": 660.0,
+  "preco_fonte": "https://www.eotica.com.br/8056262540633-vogue-eyewear-vo5672s/p?skuId=52521",
+  "descricao": "Óculos de sol feminino Vogue Eyewear VO5672S (W44/8G), formato gatinho, com frente em náilon injetado preto e hastes metálicas. Lentes cinza degradê com proteção UV. Modelo de linhas finas para uso urbano no dia a dia.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-vogue-eyewear-vo5672s-gatinho-preto-cinza-degrade-1.webp",
+   "/uploads/produtos/oc-vogue-eyewear-vo5672s-gatinho-preto-cinza-degrade-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-vogue-eyewear-vo5672s-gatinho-preto-cinza-degrade-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8056262540633__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8056262540633__STD__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "ana-hickmann-ah60052-quadrado-rosa-mesclado",
+  "marca": "Ana Hickmann",
+  "codigo": "AH60052",
+  "nome": "20 Anos",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "feminino",
+  "formato": "quadrado",
+  "material": "acetato",
+  "cor_armacao": "Rosa mesclado (tartaruga rosé) com detalhes dourados",
+  "cor_armacao_hex": "#d8a39b",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 54,
+   "ponte_mm": 17,
+   "haste_mm": 140,
+   "altura_mm": 41
+  },
+  "preco_brl": 818.0,
+  "preco_fonte": "https://oculosshop.com.br/products/ana-hickmann-20-anos-ah60052-k21-lente-5-4-cm",
+  "descricao": "Armação de grau feminina da coleção 20 Anos da Ana Hickmann, em acetato rosa mesclado com formato quadrado de cantos suavemente elevados. Hastes com aplicações metálicas douradas próximas às dobradiças. Calibre 54 mm e ponte 17 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-ana-hickmann-ah60052-quadrado-rosa-mesclado-1.webp",
+   "/uploads/produtos/oc-ana-hickmann-ah60052-quadrado-rosa-mesclado-modelo.webp",
+   "/uploads/produtos/oc-ana-hickmann-ah60052-quadrado-rosa-mesclado-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-ana-hickmann-ah60052-quadrado-rosa-mesclado-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0275/9049/2259/files/AH-56590-1.jpg",
+   "https://cdn.shopify.com/s/files/1/0275/9049/2259/files/AH-56590-2.jpg",
+   "https://cdn.shopify.com/s/files/1/0275/9049/2259/files/362227882_672600618239749_7101462995505843824_n.jpg"
+  ]
+ },
+ {
+  "slug": "ana-hickmann-ah10060-mia-4-rose",
+  "marca": "Ana Hickmann",
+  "codigo": "AH10060",
+  "nome": "Mia 4",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "feminino",
+  "formato": "gatinho",
+  "material": "metal",
+  "cor_armacao": "Rosê",
+  "cor_armacao_hex": "#c9a08a",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 55,
+   "ponte_mm": 17,
+   "haste_mm": 138,
+   "altura_mm": 50
+  },
+  "preco_brl": 869.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/ar-ahic-ah10060-05a-55-met-1779836/p",
+  "descricao": "Armação de grau feminina Ana Hickmann Mia 4 em metal rosê, com aro fechado em formato gatinho arredondado e ponteiras em acetato havana. Tem plaquetas ajustáveis. Calibre 55 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-ana-hickmann-ah10060-mia-4-rose-1.webp",
+   "/uploads/produtos/oc-ana-hickmann-ah10060-mia-4-rose-modelo.webp",
+   "/uploads/produtos/oc-ana-hickmann-ah10060-mia-4-rose-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-ana-hickmann-ah10060-mia-4-rose-tryon.png",
+  "fontes": [
+   "https://oticasdiniz.vteximg.com.br/arquivos/ids/717702/19907---armacao-de-oculos-de-grau-ana-hickmann-ah10060-feminino-gatinho-metal-rose-2.png",
+   "https://oticasdiniz.vteximg.com.br/arquivos/ids/717700/19907---armacao-de-oculos-de-grau-ana-hickmann-ah10060-feminino-gatinho-metal-rose-1.png",
+   "https://cdn.shopify.com/s/files/1/0275/9049/2259/files/IMG_2612.jpg"
+  ]
+ },
+ {
+  "slug": "calvin-klein-ck24112-hexagonal-dourado-rose-lavanda",
+  "marca": "Calvin Klein",
+  "codigo": "CK24112",
+  "nome": "Hexagonal em metal",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "feminino",
+  "formato": "hexagonal",
+  "material": "metal",
+  "cor_armacao": "Dourado rosé e lavanda",
+  "cor_armacao_hex": "#8a7d8f",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 55,
+   "ponte_mm": 17,
+   "haste_mm": 140,
+   "altura_mm": 51
+  },
+  "preco_brl": 1190.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/armacao-para-oculos-de-grau-feminino-calvin-klein-ck24112-dourado-rose-e-lavanda-1785459/p",
+  "descricao": "Armação de grau Calvin Klein CK24112 em metal, com frente hexagonal de aro fino na cor lavanda e hastes em tom dourado rosé. Plaquetas ajustáveis e ponteiras em acetato. Modelo feminino.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-calvin-klein-ck24112-hexagonal-dourado-rose-lavanda-1.webp",
+   "/uploads/produtos/oc-calvin-klein-ck24112-hexagonal-dourado-rose-lavanda-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-calvin-klein-ck24112-hexagonal-dourado-rose-lavanda-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0551/3304/4809/files/wefxeuhkestey4kffuqe.png",
+   "https://cdn.shopify.com/s/files/1/0551/3304/4809/files/wz84au2o6xuf7y0ud78n.png"
+  ]
+ },
+ {
+  "slug": "carrera-8909-retangular-preto-fosco-rutenio",
+  "marca": "Carrera",
+  "codigo": "8909",
+  "nome": "Meio-aro retangular",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "masculino",
+  "formato": "retangular",
+  "material": "metal",
+  "cor_armacao": "Preto fosco e rutênio",
+  "cor_armacao_hex": "#262626",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 55,
+   "ponte_mm": 19,
+   "haste_mm": 140,
+   "altura_mm": 39
+  },
+  "preco_brl": 1079.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/ar-carr-8909-ti7-5519-met-1784151/p",
+  "descricao": "Armação de grau Carrera 8909 em meio-aro (fio de nylon na parte inferior), com frente retangular em aço inoxidável. Ponte e hastes em Memory Metal, liga que volta ao formato original depois de flexionada; plaquetas ajustáveis. Indicada para uso diário masculino.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-carrera-8909-retangular-preto-fosco-rutenio-1.webp",
+   "/uploads/produtos/oc-carrera-8909-retangular-preto-fosco-rutenio-modelo.webp",
+   "/uploads/produtos/oc-carrera-8909-retangular-preto-fosco-rutenio-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-carrera-8909-retangular-preto-fosco-rutenio-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0602/0156/6447/files/ecomm_e3a73aa5-65c1-413b-8f73-5803d45e8a39.jpg",
+   "https://cdn.shopify.com/s/files/1/0602/0156/6447/files/ecomm_1846d739-d6ad-4f20-bca4-9c5fed0d4482.jpg",
+   "https://cdn.shopify.com/s/files/1/0602/0156/6447/files/ecomm_55fbe21d-b0c2-47d9-86a8-9837971ca5c6.jpg",
+   "https://cdn.shopify.com/s/files/1/0602/0156/6447/files/ecomm_c7388f6d-8d05-4a43-9f84-ab39a94c68f3.jpg"
+  ]
+ },
+ {
+  "slug": "emporio-armani-ea1180d-retangular-prata-fosco",
+  "marca": "Emporio Armani",
+  "codigo": "EA1180D",
+  "nome": "Retangular Meio-Aro",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "masculino",
+  "formato": "retangular",
+  "material": "metal",
+  "cor_armacao": "Prata fosco",
+  "cor_armacao_hex": "#b9b9b6",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 56,
+   "ponte_mm": 18,
+   "haste_mm": 145,
+   "altura_mm": 36.6
+  },
+  "preco_brl": 960.0,
+  "preco_fonte": "https://www.eotica.com.br/8056262670989-emporio-armani-ea1180d/p",
+  "descricao": "Armação de grau masculina Emporio Armani EA1180D (3015), retangular com cantos arredondados, em metal prata fosco no formato meio-aro (aro metálico só na parte superior). Plaquetas ajustáveis e versão de ponte baixa, com ponteiras pretas. Aceita lentes de grau.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-emporio-armani-ea1180d-retangular-prata-fosco-1.webp",
+   "/uploads/produtos/oc-emporio-armani-ea1180d-retangular-prata-fosco-modelo.webp",
+   "/uploads/produtos/oc-emporio-armani-ea1180d-retangular-prata-fosco-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-emporio-armani-ea1180d-retangular-prata-fosco-tryon.png",
+  "fontes": [
+   "https://eotica.vteximg.com.br/arquivos/ids/584589/-prod-onecp-record-files-pieyewear-2014f009-10f2-4dd2-a954-b39e00a9c0f9-0EA1180D__3015__P21__shad__fr.png",
+   "https://eotica.vteximg.com.br/arquivos/ids/584593/-prod-onecp-record-files-pieyewear-1b7c9101-6efd-4ba8-a178-b39e00a9c260-0EA1180D__3015__P21__shad__qt.png",
+   "https://assets-cf.armani.com/image/upload/f_jpg,q_auto:best,ar_4:5,w_1536,c_fill/EA1180DL_NLP_3015L_D_SS2026.jpg"
+  ]
+ },
+ {
+  "slug": "gucci-gg0798o-gatinho-quadrado-havana",
+  "marca": "Gucci",
+  "codigo": "GG0798O",
+  "nome": "Gatinho quadrado",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "feminino",
+  "formato": "gatinho",
+  "material": "acetato",
+  "cor_armacao": "Havana",
+  "cor_armacao_hex": "#5a3722",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 55,
+   "ponte_mm": 15,
+   "haste_mm": 140,
+   "altura_mm": null
+  },
+  "preco_brl": 2759.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/armacao-de-oculos-de-grau-gucci-modelo-gg0798o-cor-0051550829/p",
+  "descricao": "Armação de grau feminina Gucci GG0798O em acetato havana, com frente gatinho de linhas quadradas e emblema GG dourado nas hastes. Fabricada na Itália; aceita lentes de grau.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-gucci-gg0798o-gatinho-quadrado-havana-1.webp",
+   "/uploads/produtos/oc-gucci-gg0798o-gatinho-quadrado-havana-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-gucci-gg0798o-gatinho-quadrado-havana-tryon.png",
+  "fontes": [
+   "https://oticasdiniz.vteximg.com.br/arquivos/ids/701671/1550829_2.jpg",
+   "https://oticasdiniz.vteximg.com.br/arquivos/ids/701663/1550829_1.jpg"
+  ]
+ },
+ {
+  "slug": "guess-gu50322-retangular-havana-escuro",
+  "marca": "Guess",
+  "codigo": "GU50322",
+  "nome": "Retangular com elos G",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "feminino",
+  "formato": "retangular",
+  "material": "acetato",
+  "cor_armacao": "Havana escuro",
+  "cor_armacao_hex": "#3a2a22",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 51,
+   "ponte_mm": 17,
+   "haste_mm": 140,
+   "altura_mm": 39
+  },
+  "preco_brl": 780.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/armacao-para-oculos-de-grau-feminino-guess-gu50322-havana-escuro-1821662/p",
+  "descricao": "Armação de grau feminina Guess GU50322 com frente retangular em havana escuro e aro fechado. As hastes têm aplicação metálica em elos com o 'G' da marca junto às dobradiças. Indicada para lentes de grau de uso diário.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-guess-gu50322-retangular-havana-escuro-1.webp",
+   "/uploads/produtos/oc-guess-gu50322-retangular-havana-escuro-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-guess-gu50322-retangular-havana-escuro-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0551/3304/4809/files/GU50322_052_08.jpg",
+   "https://cdn.shopify.com/s/files/1/0551/3304/4809/files/GU50322_052_01.jpg"
+  ]
+ },
+ {
+  "slug": "hb-0571-duotech-matte-chrome-ocean-blue",
+  "marca": "HB",
+  "codigo": "0571",
+  "nome": "Duotech 0571",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "masculino",
+  "formato": "retangular",
+  "material": "misto",
+  "cor_armacao": "Cromado fosco (grafite) com hastes azul e verde",
+  "cor_armacao_hex": "#8b8e92",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 57,
+   "ponte_mm": 18,
+   "haste_mm": 147,
+   "altura_mm": 35
+  },
+  "preco_brl": 609.9,
+  "preco_fonte": "https://www.hb.com.br/products/oc-hb-duotech-0571-m-chrom-ocean-b-lucky-gre-demo",
+  "descricao": "Armação de grau HB Duotech 0571 com frente retangular em metal e hastes em Polytech com alma metálica, em cromado fosco com detalhes azul e verde. Plaquetas em silicone hipoalergênico e ponteiras em borracha. Calibre 57 mm e ponte 18 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-hb-0571-duotech-matte-chrome-ocean-blue-1.webp",
+   "/uploads/produtos/oc-hb-0571-duotech-matte-chrome-ocean-blue-modelo.webp",
+   "/uploads/produtos/oc-hb-0571-duotech-matte-chrome-ocean-blue-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-hb-0571-duotech-matte-chrome-ocean-blue-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0266/5948/7830/files/P_10105710977010_1.jpg",
+   "https://cdn.shopify.com/s/files/1/0266/5948/7830/files/P_10105710977010_2.jpg",
+   "https://cdn.shopify.com/s/files/1/0275/9049/2259/files/shooting_27_16ad8c0f-8310-43ce-bf22-0a0dcedeb3f7.jpg",
+   "https://cdn.shopify.com/s/files/1/0275/9049/2259/files/shooting_26_ceaedbe2-0836-4614-942c-119fd5e58fc5.jpg"
+  ]
+ },
+ {
+  "slug": "hickmann-hi10050-gardenia-1-preto-dourado",
+  "marca": "Ana Hickmann",
+  "codigo": "HI10050",
+  "nome": "Gardenia 1",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "feminino",
+  "formato": "quadrado",
+  "material": "metal",
+  "cor_armacao": "Preto e dourado",
+  "cor_armacao_hex": "#c4a07a",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 54,
+   "ponte_mm": 18,
+   "haste_mm": 140,
+   "altura_mm": 48
+  },
+  "preco_brl": 388.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/ar-hick-hi10050-09a-54-met-1770788/p",
+  "descricao": "Armação de grau feminina Hickmann Gardenia 1 (HI10050, cor 09A), em metal dourado com detalhe preto no aro, aro fechado e formato quadrado. Tem plaquetas de apoio nasal e ponteiras pretas nas hastes. Calibre 54 mm, ponte 18 mm e hastes de 140 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-hickmann-hi10050-gardenia-1-preto-dourado-1.webp",
+   "/uploads/produtos/oc-hickmann-hi10050-gardenia-1-preto-dourado-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-hickmann-hi10050-gardenia-1-preto-dourado-tryon.png",
+  "fontes": [
+   "https://oticasdiniz.vteximg.com.br/arquivos/ids/695897/armacao-de-oculos-de-grau-ana-hickmann-hi10050-feminino-quadrado-metal-dourado-1.png",
+   "https://oticasdiniz.vteximg.com.br/arquivos/ids/695900/armacao-de-oculos-de-grau-ana-hickmann-hi10050-feminino-quadrado-metal-dourado-2.png"
+  ]
+ },
+ {
+  "slug": "lacoste-l2986-retangular-azul-translucido",
+  "marca": "Lacoste",
+  "codigo": "L2986",
+  "nome": "Retangular em acetato",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "masculino",
+  "formato": "retangular",
+  "material": "acetato",
+  "cor_armacao": "Azul translúcido",
+  "cor_armacao_hex": "#2a3f4d",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 55,
+   "ponte_mm": 17,
+   "haste_mm": 145,
+   "altura_mm": 42
+  },
+  "preco_brl": 1050.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/armacao-para-oculos-de-grau-masculino-lacoste-l2986-azul-translucido-1808449/p",
+  "descricao": "Armação de grau Lacoste L2986 em acetato azul translúcido, com aro fechado e frente retangular. As hastes trazem o crocodilo da marca e frisos metálicos na junção com a frente. Modelo masculino para uso diário.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-lacoste-l2986-retangular-azul-translucido-1.webp",
+   "/uploads/produtos/oc-lacoste-l2986-retangular-azul-translucido-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-lacoste-l2986-retangular-azul-translucido-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0551/3304/4809/files/owrjt6iq6wi92ibzzqki.png",
+   "https://cdn.shopify.com/s/files/1/0551/3304/4809/files/anfqxzfrt2vxm7u05y0q.png"
+  ]
+ },
+ {
+  "slug": "michael-kors-mk4164u-bellano-tartaruga",
+  "marca": "Michael Kors",
+  "codigo": "MK4164U",
+  "nome": "Bellano",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "feminino",
+  "formato": "gatinho",
+  "material": "acetato",
+  "cor_armacao": "Tartaruga (Luggage Tortoise)",
+  "cor_armacao_hex": "#6e3b1f",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 54,
+   "ponte_mm": 17,
+   "haste_mm": 140,
+   "altura_mm": 40.1
+  },
+  "preco_brl": 960.0,
+  "preco_fonte": "https://www.eotica.com.br/725125539777-michael-kors-bellano/p",
+  "descricao": "Armação de grau feminina Michael Kors Bellano (MK4164U 4031), formato gatinho, em acetato tartaruga com emblema MK dourado nas hastes. Ajuste universal, tamanho 54. Aceita lentes de grau.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-michael-kors-mk4164u-bellano-tartaruga-1.webp",
+   "/uploads/produtos/oc-michael-kors-mk4164u-bellano-tartaruga-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-michael-kors-mk4164u-bellano-tartaruga-tryon.png",
+  "fontes": [
+   "https://eotica.vteximg.com.br/arquivos/ids/582288/-prod-onecp-record-files-pieyewear-4aa83cf7-4847-48eb-bd99-b3a001472e60-0MK4164U__4031__P21__shad__fr.png",
+   "https://eotica.vteximg.com.br/arquivos/ids/582290/-prod-onecp-record-files-pieyewear-e5380993-ec01-479f-83ac-b3a001472fcc-0MK4164U__4031__P21__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "oakley-ox8190-enigma-ink-preto-acetinado",
+  "marca": "Oakley",
+  "codigo": "OX8190",
+  "nome": "Enigma Ink",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "unissex",
+  "formato": "quadrado",
+  "material": "injetado",
+  "cor_armacao": "Preto acetinado",
+  "cor_armacao_hex": "#1f1f1f",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 57,
+   "ponte_mm": 18,
+   "haste_mm": 132,
+   "altura_mm": 43.3
+  },
+  "preco_brl": 1090.0,
+  "preco_fonte": "https://www.eotica.com.br/888392643346-oakley-enigma-ink/p",
+  "descricao": "Armação de grau Oakley Enigma Ink (OX8190-0157), quadrada e de aro fechado, em O Matter (material injetado leve e resistente) preto acetinado. Frente encorpada e ajuste universal, pensada para uso diário. Aceita lentes de grau.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-oakley-ox8190-enigma-ink-preto-acetinado-1.webp",
+   "/uploads/produtos/oc-oakley-ox8190-enigma-ink-preto-acetinado-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-oakley-ox8190-enigma-ink-preto-acetinado-tryon.png",
+  "fontes": [
+   "https://assets.lenscrafters.com/is/image/LensCrafters/888392643346__STD__noshad__fr.png",
+   "https://assets.lenscrafters.com/is/image/LensCrafters/888392643346__STD__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "persol-po3092v-terra-di-siena",
+  "marca": "Persol",
+  "codigo": "PO3092V",
+  "nome": "Phantos",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "unissex",
+  "formato": "redondo",
+  "material": "acetato",
+  "cor_armacao": "Terra di Siena",
+  "cor_armacao_hex": "#8f5a3f",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 50,
+   "ponte_mm": 19,
+   "haste_mm": 145,
+   "altura_mm": 44
+  },
+  "preco_brl": 1950.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/armacao-de-oculos-de-grau-persol-po3092v-unissex-redondo-acetato-marrom-1766622/p",
+  "descricao": "Armação de grau Persol em acetato fino no formato phantos (arredondado), com ponte em buraco de fechadura e a seta metálica característica da marca. Cor Terra di Siena (96), medidas 50-19-145 mm. Modelo unissex de inspiração retrô.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-persol-po3092v-terra-di-siena-1.webp",
+   "/uploads/produtos/oc-persol-po3092v-terra-di-siena-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-persol-po3092v-terra-di-siena-tryon.png",
+  "fontes": [
+   "https://assets.lenscrafters.com/is/image/LensCrafters/8056597995474__STD__noshad__fr.png",
+   "https://assets.lenscrafters.com/is/image/LensCrafters/8056597995474__STD__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "prada-pr-18wv-gatinho-preto",
+  "marca": "Prada",
+  "codigo": "PR 18WV",
+  "nome": "Gatinho",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "feminino",
+  "formato": "gatinho",
+  "material": "acetato",
+  "cor_armacao": "Preto",
+  "cor_armacao_hex": "#0d0d0d",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 54,
+   "ponte_mm": 17,
+   "haste_mm": 145,
+   "altura_mm": 45
+  },
+  "preco_brl": 2809.99,
+  "preco_fonte": "https://www.oticasdiniz.com.br/armacao-oculos-grau-prada-pr-18wv-1ab1o1-1599294/p",
+  "descricao": "Armação de grau Prada em acetato preto com formato gatinho e cantos angulosos, com o logotipo triangular metálico nas hastes. Medidas 54-17-145 mm. Modelo feminino (cor 1AB1O1).",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-prada-pr-18wv-gatinho-preto-1.webp",
+   "/uploads/produtos/oc-prada-pr-18wv-gatinho-preto-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-prada-pr-18wv-gatinho-preto-tryon.png",
+  "fontes": [
+   "https://assets.lenscrafters.com/is/image/LensCrafters/8056597438162__STD__noshad__fr.png",
+   "https://assets.lenscrafters.com/is/image/LensCrafters/8056597438162__STD__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "ray-ban-rx5435-optics-preto",
+  "marca": "Ray-Ban",
+  "codigo": "RX5435",
+  "nome": "RX5435 Optics",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "unissex",
+  "formato": "retangular",
+  "material": "acetato",
+  "cor_armacao": "Preto",
+  "cor_armacao_hex": "#1a1a1a",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 56,
+   "ponte_mm": 19,
+   "haste_mm": 145,
+   "altura_mm": 38
+  },
+  "preco_brl": 830.0,
+  "preco_fonte": "https://www.eotica.com.br/8056262269855-rayban-rb5435-optics/p?skuId=56696",
+  "descricao": "Armação de grau Ray-Ban RX5435 Optics em acetato preto polido, com formato retangular e aro fechado. Modelo unissex da coleção Core, no tamanho 56 mm, que aceita lentes de grau.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-ray-ban-rx5435-optics-preto-1.webp",
+   "/uploads/produtos/oc-ray-ban-rx5435-optics-preto-modelo.webp",
+   "/uploads/produtos/oc-ray-ban-rx5435-optics-preto-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-ray-ban-rx5435-optics-preto-tryon.png",
+  "fontes": [
+   "https://images.ray-ban.com/is/image/RayBan/8056262269855__STD__noshad__fr.png",
+   "https://images.ray-ban.com/is/image/RayBan/8056262269855__STD__shad__qt.png",
+   "https://eotica.vteximg.com.br/arquivos/ids/688867/-prod-onecp-record-files-dressedoneyewear-25ea6ed8-54cc-4d2a-9522-b43500de57ce-0RX5435__2000__SHOOT__om1.png.png"
+  ]
+ },
+ {
+  "slug": "ray-ban-rx3447v-round-metal-optics-dourado",
+  "marca": "Ray-Ban",
+  "codigo": "RX3447V",
+  "nome": "Round Metal Optics",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "unissex",
+  "formato": "redondo",
+  "material": "metal",
+  "cor_armacao": "Dourado (arista)",
+  "cor_armacao_hex": "#af9560",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 50,
+   "ponte_mm": 21,
+   "haste_mm": 145,
+   "altura_mm": 46.9
+  },
+  "preco_brl": 920.0,
+  "preco_fonte": "https://www.eotica.com.br/8053672727692-rayban-round-metal/p?skuId=53132",
+  "descricao": "Armação de grau Ray-Ban Round Metal Optics (RX3447V) com aros redondos de metal dourado polido, plaquetas nasais e ponteiras das hastes em acetato tartaruga. Aceita lentes de grau. Modelo unissex no tamanho 50 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-ray-ban-rx3447v-round-metal-optics-dourado-1.webp",
+   "/uploads/produtos/oc-ray-ban-rx3447v-round-metal-optics-dourado-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-ray-ban-rx3447v-round-metal-optics-dourado-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8053672727692__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8053672727692__STD__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "ray-ban-rx5154-clubmaster-optics-preto-prata",
+  "marca": "Ray-Ban",
+  "codigo": "RX5154",
+  "nome": "Clubmaster Optics",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "unissex",
+  "formato": "browline",
+  "material": "misto",
+  "cor_armacao": "Preto com aro prateado",
+  "cor_armacao_hex": "#1a1a1a",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 51,
+   "ponte_mm": 21,
+   "haste_mm": 145,
+   "altura_mm": 39.6
+  },
+  "preco_brl": 970.0,
+  "preco_fonte": "https://www.eotica.com.br/8053672195736-rayban-clubmaster/p?skuId=53183",
+  "descricao": "Armação de grau Ray-Ban Clubmaster Optics (RX5154) em estilo browline, com parte superior de acetato preto polido e aros de metal prateado. Tem plaquetas nasais ajustáveis e aceita lentes de grau. Modelo unissex no tamanho 51 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-ray-ban-rx5154-clubmaster-optics-preto-prata-1.webp",
+   "/uploads/produtos/oc-ray-ban-rx5154-clubmaster-optics-preto-prata-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-ray-ban-rx5154-clubmaster-optics-preto-prata-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8053672195736__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8053672195736__STD__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "ray-ban-rx8780d-titanium-preto-fosco",
+  "marca": "Ray-Ban",
+  "codigo": "RX8780D",
+  "nome": "Titanium Optics",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "unissex",
+  "formato": "quadrado",
+  "material": "titanio",
+  "cor_armacao": "Preto fosco",
+  "cor_armacao_hex": "#2b2b2b",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 53,
+   "ponte_mm": 18,
+   "haste_mm": 140,
+   "altura_mm": 41.6
+  },
+  "preco_brl": 1210.0,
+  "preco_fonte": "https://www.eotica.com.br/8056262662397-rayban-rb8780d-titanium-optics/p",
+  "descricao": "Armação de grau Ray-Ban RX8780D, da linha Titanium Optics, feita em titânio, com aro fechado em formato quadrado e acabamento preto fosco. Tem ajuste de ponte baixa (Low Bridge Fit), indicado para quem tem a base do nariz mais baixa. Modelo unissex, calibre 53 mm e ponte 18 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-ray-ban-rx8780d-titanium-preto-fosco-1.webp",
+   "/uploads/produtos/oc-ray-ban-rx8780d-titanium-preto-fosco-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-ray-ban-rx8780d-titanium-preto-fosco-tryon.png",
+  "fontes": [
+   "https://images.ray-ban.com/is/image/RayBan/8056262662397__STD__noshad__fr.png",
+   "https://images.ray-ban.com/is/image/RayBan/8056262662397__STD__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "salvatore-ferragamo-sf3057-preto",
+  "marca": "Salvatore Ferragamo",
+  "codigo": "SF3057",
+  "nome": "Double Gancini",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "feminino",
+  "formato": "oval",
+  "material": "acetato",
+  "cor_armacao": "Preto",
+  "cor_armacao_hex": "#111111",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 54,
+   "ponte_mm": 19,
+   "haste_mm": 145,
+   "altura_mm": null
+  },
+  "preco_brl": 2675.0,
+  "preco_fonte": "https://www.oticaswanny.com/salvatore-ferragamo-3057-001-oculos-de-grau/p",
+  "descricao": "Armação de grau feminina Ferragamo em acetato preto com formato oval alongado. As hastes têm o detalhe Double Gancini dourado aplicado na dobradiça. Medidas 54-19-145 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-salvatore-ferragamo-sf3057-preto-1.webp",
+   "/uploads/produtos/oc-salvatore-ferragamo-sf3057-preto-modelo.webp",
+   "/uploads/produtos/oc-salvatore-ferragamo-sf3057-preto-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-salvatore-ferragamo-sf3057-preto-tryon.png",
+  "fontes": [
+   "https://cdn.shopify.com/s/files/1/0583/3185/7095/files/b3ixch0eftrvwrxqwmv1.webp",
+   "https://wanny.vteximg.com.br/arquivos/ids/197203/SF30575419001.jpg",
+   "https://wanny.vteximg.com.br/arquivos/ids/197202/SF30575419001-1.jpg"
+  ]
+ },
+ {
+  "slug": "tom-ford-ft5689-b-blue-block-clip-on-havana-escuro",
+  "marca": "Tom Ford",
+  "codigo": "FT5689-B",
+  "nome": "Blue Block quadrado com clip-on magnético",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "feminino",
+  "formato": "quadrado",
+  "material": "acetato",
+  "cor_armacao": "Havana escuro",
+  "cor_armacao_hex": "#4a2c1b",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 54,
+   "ponte_mm": 16,
+   "haste_mm": 140,
+   "altura_mm": 50
+  },
+  "preco_brl": 3869.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/armacao-de-oculos-de-grau-tom-ford-modelo-ft5689-b-cor-052-tamanho-54-1557662/p",
+  "descricao": "Armação de grau Tom Ford FT5689-B em acetato havana escuro, com frente quadrada e detalhe T metálico nas hastes. Acompanha clip-on solar magnético e vem com lentes demonstrativas Blue Block, que filtram parte da luz azul de telas. Fabricada na Itália; aceita lentes de grau.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-tom-ford-ft5689-b-blue-block-clip-on-havana-escuro-1.webp",
+   "/uploads/produtos/oc-tom-ford-ft5689-b-blue-block-clip-on-havana-escuro-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-tom-ford-ft5689-b-blue-block-clip-on-havana-escuro-tryon.png",
+  "fontes": [
+   "https://cdn.media.amplience.net/i/tom_ford/FT5689-B_052_OS_A?w=2000",
+   "https://cdn.media.amplience.net/i/tom_ford/FT5689-B_052_OS_B?w=2000"
+  ]
+ },
+ {
+  "slug": "valentino-vg0012o-gatinho-preto",
+  "marca": "Valentino",
+  "codigo": "VG0012O",
+  "nome": "Gatinho em acetato",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "feminino",
+  "formato": "gatinho",
+  "material": "acetato",
+  "cor_armacao": "Preto",
+  "cor_armacao_hex": "#101010",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 53,
+   "ponte_mm": 20,
+   "haste_mm": 140,
+   "altura_mm": null
+  },
+  "preco_brl": 2949.0,
+  "preco_fonte": "https://www.oticaswanny.com/valentino-12o-001-oculos-de-grau/p",
+  "descricao": "Armação de grau feminina Valentino VG0012O em acetato preto brilhante, com frente gatinho de formas suaves e VLogo metálico no centro das hastes. Fabricada na Itália; aceita lentes de grau.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-valentino-vg0012o-gatinho-preto-1.webp",
+   "/uploads/produtos/oc-valentino-vg0012o-gatinho-preto-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-valentino-vg0012o-gatinho-preto-tryon.png",
+  "fontes": [
+   "https://wanny.vteximg.com.br/arquivos/ids/197723/889652665924-1.jpg",
+   "https://wanny.vteximg.com.br/arquivos/ids/197722/889652665924.jpg"
+  ]
+ },
+ {
+  "slug": "vogue-eyewear-vo5640u-retangular-preto",
+  "marca": "Vogue Eyewear",
+  "codigo": "VO5640U",
+  "nome": "Retangular Acetato",
+  "tipo": "grau",
+  "categoria": "oculos-de-grau",
+  "publico": "feminino",
+  "formato": "retangular",
+  "material": "acetato",
+  "cor_armacao": "Preto",
+  "cor_armacao_hex": "#121212",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 51,
+   "ponte_mm": 16,
+   "haste_mm": 140,
+   "altura_mm": 33.7
+  },
+  "preco_brl": 580.0,
+  "preco_fonte": "https://www.eotica.com.br/8056262413456-vogue-eyewear-vo5640u/p",
+  "descricao": "Armação de grau feminina Vogue Eyewear VO5640U (W44), retangular com cantos arredondados, em acetato preto polido e logo Vogue nas hastes. Tamanho 51 (calibre pequeno) com ajuste universal. Aceita lentes de grau.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-vogue-eyewear-vo5640u-retangular-preto-1.webp",
+   "/uploads/produtos/oc-vogue-eyewear-vo5640u-retangular-preto-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-vogue-eyewear-vo5640u-retangular-preto-tryon.png",
+  "fontes": [
+   "https://eotica.vteximg.com.br/arquivos/ids/579433/-prod-onecp-record-files-pieyewear-d9386d19-dd3a-45f0-90b8-b39e001be344-0VO5640U__W44__P21__shad__fr.png",
+   "https://eotica.vteximg.com.br/arquivos/ids/579435/-prod-onecp-record-files-pieyewear-c654dbd5-0f4d-4395-806c-b39e001be628-0VO5640U__W44__P21__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "ray-ban-rj9052s-new-wayfarer-junior-preto-verde",
+  "marca": "Ray-Ban",
+  "codigo": "RJ9052S",
+  "nome": "New Wayfarer Junior",
+  "tipo": "sol",
+  "categoria": "infantil",
+  "publico": "infantil",
+  "formato": "quadrado",
+  "material": "injetado",
+  "cor_armacao": "Preto",
+  "cor_armacao_hex": "#1a1a1a",
+  "lente": {
+   "cor": "Verde escuro",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "100% UV"
+  },
+  "medidas": {
+   "lente_mm": 48,
+   "ponte_mm": 16,
+   "haste_mm": 130,
+   "altura_mm": 36.9
+  },
+  "preco_brl": 450.0,
+  "preco_fonte": "https://www.eotica.com.br/8053672481280-rayban-junior-new-wayfarer/p?skuId=57063",
+  "descricao": "Óculos de sol infantil Ray-Ban Junior New Wayfarer (RJ9052S), versão reduzida do New Wayfarer feita para rostos de criança. Armação injetada preta e lentes verdes com 100% de proteção UV. Tamanho 48 mm, indicado pela marca para 11 a 13 anos.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-ray-ban-rj9052s-new-wayfarer-junior-preto-verde-1.webp",
+   "/uploads/produtos/oc-ray-ban-rj9052s-new-wayfarer-junior-preto-verde-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-ray-ban-rj9052s-new-wayfarer-junior-preto-verde-tryon.png",
+  "fontes": [
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8053672481327__STD__noshad__fr.png",
+   "https://assets.sunglasshut.com/is/image/LuxotticaRetail/8053672481327__STD__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "speedo-ace-2-infantil-preto",
+  "marca": "Speedo",
+  "codigo": "ACE 2",
+  "nome": "Ace 2",
+  "tipo": "sol",
+  "categoria": "infantil",
+  "publico": "infantil",
+  "formato": "quadrado",
+  "material": "acetato",
+  "cor_armacao": "Preto",
+  "cor_armacao_hex": "#1a1a1a",
+  "lente": {
+   "cor": "Cinza",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "UVA/UVB"
+  },
+  "medidas": {
+   "lente_mm": 52,
+   "ponte_mm": 18,
+   "haste_mm": 139,
+   "altura_mm": 44
+  },
+  "preco_brl": 299.0,
+  "preco_fonte": "https://www.oticasdiniz.com.br/oculos-sol-speedo-ace-2-a11-infantil-1631300/p",
+  "descricao": "Óculos de sol infantil Speedo Ace 2 em formato quadrado, com armação preta e logotipo Speedo nas hastes. Lentes cinza com proteção UVA e UVB. Calibre 52 mm e ponte 18 mm.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": false,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-speedo-ace-2-infantil-preto-1.webp",
+   "/uploads/produtos/oc-speedo-ace-2-infantil-preto-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-speedo-ace-2-infantil-preto-tryon.png",
+  "fontes": [
+   "https://oticasdiniz.vteximg.com.br/arquivos/ids/697643/speedo-ace-2-a11-2.jpg",
+   "https://oticasdiniz.vteximg.com.br/arquivos/ids/697641/speedo-ace-2-a11-1.jpg"
+  ]
+ },
+ {
+  "slug": "nanovista-nao3161048-quest-3-0-dark-raspberry",
+  "marca": "Nanovista",
+  "codigo": "NAO3161048",
+  "nome": "Quest 3.0",
+  "tipo": "grau",
+  "categoria": "infantil",
+  "publico": "infantil",
+  "formato": "retangular",
+  "material": "injetado",
+  "cor_armacao": "Framboesa escuro fosco com hastes magenta",
+  "cor_armacao_hex": "#4b2742",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 48,
+   "ponte_mm": 14,
+   "haste_mm": 133,
+   "altura_mm": 39
+  },
+  "preco_brl": 870.0,
+  "preco_fonte": "https://www.terceiravisao.com.br/recem-nascidoinfantil/8-a-12-anos/oculos-de-grau-infantil-feminino-8-a-12-anos-nano-vista-quest-3-0-nao3161048",
+  "descricao": "Armação de grau infantil Nanovista Quest 3.0, da coleção Indestrutível 3.0, feita em Siliflex, material flexível e resistente a quedas, com dobradiça de giro 360 graus. Tamanho 48, indicada para crianças de 8 a 12 anos; acompanha faixa elástica ajustável.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-nanovista-nao3161048-quest-3-0-dark-raspberry-1.webp",
+   "/uploads/produtos/oc-nanovista-nao3161048-quest-3-0-dark-raspberry-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-nanovista-nao3161048-quest-3-0-dark-raspberry-tryon.png",
+  "fontes": [
+   "https://nanovista.com.br/wp-content/uploads/2023/02/NAO3161048-2.jpg",
+   "https://nanovista.com.br/wp-content/uploads/2023/02/NAO3161048-1.jpg"
+  ]
+ },
+ {
+  "slug": "ray-ban-ry1631-optics-kids-preto-vermelho",
+  "marca": "Ray-Ban",
+  "codigo": "RY1631",
+  "nome": "Optics Kids Bio-Based",
+  "tipo": "grau",
+  "categoria": "infantil",
+  "publico": "infantil",
+  "formato": "redondo",
+  "material": "injetado",
+  "cor_armacao": "Preto com hastes vermelhas",
+  "cor_armacao_hex": "#1a1a1a",
+  "lente": {
+   "cor": "Lente demonstrativa incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": null
+  },
+  "medidas": {
+   "lente_mm": 47,
+   "ponte_mm": 16,
+   "haste_mm": 130,
+   "altura_mm": 39.8
+  },
+  "preco_brl": 430.0,
+  "preco_fonte": "https://www.eotica.com.br/8056262097007-rayban-rb1631-optics-kids-biobased/p?skuId=57509",
+  "descricao": "Armação de grau infantil Ray-Ban Junior RY1631, da linha Bio-Based (material de origem biológica), em formato panto arredondado. Frente preta, hastes com parte interna vermelha e ponteiras de silicone ajustáveis. Tamanho 47 mm, indicado pela marca para 11 a 13 anos.",
+  "ca": null,
+  "normas": null,
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-ray-ban-ry1631-optics-kids-preto-vermelho-1.webp",
+   "/uploads/produtos/oc-ray-ban-ry1631-optics-kids-preto-vermelho-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-ray-ban-ry1631-optics-kids-preto-vermelho-tryon.png",
+  "fontes": [
+   "https://images.ray-ban.com/is/image/RayBan/8056262097007__STD__noshad__fr.png",
+   "https://images.ray-ban.com/is/image/RayBan/8056262097007__STD__shad__qt.png"
+  ]
+ },
+ {
+  "slug": "3m-hb004660286-virtua-cinza",
+  "marca": "3M",
+  "codigo": "HB004660286",
+  "nome": "Virtua",
+  "tipo": "epi",
+  "categoria": "epi",
+  "publico": "unissex",
+  "formato": "esportivo",
+  "material": "policarbonato",
+  "cor_armacao": "Cinza (fumê)",
+  "cor_armacao_hex": "#4c4d4a",
+  "lente": {
+   "cor": "Cinza",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "U6 (filtra aprox. 99,9% UVA/UVB)"
+  },
+  "medidas": {
+   "lente_mm": null,
+   "ponte_mm": null,
+   "haste_mm": null,
+   "altura_mm": null
+  },
+  "preco_brl": 29.9,
+  "preco_fonte": "https://www.dimensional.com.br/oculos-de-seguranca-com-lente-cinza-antirisco-virtua-hb004660286-3m/p",
+  "descricao": "Óculos de segurança 3M Virtua com visor, apoio nasal e proteção lateral injetados em uma única peça de policarbonato, hastes do mesmo material e peso aproximado de 24 g. A lente cinza tem tratamento antirrisco e é aprovada contra impacto de partículas volantes, radiação ultravioleta (U6) e luz intensa (L3), indicada para trabalho ao ar livre ou em locais muito iluminados.",
+  "ca": "15649",
+  "normas": "ANSI/ISEA Z87.1-2015",
+  "aceita_grau": false,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-3m-hb004660286-virtua-cinza-1.webp",
+   "/uploads/produtos/oc-3m-hb004660286-virtua-cinza-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-3m-hb004660286-virtua-cinza-tryon.png",
+  "fontes": [
+   "https://dimensionalstoreb2b.vteximg.com.br/arquivos/ids/217113/Oculos-Ampla-Visao-Cor-Lente-cinza-HB004660286-3M-3.png",
+   "https://dimensionalstoreb2b.vteximg.com.br/arquivos/ids/217111/Oculos-Ampla-Visao-Cor-Lente-cinza-HB004660286-3M.png"
+  ]
+ },
+ {
+  "slug": "3m-sf3701as-blu-securefit-3700-otg-incolor",
+  "marca": "3M",
+  "codigo": "SF3701AS-BLU",
+  "nome": "SecureFit 3700 OTG (sobrepor)",
+  "tipo": "epi",
+  "categoria": "epi",
+  "publico": "unissex",
+  "formato": "mascara",
+  "material": "policarbonato",
+  "cor_armacao": "Azul (hastes) com lente incolor",
+  "cor_armacao_hex": "#87a6c3",
+  "lente": {
+   "cor": "Incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "U6 (absorve 99,9% UVA/UVB/UVC, 200–380 nm)"
+  },
+  "medidas": {
+   "lente_mm": null,
+   "ponte_mm": null,
+   "haste_mm": null,
+   "altura_mm": null
+  },
+  "preco_brl": 146.79,
+  "preco_fonte": "https://superepi.com.br/oculos-de-sobrepor-3m-otg-serie-3700-antiembacate-scotchgard-ajustavel-ca-43789-hb004662076-p1055579",
+  "descricao": "Óculos de segurança 3M SecureFit Série 3700 do tipo OTG (sobrepor), projetados para serem usados por cima dos óculos de grau do próprio usuário, com lente ampla de policarbonato incolor. As hastes azuis têm ajuste de inclinação por catraca e tecnologia de difusão de pressão (PDT), com ponte nasal macia; lente com tratamento antirrisco, aprovada contra impacto de partículas e radiação UV (U6).",
+  "ca": "43789",
+  "normas": "ANSI/ISEA Z87.1-2015",
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-3m-sf3701as-blu-securefit-3700-otg-incolor-1.webp",
+   "/uploads/produtos/oc-3m-sf3701as-blu-securefit-3700-otg-incolor-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-3m-sf3701as-blu-securefit-3700-otg-incolor-tryon.png",
+  "fontes": [
+   "https://multimedia.3m.com/mws/media/1663366J/3m-securefit-3700-series-sf3701sgaf-blu-scotchgard-anti-fog-coating-frontside.jpg?width=1200",
+   "https://multimedia.3m.com/mws/media/1663367J/3m-securefit-3700-series-sf3701sgaf-blu-scotchgard-anti-fog-coating-rightside.jpg?width=1200"
+  ]
+ },
+ {
+  "slug": "kalipso-010413-leopardo-incolor",
+  "marca": "Kalipso",
+  "codigo": "01.04.1.3",
+  "nome": "Leopardo",
+  "tipo": "epi",
+  "categoria": "epi",
+  "publico": "unissex",
+  "formato": "esportivo",
+  "material": "policarbonato",
+  "cor_armacao": "Incolor",
+  "cor_armacao_hex": "#e3e9ec",
+  "lente": {
+   "cor": "Incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "U6"
+  },
+  "medidas": {
+   "lente_mm": null,
+   "ponte_mm": null,
+   "haste_mm": null,
+   "altura_mm": null
+  },
+  "preco_brl": 29.9,
+  "preco_fonte": "https://www.dimensional.com.br/oculos-seguranca-cor-lente-incolor-leopardo-kalipso/p",
+  "descricao": "Óculos de segurança Kalipso Leopardo com armação, visor, ponte e apoio nasal em uma única peça de policarbonato incolor e hastes tipo espátula do mesmo material, presas por parafusos metálicos. A lente tem tratamento antirrisco, resistência a alto impacto e proteção contra radiação ultravioleta (U6); modelo leve de uso geral, compatível com protetores auditivos tipo concha.",
+  "ca": "11268",
+  "normas": "ANSI/ISEA Z87.1-2015",
+  "aceita_grau": false,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-kalipso-010413-leopardo-incolor-1.webp",
+   "/uploads/produtos/oc-kalipso-010413-leopardo-incolor-2.webp"
+  ],
+  "tryon": null,
+  "fontes": [
+   "https://www.kalipso.com.br/media/produtos/galerias/galeria-produto-13052025-121425-218180.png",
+   "https://www.kalipso.com.br/media/produtos/galerias/galeria-produto-13052025-121425-282123.png"
+  ]
+ },
+ {
+  "slug": "kalipso-010813-castor-ii-incolor",
+  "marca": "Kalipso",
+  "codigo": "01.08.1.3",
+  "nome": "Castor II (clip para lente de grau)",
+  "tipo": "epi",
+  "categoria": "epi",
+  "publico": "unissex",
+  "formato": "mascara",
+  "material": "policarbonato",
+  "cor_armacao": "Incolor com hastes pretas",
+  "cor_armacao_hex": "#e3e9ec",
+  "lente": {
+   "cor": "Incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "U6"
+  },
+  "medidas": {
+   "lente_mm": null,
+   "ponte_mm": null,
+   "haste_mm": null,
+   "altura_mm": null
+  },
+  "preco_brl": 32.97,
+  "preco_fonte": "https://www.superepi.com.br/oculos-de-seguranca-de-grau-castor-ii-kalipso-p1046534",
+  "descricao": "Óculos de segurança Kalipso Castor II com armação e visor em peça única de policarbonato incolor, proteção superior e lateral, apoio nasal maleável e hastes pretas com ajuste de comprimento. Acompanha um clip (suporte plástico) que se encaixa atrás do visor, na canaleta do apoio nasal, para receber lentes corretivas feitas pela ótica — o usuário enxerga com o grau por dentro da proteção, sem sobrepor dois óculos. Lente com tratamento antirrisco, aprovada contra impacto e radiação UV (U6).",
+  "ca": "15618",
+  "normas": "ANSI/ISEA Z87.1-2015",
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-kalipso-010813-castor-ii-incolor-1.webp",
+   "/uploads/produtos/oc-kalipso-010813-castor-ii-incolor-2.webp"
+  ],
+  "tryon": null,
+  "fontes": [
+   "https://www.kalipso.com.br/media/produtos/galerias/galeria-produto-15052025-134903-944953.png",
+   "https://www.kalipso.com.br/media/produtos/galerias/galeria-produto-15052025-134903-760848.png"
+  ]
+ },
+ {
+  "slug": "kalipso-012523-cancun-incolor-haste-vermelha",
+  "marca": "Kalipso",
+  "codigo": "01.25.2.3",
+  "nome": "Cancun Haste Vermelha (armação para lente de grau)",
+  "tipo": "epi",
+  "categoria": "epi",
+  "publico": "unissex",
+  "formato": "retangular",
+  "material": "injetado",
+  "cor_armacao": "Preto com hastes vermelhas",
+  "cor_armacao_hex": "#1f1f1f",
+  "lente": {
+   "cor": "Incolor",
+   "polarizada": false,
+   "espelhada": false,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "U6"
+  },
+  "medidas": {
+   "lente_mm": null,
+   "ponte_mm": null,
+   "haste_mm": null,
+   "altura_mm": null
+  },
+  "preco_brl": 81.44,
+  "preco_fonte": "https://www.superepi.com.br/oculos-de-seguranca-kalipso-cancun-haste-vermelha-permite-lentes-corretivas-ca-45873-p1067385",
+  "descricao": "Óculos de segurança Kalipso Cancun com visual de armação convencional: arco de náilon preto, hastes vermelhas com ponteiras emborrachadas, dobradiças com parafusos de aço inoxidável e proteções laterais removíveis. O fabricante indica que as lentes podem ser adaptadas a lentes corretivas, ou seja, a ótica substitui as lentes de policarbonato incolor por lentes de grau na própria armação. Lente original com tratamento antirrisco, aprovada contra impacto e radiação UV (U6).",
+  "ca": "45873",
+  "normas": "ANSI/ISEA Z87.1-2015",
+  "aceita_grau": true,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-kalipso-012523-cancun-incolor-haste-vermelha-1.webp",
+   "/uploads/produtos/oc-kalipso-012523-cancun-incolor-haste-vermelha-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-kalipso-012523-cancun-incolor-haste-vermelha-tryon.png",
+  "fontes": [
+   "https://www.kalipso.com.br/media/produtos/galerias/galeria-produto-30052025-170117-855941.png",
+   "https://www.kalipso.com.br/media/produtos/galerias/galeria-produto-30052025-170117-553131.png"
+  ]
+ },
+ {
+  "slug": "steelflex-vs201640-neon-in-out",
+  "marca": "Steelflex",
+  "codigo": "VS201640",
+  "nome": "Neon In-Out",
+  "tipo": "epi",
+  "categoria": "epi",
+  "publico": "unissex",
+  "formato": "esportivo",
+  "material": "policarbonato",
+  "cor_armacao": "Preto e vermelho",
+  "cor_armacao_hex": "#1c1c1c",
+  "lente": {
+   "cor": "Incolor espelhada In/Out",
+   "polarizada": false,
+   "espelhada": true,
+   "degrade": false,
+   "fotossensivel": false,
+   "protecao_uv": "U6"
+  },
+  "medidas": {
+   "lente_mm": null,
+   "ponte_mm": null,
+   "haste_mm": null,
+   "altura_mm": null
+  },
+  "preco_brl": 61.98,
+  "preco_fonte": "https://steelflex.com.br/oculos-de-protecao-steelflex-neon-in-out-ca40906-vs201640",
+  "descricao": "Óculos de proteção Steelflex Neon com armação e hastes em policarbonato preto com detalhes vermelhos e lente espelhada In/Out, pensada para quem alterna entre áreas internas e externas. A lente de policarbonato tem tratamento antiembaçante e antirrisco e é aprovada contra impacto de partículas, radiação ultravioleta (U6) e luz intensa (L1.7).",
+  "ca": "40906",
+  "normas": "ANSI/ISEA Z87.1-2015",
+  "aceita_grau": false,
+  "destaque": false,
+  "imagens": [
+   "/uploads/produtos/oc-steelflex-vs201640-neon-in-out-1.webp",
+   "/uploads/produtos/oc-steelflex-vs201640-neon-in-out-2.webp"
+  ],
+  "tryon": "/uploads/produtos/oc-steelflex-vs201640-neon-in-out-tryon.png",
+  "fontes": [
+   "https://img.irroba.com.br/fit-in/0x0/filters:format(webp):fill(fff):quality(80)/steeiaoo/catalog/steelflex/produtos-2025/steelflex-com-br/oculos/001/vs201640/stf-vs201640-in-out-ae-2.JPG",
+   "https://img.irroba.com.br/fit-in/0x0/filters:format(webp):fill(fff):quality(80)/steeiaoo/catalog/steelflex/produtos-2025/steelflex-com-br/oculos/001/vs201640/stf-vs201640-in-out-ae-3.JPG"
+  ]
+ }
+]

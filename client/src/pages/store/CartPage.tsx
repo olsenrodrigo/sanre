@@ -2,7 +2,6 @@ import { Link, useLocation } from "wouter";
 import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft, Lock } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import WhatsAppFloat from "@/components/layout/WhatsAppFloat";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
 import { precoBR, FRETE_GRATIS_ACIMA } from "@/lib/marca";
@@ -28,7 +27,6 @@ export default function CartPage() {
           </Link>
         </main>
         <Footer />
-        <WhatsAppFloat />
       </div>
     );
   }
@@ -175,7 +173,6 @@ export default function CartPage() {
       </main>
 
       <Footer />
-      <WhatsAppFloat />
     </div>
   );
 }

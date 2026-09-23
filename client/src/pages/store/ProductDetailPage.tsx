@@ -1,243 +1,106 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, lazy, Suspense } from "react";
 import { useParams, Link } from "wouter";
-import { Truck, Shield, RotateCcw } from "lucide-react";
+import { ScanFace, Store, ShieldCheck, Receipt, MessageCircle } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import WhatsAppFloat from "@/components/layout/WhatsAppFloat";
-import ProductCard, { type ProdutoCard } from "@/components/store/ProductCard";
+import ProductCard, { type ProdutoCard, ehFotoEditorial, nomeSemMarca } from "@/components/store/ProductCard";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/hooks/use-toast";
 import { trackViewItem, trackAddToCart, useAnalyticsReady } from "@/lib/analytics";
 import ReviewsSection from "@/components/store/ReviewsSection";
 import BundleOffer, { type ApiBundle } from "@/components/store/BundleOffer";
-import ProvadorVirtual from "@/components/store/ProvadorVirtual";
-import { corHex, precoBR, whatsappCom, FRETE_GRATIS_ACIMA } from "@/lib/marca";
-import { descontoPix, PIX_DESCONTO } from "@shared/pagamento";
+import FluxoGrau from "@/components/grau/FluxoGrau";
+import ReservaDialog from "@/components/reserva/ReservaDialog";
+import { definirContextoAssistente, abrirAssistente } from "@/components/assistente/contexto";
+import { corHex, precoBR, parcela, whatsappCom } from "@/lib/marca";
+import { descontoPix } from "@shared/pagamento";
+import { UNIDADES } from "@shared/unidades";
 import { aplicarSeo, aplicarJsonLdProduto, removerJsonLdProduto } from "@/lib/seo";
+import { FORMATOS, MATERIAIS, PUBLICOS, rotulo, slugificar, medidaArmacao, type ProdutoVitrine } from "@/lib/oculos";
 
-interface ProductImage { id: number; url: string; altText?: string; isMain: boolean; position: number; }
+// O provador (MediaPipe) só é baixado quando a cliente pede para experimentar.
+const ProvadorAR = lazy(() => import("@/components/provador/ProvadorAR"));
+
+interface ProductImage { id: number; url: string; altText?: string | null; isMain: boolean; position: number }
 interface Variant {
-  id: number; sku?: string; price: string; compareAtPrice?: string;
-  stockQuantity: number; option1?: string; option2?: string; option3?: string;
-  imageUrl?: string; active: boolean;
+  id: number; sku?: string | null; price: string; compareAtPrice?: string | null;
+  stockQuantity: number; option1?: string | null; option2?: string | null;
+  imageUrl?: string | null; active: boolean;
 }
-interface Product {
-  id: number; title: string; slug: string; description?: string; brand?: string;
-  price: string; compareAtPrice?: string; stockQuantity: number; status: string;
-  sku?: string; tags?: string;
-  images: ProductImage[]; variants: Variant[];
-  composition?: string | null;
-  /** Medidas em cm por tamanho: {"P": {"busto": 88, ...}, "M": {...}} */
-  measurements?: Record<string, Record<string, number>> | null;
-}
+type Product = ProdutoVitrine & {
+  description?: string | null;
+  sku?: string | null;
+  status: string;
+  uvProtection?: string | null;
+  safetyNorms?: string | null;
+  images: ProductImage[];
+  variants: Variant[];
+  categoria?: { slug: string; name: string } | null;
+};
 
-/**
- * Galeria na ordem do catálogo, com uma exceção: se a variação escolhida tem
- * foto própria, ela encabeça a pilha (REQ-3.5).
- *
- * A spec fala em "trocar a imagem principal", que pressupõe uma foto de
- * destaque com miniaturas embaixo. Esta PDP empilha todas as fotos e não tem
- * miniatura — não existe uma "principal" para substituir. Trazer a foto da cor
- * para o topo entrega o mesmo resultado neste layout: a cliente escolheu Preto,
- * a primeira foto que ela vê é a peça preta.
- */
-function ordenarGaleria(
-  todas: ProductImage[],
-  urlDaVariante?: string,
-): ProductImage[] {
-  const ordenadas = [...todas].sort((a, b) => a.position - b.position);
-  if (!urlDaVariante) return ordenadas;
-  const i = ordenadas.findIndex(img => img.url === urlDaVariante);
-  // Foto da variação que não está na galeria entra na frente mesmo assim.
-  if (i < 0) {
-    return [{ id: -1, url: urlDaVariante, isMain: false, position: -1 }, ...ordenadas];
-  }
-  return [ordenadas[i], ...ordenadas.slice(0, i), ...ordenadas.slice(i + 1)];
-}
-
-/** Grade alfabética da loja. Numéricos (36, 38…) ordenam por valor. */
-const ORDEM_GRADE = ["PP", "P", "M", "G", "GG", "XG", "XGG"];
-
-/**
- * Ordena tamanhos como a etiqueta manda, não como o banco devolveu: `measurements`
- * é JSONB, e JSONB reordena as chaves internamente. Sem isto a tabela sai
- * "G, M, P, GG, PP" — que é como o Postgres guardou, e não como se veste.
- */
-function ordenarTamanhos(chaves: string[]): string[] {
-  return [...chaves].sort((a, b) => {
-    const na = Number(a), nb = Number(b);
-    if (Number.isFinite(na) && Number.isFinite(nb)) return na - nb;
-    const ia = ORDEM_GRADE.indexOf(a.toUpperCase());
-    const ib = ORDEM_GRADE.indexOf(b.toUpperCase());
-    // Tamanho fora da grade conhecida vai para o fim, em ordem alfabética.
-    if (ia === -1 && ib === -1) return a.localeCompare(b, "pt-BR");
-    if (ia === -1) return 1;
-    if (ib === -1) return -1;
-    return ia - ib;
-  });
-}
-
-/**
- * Tabela de medidas por tamanho (REQ-3.1).
- *
- * As chaves são livres — cada peça mede o que faz sentido nela: um vestido tem
- * comprimento, uma calça tem gancho. A tabela é montada a partir do que a peça
- * tem, não de uma lista fixa que obrigaria a inventar medida.
- *
- * A linha do tamanho selecionado fica destacada: a cliente já escolheu um
- * tamanho acima, e ler a linha certa numa tabela de cinco é atrito à toa.
- *
- * Sem medidas cadastradas, nada é renderizado — tabela vazia diz à cliente que
- * a loja não sabe o tamanho da própria roupa.
- */
-function TabelaDeMedidas({
-  medidas,
-  tamanhoAtual,
-}: {
-  medidas?: Record<string, Record<string, number>> | null;
-  tamanhoAtual: string | null;
-}) {
-  if (!medidas) return null;
-  // JSONB não preserva ordem de chave: sem ordenar, a tabela sai G, M, P, GG…
-  const tamanhos = ordenarTamanhos(Object.keys(medidas));
-  if (!tamanhos.length) return null;
-
-  // União das medidas presentes, preservando a ordem em que aparecem.
-  const colunas: string[] = [];
-  for (const t of tamanhos) {
-    for (const campo of Object.keys(medidas[t] ?? {})) {
-      if (!colunas.includes(campo)) colunas.push(campo);
-    }
-  }
-  if (!colunas.length) return null;
-
+/** Linha da ficha técnica (etiqueta de museu). */
+function Linha({ rotulo: r, children }: { rotulo: string; children: React.ReactNode }) {
   return (
-    <div className="rule mt-9 pt-7">
-      <h2 className="eyebrow">Medidas da peça</h2>
-      {/* A tabela rola sozinha em tela estreita; a página nunca rola na horizontal. */}
-      <div className="mt-4 overflow-x-auto">
-        <table className="w-full min-w-[18rem] border-collapse font-sans text-[0.9375rem]">
-          <caption className="sr-only">
-            Medidas em centímetros por tamanho
-          </caption>
-          <thead>
-            <tr className="border-b border-vn-olive-200/60 text-left">
-              <th scope="col" className="py-2 pr-4 font-medium text-vn-ink">Tamanho</th>
-              {colunas.map(c => (
-                <th key={c} scope="col" className="py-2 pr-4 font-medium capitalize text-vn-ink">
-                  {c}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {tamanhos.map(t => (
-              <tr
-                key={t}
-                aria-current={t === tamanhoAtual ? "true" : undefined}
-                className={
-                  t === tamanhoAtual
-                    ? "border-b border-vn-olive-200/40 bg-vn-olive-100/50 font-medium text-vn-ink"
-                    : "border-b border-vn-olive-200/40 text-vn-ink-soft"
-                }
-              >
-                <th scope="row" className="py-2 pr-4 text-left font-medium">{t}</th>
-                {colunas.map(c => (
-                  <td key={c} className="py-2 pr-4">
-                    {medidas[t]?.[c] != null ? `${medidas[t][c]} cm` : "—"}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="mt-3 font-sans text-[0.875rem] text-vn-ink-soft/80">
-        Medidas da peça, não do corpo. Variação de até 2 cm é normal na costura.
-      </p>
+    <div className="grid grid-cols-[8.5rem_1fr] gap-4 border-b border-sr-line py-3 text-[0.93rem] sm:grid-cols-[11rem_1fr]">
+      <dt className="text-sr-ink-soft">{r}</dt>
+      <dd className="text-sr-ink">{children}</dd>
     </div>
   );
 }
 
-const GARANTIAS = [
-  { icone: Truck, texto: `Frete grátis acima de ${precoBR(FRETE_GRATIS_ACIMA)}` },
-  { icone: RotateCcw, texto: "30 dias para trocar o tamanho" },
-  { icone: Shield, texto: "Pagamento seguro" },
-];
+/** Desenho das três medidas gravadas na haste. */
+function DiagramaMedidas({ lente, ponte, haste }: { lente: number; ponte: number; haste?: number | null }) {
+  return (
+    <figure className="mt-5 border border-sr-line bg-white p-5">
+      <svg viewBox="0 0 320 110" className="w-full max-w-sm text-sr-ink" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden>
+        <rect x="20" y="22" width="110" height="62" rx="18" />
+        <rect x="190" y="22" width="110" height="62" rx="18" />
+        <path d="M130 44c12-12 48-12 60 0" />
+        <g stroke="#998f7c" strokeDasharray="3 3">
+          <path d="M20 100h110M20 96v8M130 96v8" />
+          <path d="M136 12h48M136 8v8M184 8v8" />
+        </g>
+        <g fill="#6f6757" stroke="none" fontFamily="Montserrat, sans-serif" fontSize="11">
+          <text x="75" y="99" textAnchor="middle" dy="-6">{lente} mm</text>
+          <text x="160" y="9" textAnchor="middle">{ponte} mm</text>
+          {haste ? <text x="245" y="104" textAnchor="middle">haste {haste} mm</text> : null}
+        </g>
+      </svg>
+      <figcaption className="mt-3 text-[0.85rem] text-sr-ink-soft">
+        Largura da lente · ponte · haste. Compare com os números gravados na haste do óculos que você já usa.{" "}
+        <Link href="/tamanho-do-oculos" className="underline underline-offset-4">Como medir</Link>
+      </figcaption>
+    </figure>
+  );
+}
 
-/**
- * Página da peça.
- *
- * A galeria ocupa a coluna esquerda inteira e sangra até a borda: todas as
- * fotos empilhadas, sem miniatura e sem moldura. A coluna de compra fica
- * grudada à direita enquanto a cliente desce pelas fotos.
- */
 export default function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-  const [tamanho, setTamanho] = useState<string | null>(null);
-  const [cor, setCor] = useState<string | null>(null);
-  const [quantidade, setQuantidade] = useState(1);
+  const [varianteId, setVarianteId] = useState<number | null>(null);
+  const [foto, setFoto] = useState(0);
   const [bundles, setBundles] = useState<ApiBundle[]>([]);
   const [relacionados, setRelacionados] = useState<ProdutoCard[]>([]);
+  const [provadorAberto, setProvadorAberto] = useState(false);
+  const [grauAberto, setGrauAberto] = useState(false);
+  const [reservaAberta, setReservaAberta] = useState(false);
   const { addToCart, loading: cartLoading } = useCart();
   const { toast } = useToast();
   const analyticsOn = useAnalyticsReady();
 
-  // Metatags e JSON-LD da peça (REQ-5.1, REQ-5.4). Roda quando a peça carrega
-  // e some ao sair: sem a limpeza, o bloco Product da peça anterior ficaria no
-  // documento anunciando um preço que não é mais o da tela.
-  useEffect(() => {
-    if (!product) return;
-    const caminho = `/loja/produto/${product.slug}`;
-    const imagens = product.images.map(i => i.url);
-    aplicarSeo({
-      titulo: product.title,
-      descricao: (product.description || product.composition || product.title).slice(0, 300),
-      caminho,
-      imagem: imagens[0] ?? null,
-      tipo: "product",
-    });
-    aplicarJsonLdProduto({
-      nome: product.title,
-      descricao: product.description,
-      sku: product.sku,
-      imagens,
-      preco: product.price,
-      disponivel: product.stockQuantity > 0,
-      caminho,
-      marca: product.brand,
-    });
-    return () => removerJsonLdProduto();
-  }, [product]);
-
   useEffect(() => {
     setLoading(true);
-    setQuantidade(1);
-
+    setFoto(0);
     fetch(`/api/store/products/${slug}`)
-      // Sem checar r.ok, o JSON de erro {message} virava "product" e a página
-      // quebrava em branco ao ler product.variants de um produto inexistente.
       .then(r => (r.ok ? r.json() : null))
       .then((data: Product | null) => {
         setProduct(data);
         if (!data) return;
-        // Tamanho escolhido na grade do card da listagem (REQ-2.10). Só vale se
-        // existir variação ativa nele; `?tamanho=XG` inventado na URL cai no
-        // comportamento normal em vez de deixar a compra travada num tamanho
-        // que a peça não tem.
-        const pedido = new URLSearchParams(window.location.search).get("tamanho");
-        const daUrl = pedido
-          ? data.variants?.find(v => v.active && v.option1 === pedido)
-          : undefined;
-        // Pré-seleciona a primeira combinação com estoque
-        const disponivel =
-          daUrl ?? data.variants?.find(v => v.active && v.stockQuantity > 0) ?? data.variants?.[0];
-        setTamanho(disponivel?.option1 ?? null);
-        setCor(disponivel?.option2 ?? null);
+        const disponivel = data.variants?.find(v => v.active && v.stockQuantity > 0) ?? data.variants?.[0];
+        setVarianteId(disponivel?.id ?? null);
       })
-      .catch(() => {})
+      .catch(() => setProduct(null))
       .finally(() => setLoading(false));
 
     fetch(`/api/store/products/${slug}/related`)
@@ -249,6 +112,43 @@ export default function ProductDetailPage() {
       .catch(() => {});
   }, [slug]);
 
+  // SEO + JSON-LD Product (o servidor entrega o mesmo no HTML inicial)
+  useEffect(() => {
+    if (!product) return;
+    const caminho = `/loja/produto/${product.slug}`;
+    const imagens = product.images.map(i => i.url);
+    aplicarSeo({
+      titulo: `${product.title}${product.frameColor ? ` ${product.frameColor}` : ""}`,
+      descricao: (product.description || product.title).slice(0, 300),
+      caminho,
+      imagem: imagens[0] ?? null,
+      tipo: "product",
+    });
+    aplicarJsonLdProduto({
+      nome: product.title,
+      descricao: product.description,
+      sku: product.sku,
+      imagens,
+      preco: product.price,
+      disponivel: (product.stockQuantity ?? 0) > 0 || !!product.continueSellingOutOfStock,
+      caminho,
+      marca: product.brand ?? undefined,
+    });
+    definirContextoAssistente({
+      produto: {
+        slug: product.slug,
+        titulo: product.title,
+        marca: product.brand,
+        preco: product.price,
+        imagem: product.mainImage ?? imagens[0] ?? null,
+      },
+    });
+    return () => {
+      removerJsonLdProduto();
+      definirContextoAssistente({ produto: null });
+    };
+  }, [product]);
+
   useEffect(() => {
     if (product && analyticsOn) {
       trackViewItem({ slug: product.slug, name: product.title, price: Number(product.price) });
@@ -256,41 +156,18 @@ export default function ProductDetailPage() {
   }, [product, analyticsOn]);
 
   const ativos = useMemo(() => product?.variants?.filter(v => v.active) ?? [], [product]);
-  const tamanhos = useMemo(
-    () => Array.from(new Set(ativos.map(v => v.option1).filter((s): s is string => !!s))),
-    [ativos]
-  );
-  const cores = useMemo(
-    () => Array.from(new Set(ativos.map(v => v.option2).filter((c): c is string => !!c))),
-    [ativos]
-  );
-
-  // Variante = interseção das duas escolhas (ou o único eixo existente)
-  const variante = useMemo(() => {
-    if (!ativos.length) return null;
-    return (
-      ativos.find(
-        v => (!tamanhos.length || v.option1 === tamanho) && (!cores.length || v.option2 === cor)
-      ) ?? null
-    );
-  }, [ativos, tamanho, cor, tamanhos.length, cores.length]);
-
-  /** Um tamanho está disponível se existir variante com estoque na cor escolhida. */
-  const tamanhoDisponivel = (t: string) =>
-    ativos.some(v => v.option1 === t && (!cores.length || v.option2 === cor) && v.stockQuantity > 0);
-  const corDisponivel = (c: string) =>
-    ativos.some(v => v.option2 === c && v.stockQuantity > 0);
+  const variante = ativos.find(v => v.id === varianteId) ?? ativos[0] ?? null;
 
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <div className="grid lg:grid-cols-[1.12fr_1fr]">
-          <div className="aspect-fashion animate-pulse bg-vn-olive-100" />
-          <div className="space-y-4 px-4 py-10 md:px-8 lg:px-12">
-            <div className="h-9 w-3/4 animate-pulse bg-vn-olive-100" />
-            <div className="h-7 w-1/3 animate-pulse bg-vn-olive-100" />
-            <div className="h-24 animate-pulse bg-vn-olive-100" />
+        <div className="bleed grid gap-10 py-10 lg:grid-cols-[1.25fr_1fr]">
+          <div className="pedestal aspect-vitrine animate-pulse" />
+          <div className="space-y-4">
+            <div className="h-4 w-24 animate-pulse bg-sr-nude-100" />
+            <div className="h-9 w-3/4 animate-pulse bg-sr-nude-100" />
+            <div className="h-24 animate-pulse bg-sr-nude-100" />
           </div>
         </div>
       </div>
@@ -302,12 +179,13 @@ export default function ProductDetailPage() {
       <div className="min-h-screen bg-background">
         <Navbar />
         <main className="bleed py-28 text-center">
-          <h1 className="display-lg">Peça não encontrada</h1>
-          <p className="mx-auto mt-4 max-w-md font-sans text-vn-ink-soft">
-            Ela pode ter saído do catálogo. Veja o que temos agora.
+          <p className="eyebrow">Página não encontrada</p>
+          <h1 className="display-lg mt-4">Este óculos não está mais no site</h1>
+          <p className="mx-auto mt-4 max-w-md text-sr-ink-soft">
+            Pode ter saído do catálogo ou mudado de endereço. Veja os modelos disponíveis agora.
           </p>
           <Link href="/loja" className="btn-ink mt-8 no-underline">
-            Ver a loja
+            Ver os óculos
           </Link>
         </main>
         <Footer />
@@ -315,57 +193,38 @@ export default function ProductDetailPage() {
     );
   }
 
-  /*
-   * Galeria na ordem do catálogo, com uma exceção: se a variação escolhida tem
-   * foto própria, ela encabeça a pilha (REQ-3.5).
-   *
-   * A spec fala em "trocar a imagem principal", que pressupõe uma foto de
-   * destaque com miniaturas embaixo. Esta PDP empilha todas as fotos e não tem
-   * miniatura — não existe uma "principal" para substituir. Trazer a foto da
-   * cor para o topo é o que entrega o mesmo resultado neste layout: a cliente
-   * escolheu Preto, a primeira foto que ela vê é a peça preta.
-   */
-  // Sem useMemo de propósito: este ponto do componente fica DEPOIS dos returns
-  // de carregamento e de 404, e um hook aqui muda a contagem de hooks entre
-  // renders ("Rendered more hooks than during the previous render"). A lista
-  // tem no máximo algumas fotos — ordenar a cada render não custa nada.
-  const imagens = ordenarGaleria(product.images, variante?.imageUrl);
-  /*
-   * A chapa segue a proporção nativa das fotos do catálogo (3:4). Qualquer
-   * outra caixa faria o `object-cover` decepar a peça — que é justamente o
-   * que a cliente veio conferir aqui.
-   *
-   * No desktop a chapa é presa a uma fração da largura da janela e limitada
-   * a 44rem: ocupar a coluna inteira levaria a foto a mais de 800px e o
-   * original tem 523px de largura — passaria a borrar.
-   */
-  const classeChapa =
-    "plate aspect-fashion w-full shrink-0 snap-center lg:w-[min(42vw,44rem)]";
+  const imagens = [...product.images].sort((a, b) => a.position - b.position);
+  const fotoAtual = imagens[Math.min(foto, imagens.length - 1)];
 
-  const preco = variante?.price ?? product.price;
+  const preco = Number(variante?.price ?? product.price);
   const precoDe = variante?.compareAtPrice ?? product.compareAtPrice;
-  const estoque = variante?.stockQuantity ?? product.stockQuantity;
-  const emEstoque = estoque > 0;
-  const temDesconto = !!precoDe && Number(precoDe) > Number(preco);
-  const precisaEscolher = (tamanhos.length > 0 && !tamanho) || (cores.length > 0 && !cor);
+  const estoque = variante?.stockQuantity ?? product.stockQuantity ?? 0;
+  const vendivel = estoque > 0 || !!product.continueSellingOutOfStock;
+  const temDesconto = !!precoDe && Number(precoDe) > preco;
+  const nome = nomeSemMarca(product.title, product.brand);
+  const medida = medidaArmacao(product);
+  const unidadesComSaldo = UNIDADES.filter(u => (product.unidades?.[u.slug] ?? 0) > 0);
+  const lentes = [
+    product.lensPolarized && "polarizada",
+    product.lensMirrored && "espelhada",
+    product.lensGradient && "degradê",
+    product.lensPhotochromic && "fotossensível",
+  ].filter(Boolean);
+  const ehEpi = product.categoria?.slug === "epi" || !!product.caNumber;
 
-  const parcelas = 6;
-  const valorParcela = Number(preco) / 3;
+  const produtoResumo = {
+    id: product.id,
+    slug: product.slug,
+    title: product.title,
+    brand: product.brand,
+    price: String(preco),
+    mainImage: product.mainImage ?? imagens[0]?.url ?? null,
+  };
 
   const adicionar = async () => {
-    if (!variante && ativos.length) {
-      toast({ title: "Escolha tamanho e cor", variant: "destructive" });
-      return;
-    }
-    await addToCart(product.id, variante?.id ?? null, quantidade);
-    trackAddToCart({
-      slug: product.slug, name: product.title,
-      price: Number(preco), quantity: quantidade,
-    });
-    toast({
-      title: "Adicionado à sacola",
-      description: `${product.title}${variante ? ` · ${[variante.option1, variante.option2].filter(Boolean).join(" · ")}` : ""}`,
-    });
+    await addToCart(product.id, variante?.id ?? null, 1);
+    trackAddToCart({ slug: product.slug, name: product.title, price: preco, quantity: 1 });
+    toast({ title: "Adicionado à sacola", description: `${product.brand ?? ""} ${nome}`.trim() });
   };
 
   return (
@@ -373,308 +232,311 @@ export default function ProductDetailPage() {
       <Navbar />
 
       <main>
-        {/* A coluna da galeria encolhe até a largura da chapa (que vem da
-            altura da tela), então não sobra vão entre a foto e a compra. */}
-        <div className="grid lg:grid-cols-[max-content_minmax(0,1fr)]">
-          {/*
-            Galeria. No celular vira um carrossel que encaixa foto a foto;
-            no desktop, todas as chapas empilhadas sangrando à esquerda.
-          */}
-          {/* A galeria rola normalmente — só a coluna de compra fica grudada.
-              Uma chapa mais alta que a tela e sticky nunca revelaria o pé da
-              foto, que é onde está o comprimento da peça. */}
-          <div className="flex snap-x snap-mandatory gap-[var(--vn-gutter)] overflow-x-auto lg:grid lg:snap-none lg:grid-cols-1 lg:justify-items-start lg:gap-[var(--vn-gutter)] lg:overflow-visible">
-            {imagens.length > 0 ? (
-              imagens.map((img, i) => (
-                <div key={img.id} className={classeChapa}>
-                  <img
-                    src={img.url}
-                    alt={img.altText || `${product.title} — foto ${i + 1}`}
-                    width={523}
-                    height={697}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    fetchPriority={i === 0 ? "high" : undefined}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              ))
-            ) : (
-              <div className="plate aspect-fashion flex w-full items-center justify-center text-vn-olive-300">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden>
-                  <rect x="3" y="3" width="18" height="18" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <polyline points="21 15 16 10 5 21" />
-                </svg>
-              </div>
-            )}
-          </div>
-
-          {/* Compra — grudada enquanto a galeria rola. O `max-w` segura o
-              comprimento da linha de texto agora que a coluna é larga. */}
-          <div className="w-full max-w-3xl px-4 py-10 md:px-8 lg:sticky lg:top-[var(--vn-header)] lg:h-fit lg:px-12 lg:py-14 xl:px-16">
-            <nav aria-label="Você está em" className="eyebrow text-vn-ink-soft">
-              <Link href="/loja" className="text-vn-ink-soft no-underline hover:text-vn-ink">
-                Loja
+        <div className="bleed pt-6">
+          <nav aria-label="Trilha" className="text-[0.8rem] text-sr-ink-soft">
+            <Link href="/" className="no-underline hover:text-sr-ink">Início</Link>
+            <span className="mx-2 text-sr-nude-400">/</span>
+            {product.categoria ? (
+              <Link href={`/${product.categoria.slug}`} className="no-underline hover:text-sr-ink">
+                {product.categoria.name}
               </Link>
-              <span className="px-2" aria-hidden>
-                ·
-              </span>
-              <span className="text-vn-ink">{product.title}</span>
-            </nav>
-
-            <h1 className="display-md mt-5">{product.title}</h1>
-            {product.sku && (
-              <p className="mt-2 font-sans text-sm text-vn-ink-soft">Ref. {product.sku}</p>
+            ) : (
+              <Link href="/loja" className="no-underline hover:text-sr-ink">Óculos</Link>
             )}
+            {product.brand && (
+              <>
+                <span className="mx-2 text-sr-nude-400">/</span>
+                <Link href={`/marcas/${slugificar(product.brand)}`} className="no-underline hover:text-sr-ink">
+                  {product.brand}
+                </Link>
+              </>
+            )}
+          </nav>
+        </div>
 
-            <div className="rule mt-7 pt-6">
-              <div className="flex flex-wrap items-baseline gap-3">
-                <span className="font-display text-[1.875rem] text-vn-ink">{precoBR(preco)}</span>
-                {temDesconto && (
-                  <span className="font-sans text-base text-vn-ink-soft/60 line-through">
-                    {precoBR(precoDe!)}
-                  </span>
-                )}
+        <div className="bleed grid gap-10 pb-16 pt-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] xl:gap-16">
+          {/* Galeria */}
+          <section aria-label="Fotos">
+            <div className="pedestal aspect-vitrine">
+              {fotoAtual ? (
+                <img
+                  key={fotoAtual.url}
+                  src={fotoAtual.url}
+                  alt={fotoAtual.altText || `${product.title} — foto ${foto + 1}`}
+                  width={1200}
+                  height={960}
+                  fetchPriority="high"
+                  className={ehFotoEditorial(fotoAtual.url) ? "h-full w-full object-cover" : "produto h-full w-full p-[7%]"}
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center text-sr-nude-300">Sem foto</div>
+              )}
+              {product.tryonImageUrl && (
+                <button
+                  type="button"
+                  onClick={() => setProvadorAberto(true)}
+                  className="absolute bottom-4 right-4 inline-flex items-center gap-2 bg-sr-paper/95 px-4 py-2.5 nav-label text-sr-ink shadow-sm hover:bg-white"
+                >
+                  <ScanFace size={16} className="text-sr-gold-700" aria-hidden />
+                  Experimentar no rosto
+                </button>
+              )}
+            </div>
+            {imagens.length > 1 && (
+              <div className="mt-2 grid grid-cols-4 gap-2 sm:grid-cols-5">
+                {imagens.map((img, i) => (
+                  <button
+                    key={img.id}
+                    type="button"
+                    onClick={() => setFoto(i)}
+                    aria-label={`Ver foto ${i + 1}`}
+                    aria-current={i === foto ? "true" : undefined}
+                    className={`pedestal aspect-vitrine border ${i === foto ? "border-sr-ink" : "border-transparent hover:border-sr-nude-400"}`}
+                  >
+                    <img
+                      src={img.url}
+                      alt=""
+                      loading="lazy"
+                      className={ehFotoEditorial(img.url) ? "h-full w-full object-cover" : "produto h-full w-full p-2"}
+                    />
+                  </button>
+                ))}
               </div>
-              <p className="mt-2 font-sans text-[0.95rem] text-vn-ink-soft">
-                em até 3x de {precoBR(valorParcela)} sem juros · ou {parcelas}x com juros
-              </p>
-              <p className="mt-1 font-sans text-[0.95rem] font-semibold text-vn-olive-700">
-                {precoBR(Number(preco) - descontoPix(Number(preco)))} no PIX ({Math.round(PIX_DESCONTO * 100)}% de desconto)
+            )}
+          </section>
+
+          {/* Compra */}
+          <section aria-label="Comprar" className="lg:sticky lg:top-[calc(var(--sr-header)+3rem)] lg:h-fit">
+            {product.brand && (
+              <Link href={`/marcas/${slugificar(product.brand)}`} className="label-marca no-underline hover:text-sr-nude-600">
+                {product.brand}
+              </Link>
+            )}
+            <h1 className="mt-3 font-display text-[1.9rem] font-light leading-tight md:text-[2.3rem]">{nome}</h1>
+            <p className="mt-2 text-[0.92rem] text-sr-ink-soft dado">
+              {[product.modelCode, product.frameColor, product.lensColor && `lente ${product.lensColor}`].filter(Boolean).join(" · ")}
+            </p>
+
+            <div className="mt-6 border-y border-sr-line py-5">
+              <div className="flex flex-wrap items-baseline gap-3">
+                {temDesconto && <span className="text-sr-nude-600 line-through">{precoBR(precoDe!)}</span>}
+                <span className="font-display text-[1.75rem] font-normal">{precoBR(preco)}</span>
+              </div>
+              <p className="mt-1 text-[0.9rem] text-sr-ink-soft">
+                em até 10x de {parcela(preco)} sem juros ou{" "}
+                <strong className="font-medium text-sr-ink">{precoBR(preco - descontoPix(preco))} no PIX</strong>
               </p>
             </div>
 
-            {/* Cor */}
-            {cores.length > 0 && (
-              <fieldset className="mt-8">
-                <legend className="eyebrow">
-                  Cor — <span className="normal-case tracking-normal text-vn-ink">{cor}</span>
-                </legend>
-                <ul className="mt-4 flex flex-wrap gap-2.5">
-                  {cores.map(c => {
-                    const disponivel = corDisponivel(c);
-                    return (
-                      <li key={c}>
-                        <button
-                          onClick={() => setCor(c)}
-                          aria-pressed={cor === c}
-                          title={disponivel ? c : `${c} — esgotado`}
-                          className={`flex h-11 w-11 items-center justify-center border transition-colors ${
-                            cor === c ? "border-vn-ink" : "border-transparent hover:border-vn-olive-300"
-                          } ${disponivel ? "" : "opacity-40"}`}
-                        >
-                          <span
-                            aria-hidden
-                            className="h-7 w-7 border border-vn-olive-200"
-                            style={{ background: corHex(c) }}
-                          />
-                          {/* O leitor de tela precisa ouvir a indisponibilidade —
-                              a opacidade sozinha só comunica a quem enxerga. */}
-                          <span className="sr-only">{disponivel ? c : `${c} — esgotado`}</span>
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </fieldset>
-            )}
-
-            {/* Tamanho */}
-            {tamanhos.length > 0 && (
-              <fieldset className="mt-8">
-                <div className="flex items-center justify-between gap-3">
-                  <legend className="eyebrow">Tamanho</legend>
-                  <Link
-                    href="/guia-de-medidas"
-                    className="nav-label text-vn-olive-600 underline underline-offset-4"
-                  >
-                    Guia de medidas
-                  </Link>
+            {ativos.length > 1 && (
+              <div className="mt-6">
+                <p className="nav-label">Cor</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {ativos.map(v => (
+                    <button
+                      key={v.id}
+                      type="button"
+                      onClick={() => setVarianteId(v.id)}
+                      aria-pressed={v.id === variante?.id}
+                      className={`flex items-center gap-2 border px-3 py-2 text-[0.85rem] ${v.id === variante?.id ? "border-sr-ink" : "border-sr-line bg-white"}`}
+                    >
+                      <span className="h-4 w-4 rounded-full border border-black/10" style={{ background: corHex(v.option2 ?? "") }} aria-hidden />
+                      {v.option2 ?? v.option1}
+                    </button>
+                  ))}
                 </div>
-                <ul className="mt-4 flex flex-wrap gap-2">
-                  {tamanhos.map(t => {
-                    const disponivel = tamanhoDisponivel(t);
-                    return (
-                      <li key={t}>
-                        <button
-                          onClick={() => setTamanho(t)}
-                          aria-pressed={tamanho === t}
-                          disabled={!disponivel}
-                          title={disponivel ? t : `${t} — esgotado nesta cor`}
-                          className={`min-h-12 min-w-14 border px-3 font-sans font-medium transition-colors ${
-                            tamanho === t
-                              ? "border-vn-ink bg-vn-ink text-vn-ice"
-                              : "border-vn-olive-200 text-vn-ink hover:border-vn-ink"
-                          } ${disponivel ? "" : "cursor-not-allowed text-vn-ink-soft/50 line-through"}`}
-                        >
-                          {t}
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </fieldset>
+              </div>
             )}
 
-            {/* Disponibilidade */}
-            <p className="mt-6 font-sans text-[0.95rem]" aria-live="polite">
-              {precisaEscolher ? (
-                <span className="text-vn-ink-soft">Escolha tamanho e cor para continuar.</span>
-              ) : emEstoque ? (
-                <span className="font-medium text-vn-olive-700">
-                  {estoque <= 3
-                    ? `Últimas ${estoque} peças nesta combinação`
-                    : "Disponível para envio imediato"}
-                </span>
-              ) : (
-                <span className="font-medium text-vn-wine">
-                  Esgotado nesta combinação — tente outro tamanho ou cor.
-                </span>
+            {/* Disponibilidade por loja */}
+            <div className="mt-6 space-y-1.5 text-[0.9rem]">
+              {UNIDADES.map(u => {
+                const qtd = product.unidades?.[u.slug] ?? 0;
+                return (
+                  <p key={u.slug} className="flex items-center gap-2.5">
+                    <span className={`h-2 w-2 rounded-full ${qtd > 0 ? "bg-sr-ok" : "bg-sr-nude-300"}`} aria-hidden />
+                    <span className="text-sr-ink">{u.cidade}</span>
+                    <span className="text-sr-ink-soft">{qtd > 0 ? "— pronta entrega na loja" : "— sob consulta"}</span>
+                  </p>
+                );
+              })}
+            </div>
+
+            <div className="mt-7 grid gap-2.5">
+              <button onClick={adicionar} disabled={!vendivel || cartLoading} className="btn-ink w-full">
+                {vendivel ? "Adicionar à sacola" : "Indisponível no site"}
+              </button>
+              {product.acceptsRx && (
+                <button onClick={() => setGrauAberto(true)} className="btn-line w-full">
+                  Comprar com lentes de grau
+                </button>
               )}
-            </p>
-
-            {/* Quantidade + sacola */}
-            <div className="mt-6 flex flex-wrap items-stretch gap-3">
-              <div className="flex items-center border border-vn-olive-200">
-                <button
-                  onClick={() => setQuantidade(q => Math.max(1, q - 1))}
-                  className="flex h-12 w-12 items-center justify-center text-xl text-vn-ink hover:bg-vn-olive-50"
-                  aria-label="Diminuir quantidade"
-                >
-                  −
+              {product.tryonImageUrl && (
+                <button onClick={() => setProvadorAberto(true)} className="btn-gold w-full">
+                  <ScanFace size={17} aria-hidden />
+                  Experimentar no provador virtual
                 </button>
-                <span className="w-10 text-center font-sans font-medium tabular-nums" aria-live="polite">
-                  {quantidade}
-                </span>
-                <button
-                  onClick={() => setQuantidade(q => Math.min(Math.max(estoque, 1), q + 1))}
-                  className="flex h-12 w-12 items-center justify-center text-xl text-vn-ink hover:bg-vn-olive-50"
-                  aria-label="Aumentar quantidade"
-                >
-                  +
-                </button>
-              </div>
-
-              <button
-                onClick={adicionar}
-                disabled={!emEstoque || cartLoading || precisaEscolher}
-                className="btn-ink flex-1 disabled:cursor-not-allowed disabled:opacity-40 sm:min-w-56"
-              >
-                {emEstoque ? "Adicionar à sacola" : "Esgotado"}
+              )}
+            </div>
+            <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2">
+              <button onClick={() => setReservaAberta(true)} className="link-rule">
+                Reservar para provar na loja
+              </button>
+              <button onClick={() => abrirAssistente(`Tenho uma dúvida sobre o ${product.title}.`)} className="link-rule">
+                Tirar dúvida
               </button>
             </div>
 
-            <ProvadorVirtual
-              productId={product.id}
-              variantId={variante?.id ?? null}
-              corLabel={cor}
-            />
-
-            <a
-              href={whatsappCom(`Oi! Tenho dúvida sobre a peça "${product.title}".`)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-rule mt-8 text-vn-olive-600"
-            >
-              Dúvida no tamanho? Fale com a gente
-            </a>
-
-            {product.description && (
-              <div className="rule mt-9 pt-7">
-                <h2 className="eyebrow">Sobre a peça</h2>
-                <p className="mt-4 font-sans text-[1.0625rem] leading-relaxed text-vn-ink-soft">
-                  {product.description}
-                </p>
-              </div>
-            )}
-
-            {product.composition && (
-              <div className="rule mt-9 pt-7">
-                <h2 className="eyebrow">Composição e cuidados</h2>
-                <p className="mt-4 font-sans text-[1.0625rem] leading-relaxed text-vn-ink-soft">
-                  {product.composition}
-                </p>
-              </div>
-            )}
-
-            <TabelaDeMedidas medidas={product.measurements} tamanhoAtual={tamanho} />
-
-            <ul className="rule mt-9 space-y-3 pt-7">
-              {GARANTIAS.map(g => (
-                <li
-                  key={g.texto}
-                  className="flex items-center gap-3 font-sans text-[0.95rem] text-vn-ink-soft"
-                >
-                  <g.icone size={17} className="shrink-0 text-vn-olive-600" aria-hidden />
-                  {g.texto}
-                </li>
-              ))}
+            <ul className="mt-8 grid gap-3 border-t border-sr-line pt-6 text-[0.88rem] text-sr-ink-soft">
+              <li className="flex gap-3"><Store size={17} className="mt-0.5 shrink-0 text-sr-nude-600" aria-hidden />Retirada grátis em Cravinhos ou Ribeirão Preto, ou entrega pelo correio.</li>
+              <li className="flex gap-3"><ShieldCheck size={17} className="mt-0.5 shrink-0 text-sr-nude-600" aria-hidden />Produto original, com nota fiscal e garantia do fabricante.</li>
+              <li className="flex gap-3"><Receipt size={17} className="mt-0.5 shrink-0 text-sr-nude-600" aria-hidden />Ajuste de armação gratuito nas lojas.</li>
             </ul>
-          </div>
+          </section>
         </div>
+
+        {/* Ficha técnica + descrição */}
+        <section className="border-t border-sr-line bg-white">
+          <div className="bleed grid gap-12 py-16 lg:grid-cols-2 lg:gap-20">
+            <div>
+              <p className="eyebrow">Ficha técnica</p>
+              <dl className="mt-5 border-t border-sr-line">
+                {product.brand && <Linha rotulo="Marca">{product.brand}</Linha>}
+                {product.modelCode && <Linha rotulo="Modelo"><span className="dado">{product.modelCode}</span></Linha>}
+                {product.frameShape && <Linha rotulo="Formato">{rotulo(FORMATOS, product.frameShape)}</Linha>}
+                {product.frameMaterial && <Linha rotulo="Material">{rotulo(MATERIAIS, product.frameMaterial)}</Linha>}
+                {product.frameColor && <Linha rotulo="Cor da armação">{product.frameColor}</Linha>}
+                {product.lensColor && (
+                  <Linha rotulo="Lente">
+                    {product.lensColor}
+                    {lentes.length > 0 && <span className="text-sr-ink-soft"> · {lentes.join(", ")}</span>}
+                  </Linha>
+                )}
+                {product.uvProtection && <Linha rotulo="Proteção">{product.uvProtection}</Linha>}
+                {medida && <Linha rotulo="Medidas"><span className="dado">{medida}</span></Linha>}
+                {product.lensHeightMm && <Linha rotulo="Altura da lente"><span className="dado">{product.lensHeightMm} mm</span></Linha>}
+                {product.audience && <Linha rotulo="Para quem">{rotulo(PUBLICOS, product.audience)}</Linha>}
+                <Linha rotulo="Lente de grau">{product.acceptsRx ? "Aceita — a consultora monta com a sua receita" : "Não indicado"}</Linha>
+                {ehEpi && product.caNumber && <Linha rotulo="CA">{product.caNumber}</Linha>}
+                {ehEpi && product.safetyNorms && <Linha rotulo="Norma">{product.safetyNorms}</Linha>}
+              </dl>
+              {product.lensWidthMm && product.bridgeMm && (
+                <DiagramaMedidas lente={product.lensWidthMm} ponte={product.bridgeMm} haste={product.templeMm} />
+              )}
+            </div>
+            <div>
+              <p className="eyebrow">Sobre este modelo</p>
+              <div className="mt-5 max-w-prose space-y-4 text-[1.02rem] leading-relaxed text-sr-ink">
+                {(product.description ?? "").split(/\n{2,}/).filter(Boolean).map((par, i) => (
+                  <p key={i}>{par}</p>
+                ))}
+              </div>
+              {product.acceptsRx && (
+                <div className="mt-10 border-l-2 border-sr-gold pl-5">
+                  <p className="nav-label">Com lentes de grau</p>
+                  <p className="mt-2 text-[0.95rem] text-sr-ink-soft">
+                    Você escolhe a armação e envia a receita. A consultora confere, indica as lentes e manda o orçamento
+                    pelo WhatsApp — nada é cobrado antes da sua confirmação.
+                  </p>
+                  <button onClick={() => setGrauAberto(true)} className="link-rule mt-4">
+                    Pedir orçamento com esta armação
+                  </button>
+                </div>
+              )}
+              <div className="mt-10 flex flex-wrap gap-3">
+                <a
+                  href={whatsappCom(`Olá! Vim pelo site da Sanrê. Tenho interesse no ${product.title}${product.frameColor ? ` (${product.frameColor})` : ""}: ${window.location.origin}/loja/produto/${product.slug}`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-whats"
+                >
+                  <MessageCircle size={16} aria-hidden />
+                  Falar no WhatsApp
+                </a>
+              </div>
+              {unidadesComSaldo.length > 0 && (
+                <p className="mt-6 text-[0.88rem] text-sr-ink-soft">
+                  Para ver ao vivo: {unidadesComSaldo.map(u => u.cidade).join(" e ")}. Reserve antes e o óculos fica separado para você.
+                </p>
+              )}
+            </div>
+          </div>
+        </section>
 
         {bundles.length > 0 && (
-          <div className="bleed pt-16">
+          <section className="bleed py-12">
             {bundles.map(b => (
-              <BundleOffer key={b.id} bundle={b} primaryColor="#34372e" />
+              <BundleOffer key={b.id} bundle={b} primaryColor="#141414" />
             ))}
-          </div>
+          </section>
         )}
 
-        <div className="bleed pt-12">
-          <ReviewsSection slug={product.slug} primaryColor="#34372e" />
-        </div>
+        <section className="bleed py-12">
+          <ReviewsSection slug={product.slug} primaryColor="#141414" />
+        </section>
 
         {relacionados.length > 0 && (
-          <section className="bleed py-16 md:py-24">
-            <header className="rule pt-6">
-              <p className="eyebrow">Combina com</p>
-              <h2 className="display-md mt-2.5">Complete o look</h2>
-            </header>
-            <ul className="grid-vitrine mt-9">
-              {relacionados.slice(0, 4).map(p => (
-                <li key={p.id}>
-                  <ProductCard product={p} />
-                </li>
-              ))}
-            </ul>
+          <section className="border-t border-sr-line py-16">
+            <div className="bleed">
+              <p className="eyebrow">Na mesma linha</p>
+              <h2 className="display-md mt-3">Outros modelos para comparar</h2>
+              <div className="grid-vitrine mt-10">
+                {relacionados.slice(0, 4).map(p => (
+                  <ProductCard key={p.id} product={p} />
+                ))}
+              </div>
+            </div>
           </section>
         )}
       </main>
-
-      {/* SEO: dados estruturados do produto */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: product.title,
-            description: product.description,
-            sku: product.sku,
-            brand: { "@type": "Brand", name: "Vivi Nosralla" },
-            image: imagens.map(i => i.url),
-            offers: {
-              "@type": "Offer",
-              price: Number(preco),
-              priceCurrency: "BRL",
-              availability: emEstoque
-                ? "https://schema.org/InStock"
-                : "https://schema.org/OutOfStock",
-            },
-            ...(Number((product as any).ratingCount) > 0 && {
-              aggregateRating: {
-                "@type": "AggregateRating",
-                ratingValue: (product as any).ratingAvg,
-                reviewCount: (product as any).ratingCount,
-              },
-            }),
-          }),
-        }}
-      />
-
       <Footer />
-      <WhatsAppFloat />
+
+      {provadorAberto && product.tryonImageUrl && (
+        <Suspense fallback={null}>
+          <ProvadorAR
+            modo="modal"
+            inicial={product.slug}
+            onFechar={() => setProvadorAberto(false)}
+            oculos={[
+              {
+                id: product.id,
+                slug: product.slug,
+                title: product.title,
+                brand: product.brand,
+                price: String(preco),
+                tryonImageUrl: product.tryonImageUrl,
+                lensWidthMm: product.lensWidthMm,
+                bridgeMm: product.bridgeMm,
+                templeMm: product.templeMm,
+                frameShape: product.frameShape,
+                mainImage: produtoResumo.mainImage,
+              },
+              ...relacionados
+                .filter(r => r.tryonImageUrl)
+                .map(r => ({
+                  id: r.id,
+                  slug: r.slug,
+                  title: r.title,
+                  brand: r.brand,
+                  price: r.price,
+                  tryonImageUrl: r.tryonImageUrl!,
+                  lensWidthMm: r.lensWidthMm,
+                  bridgeMm: r.bridgeMm,
+                  templeMm: r.templeMm,
+                  frameShape: r.frameShape,
+                  mainImage: r.mainImage,
+                })),
+            ]}
+          />
+        </Suspense>
+      )}
+      <FluxoGrau aberto={grauAberto} onFechar={() => setGrauAberto(false)} produto={produtoResumo} />
+      <ReservaDialog
+        aberto={reservaAberta}
+        onFechar={() => setReservaAberta(false)}
+        produto={produtoResumo}
+        unidadesDisponiveis={unidadesComSaldo.map(u => u.slug)}
+      />
     </div>
   );
 }

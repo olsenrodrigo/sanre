@@ -19,7 +19,7 @@ function Stars({ value, size = 16 }: { value: number; size?: number }) {
   return (
     <span className="inline-flex">
       {Array.from({ length: 5 }).map((_, i) => (
-        <Star key={i} size={size} className={i + 1 <= Math.round(value) ? "text-amber-400" : "text-vn-olive-200"} fill={i + 1 <= Math.round(value) ? "currentColor" : "none"} />
+        <Star key={i} size={size} className={i + 1 <= Math.round(value) ? "text-amber-400" : "text-sr-nude-200"} fill={i + 1 <= Math.round(value) ? "currentColor" : "none"} />
       ))}
     </span>
   );
@@ -74,11 +74,11 @@ export default function ReviewsSection({ slug, primaryColor = "#5B8C9B" }: { slu
           {count > 0 ? (
             <div className="mt-2 flex items-center gap-2">
               <Stars value={aggregate!.average} size={18} />
-              <span className="text-lg font-semibold text-vn-ink">{aggregate!.average.toFixed(1)}</span>
-              <span className="text-sm text-vn-ink-soft">({count})</span>
+              <span className="text-lg font-semibold text-sr-ink">{aggregate!.average.toFixed(1)}</span>
+              <span className="text-sm text-sr-ink-soft">({count})</span>
             </div>
           ) : (
-            <p className="mt-2 text-sm text-vn-ink-soft">Ainda não há avaliações. Seja o primeiro!</p>
+            <p className="mt-2 text-sm text-sr-ink-soft">Ainda não há avaliações. Seja o primeiro!</p>
           )}
         </div>
         {enabled && (
@@ -88,7 +88,7 @@ export default function ReviewsSection({ slug, primaryColor = "#5B8C9B" }: { slu
         )}
       </div>
 
-      {done && <p className="mt-4 bg-vn-olive-50 px-4 py-3 text-sm text-vn-olive-800">{done === "pending" ? "Obrigado! Sua avaliação aparecerá após moderação." : "Obrigado pela sua avaliação!"}</p>}
+      {done && <p className="mt-4 bg-sr-nude-50 px-4 py-3 text-sm text-sr-nude-800">{done === "pending" ? "Obrigado! Sua avaliação aparecerá após moderação." : "Obrigado pela sua avaliação!"}</p>}
       {error && <p className="mt-4 bg-red-50 px-4 py-3 text-sm text-red-600">Não foi possível enviar. Tente novamente.</p>}
 
       {count > 0 && (
@@ -98,11 +98,11 @@ export default function ReviewsSection({ slug, primaryColor = "#5B8C9B" }: { slu
             const pct = count ? Math.round((n / count) * 100) : 0;
             return (
               <div key={star} className="flex items-center gap-3 text-sm">
-                <span className="w-8 text-vn-ink-soft">{star}★</span>
-                <div className="h-2 flex-1 overflow-hidden bg-vn-olive-100">
-                  <div className="h-full bg-vn-olive-500" style={{ width: `${pct}%` }} />
+                <span className="w-8 text-sr-ink-soft">{star}★</span>
+                <div className="h-2 flex-1 overflow-hidden bg-sr-nude-100">
+                  <div className="h-full bg-sr-nude-500" style={{ width: `${pct}%` }} />
                 </div>
-                <span className="w-8 text-right text-xs text-vn-ink-soft">{n}</span>
+                <span className="w-8 text-right text-xs text-sr-ink-soft">{n}</span>
               </div>
             );
           })}
@@ -110,12 +110,12 @@ export default function ReviewsSection({ slug, primaryColor = "#5B8C9B" }: { slu
       )}
 
       {enabled && showForm && (
-        <div className="mt-6 border border-vn-olive-200 bg-white p-5">
+        <div className="mt-6 border border-sr-nude-200 bg-white p-5">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-vn-ink">Sua nota:</span>
+            <span className="text-sm font-semibold text-sr-ink">Sua nota:</span>
             {Array.from({ length: 5 }).map((_, i) => (
               <button key={i} type="button" onClick={() => setForm((f) => ({ ...f, rating: i + 1 }))}>
-                <Star size={22} className={i + 1 <= form.rating ? "text-amber-400" : "text-vn-olive-200"} fill={i + 1 <= form.rating ? "currentColor" : "none"} />
+                <Star size={22} className={i + 1 <= form.rating ? "text-amber-400" : "text-sr-nude-200"} fill={i + 1 <= form.rating ? "currentColor" : "none"} />
               </button>
             ))}
           </div>
@@ -124,7 +124,7 @@ export default function ReviewsSection({ slug, primaryColor = "#5B8C9B" }: { slu
             <Input value={form.authorEmail} onChange={(e) => setForm((f) => ({ ...f, authorEmail: e.target.value }))} placeholder="E-mail (opcional)" />
           </div>
           <Input value={form.orderNumber} onChange={(e) => setForm((f) => ({ ...f, orderNumber: e.target.value }))} placeholder="Nº do pedido (opcional, verifica a compra)" className="mt-3" />
-          <textarea value={form.comment} onChange={(e) => setForm((f) => ({ ...f, comment: e.target.value }))} placeholder="Conte como foi sua experiência..." rows={4} className="mt-3 w-full border border-vn-olive-200 px-3 py-2 text-sm" />
+          <textarea value={form.comment} onChange={(e) => setForm((f) => ({ ...f, comment: e.target.value }))} placeholder="Conte como foi sua experiência..." rows={4} className="mt-3 w-full border border-sr-nude-200 px-3 py-2 text-sm" />
           <input value={form.website} onChange={(e) => setForm((f) => ({ ...f, website: e.target.value }))} tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
           <div className="mt-4 flex gap-2">
             <Button variant="outline" className="rounded-none" onClick={() => setShowForm(false)}>Cancelar</Button>
@@ -135,21 +135,21 @@ export default function ReviewsSection({ slug, primaryColor = "#5B8C9B" }: { slu
 
       <div className="mt-8 space-y-4">
         {reviews.map((r) => (
-          <div key={r.id} className="border border-vn-olive-200 bg-white p-4">
+          <div key={r.id} className="border border-sr-nude-200 bg-white p-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Stars value={r.rating} size={14} />
-                <span className="font-semibold text-vn-ink">{r.authorName}</span>
-                {r.verifiedPurchase && <span className="inline-flex items-center gap-1 text-xs font-medium text-vn-olive-700"><BadgeCheck size={13} /> Compra verificada</span>}
+                <span className="font-semibold text-sr-ink">{r.authorName}</span>
+                {r.verifiedPurchase && <span className="inline-flex items-center gap-1 text-xs font-medium text-sr-nude-700"><BadgeCheck size={13} /> Compra verificada</span>}
               </div>
-              <span className="text-xs text-vn-ink-soft">{new Date(r.createdAt).toLocaleDateString("pt-BR")}</span>
+              <span className="text-xs text-sr-ink-soft">{new Date(r.createdAt).toLocaleDateString("pt-BR")}</span>
             </div>
-            {r.title && <p className="mt-2 font-semibold text-vn-ink">{r.title}</p>}
-            {r.comment && <p className="mt-1 text-sm text-vn-ink-soft">{r.comment}</p>}
+            {r.title && <p className="mt-2 font-semibold text-sr-ink">{r.title}</p>}
+            {r.comment && <p className="mt-1 text-sm text-sr-ink-soft">{r.comment}</p>}
             {r.adminReply && (
-              <div className="mt-3 bg-vn-olive-50 p-3 text-sm">
-                <span className="font-semibold text-vn-ink">Resposta da loja: </span>
-                <span className="text-vn-ink-soft">{r.adminReply}</span>
+              <div className="mt-3 bg-sr-nude-50 p-3 text-sm">
+                <span className="font-semibold text-sr-ink">Resposta da loja: </span>
+                <span className="text-sr-ink-soft">{r.adminReply}</span>
               </div>
             )}
           </div>

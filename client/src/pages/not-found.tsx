@@ -1,21 +1,26 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle } from "lucide-react";
+import { Link } from "wouter";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import { TIPOS } from "@/lib/oculos";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md mx-4">
-        <CardContent className="pt-6">
-          <div className="flex mb-4 gap-2">
-            <AlertCircle className="h-8 w-8 text-red-500" />
-            <h1 className="text-2xl font-bold text-gray-900">404 Page Not Found</h1>
-          </div>
-
-          <p className="mt-4 text-sm text-gray-600">
-            Did you forget to add the page to the router?
-          </p>
-        </CardContent>
-      </Card>
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <main className="bleed py-24 text-center md:py-32">
+        <p className="eyebrow">Erro 404</p>
+        <h1 className="display-lg mt-4">Esta página não está na vitrine</h1>
+        <p className="mx-auto mt-5 max-w-md text-sr-ink-soft">
+          O endereço pode ter mudado ou o óculos saiu do catálogo. Comece por aqui:
+        </p>
+        <div className="mt-9 flex flex-wrap justify-center gap-3">
+          {TIPOS.map(t => (
+            <Link key={t.slug} href={t.rota} className="btn-line">{t.titulo}</Link>
+          ))}
+        </div>
+        <Link href="/" className="link-rule mt-10">Voltar ao início</Link>
+      </main>
+      <Footer />
     </div>
   );
 }

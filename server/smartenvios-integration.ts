@@ -124,6 +124,23 @@ export async function createLabelForOrder(orderId: number, nfeKey?: string) {
   return { order: seOrder, label };
 }
 
+/**
+ * Cotação feita pelo SERVIDOR para conferir o frete do checkout. O valor que
+ * vem do navegador não é confiável (dava para enviar Sedex com frete zero):
+ * o pedido usa o preço desta cotação para o serviço escolhido.
+ */
+export async function cotarFreteServidor(
+  zipTo: string,
+  items: { productId: number; quantity: number; unitPrice: number | string }[],
+  subtotal: number,
+) {
+  const c = cfg();
+  const vols = await buildVolumes(items);
+  if (!vols.length) return [];
+  const services = await quoteFreight(c, { zipFrom: c.sender.zipcode, zipTo, volumes: vols, totalPrice: subtotal });
+  return priceQuotes(c, services, subtotal);
+}
+
 export function registerShippingRoutes(app: Express) {
   // Cotação de frete (usada no checkout — token fica no servidor)
   app.post("/api/shipping/quote", async (req, res) => {

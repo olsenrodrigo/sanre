@@ -1,13 +1,24 @@
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
+import { Link } from "wouter";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import WhatsAppFloat from "@/components/layout/WhatsAppFloat";
-import { CIDADE, EMAIL, INSTAGRAM_HANDLE, INSTAGRAM_URL, WHATSAPP_LABEL, WHATSAPP_URL } from "@/lib/marca";
+import { abrirAssistente } from "@/components/assistente/contexto";
+import { aplicarSeo } from "@/lib/seo";
+import { EMAIL, INSTAGRAM_HANDLE, INSTAGRAM_URL, WHATSAPP_LABEL, whatsappCom } from "@/lib/marca";
+import { UNIDADES } from "@shared/unidades";
 
 type Status = "idle" | "sending" | "success" | "error";
 
 export default function ContatoPage() {
   const [status, setStatus] = useState<Status>("idle");
+
+  useEffect(() => {
+    aplicarSeo({
+      titulo: "Contato",
+      descricao: `WhatsApp ${WHATSAPP_LABEL}, e-mail ${EMAIL} e as lojas de Cravinhos e Ribeirão Preto.`,
+      caminho: "/contato",
+    });
+  }, []);
 
   async function enviar(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -20,7 +31,6 @@ export default function ContatoPage() {
       email: String(form.get("email") ?? ""),
       message: String(form.get("message") ?? ""),
     };
-
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -35,53 +45,67 @@ export default function ContatoPage() {
     }
   }
 
-  const inputClass = "mt-2 min-h-12 w-full  border border-vn-olive-200 bg-white px-4 py-3 text-vn-ink";
+  const campo = "mt-2 min-h-12 w-full border border-sr-line bg-white px-4 py-3 text-sr-ink";
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main>
-        <section className="bleed py-16 md:py-24">
-          <div className="w-full">
-            <p className="eyebrow">Fale com a gente</p>
-            <h1 className="display-hero mt-5 max-w-4xl text-balance">Estamos por perto</h1>
-            <p className="mt-6 max-w-2xl text-[1.125rem] text-vn-ink-soft">
-              Para escolher uma peça, conferir medidas ou acompanhar um pedido, conte com um atendimento próximo e acolhedor.
-            </p>
+      <main className="bleed pb-24 pt-12 md:pt-16">
+        <p className="eyebrow">Fale com a gente</p>
+        <h1 className="display-lg mt-4 traco">Contato</h1>
 
-            <div className="mt-12 grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-              <section aria-labelledby="canais-titulo">
-                <h2 id="canais-titulo" className="display-md">Nossos canais</h2>
-                <ul className="mt-6 space-y-4 text-[1.0625rem] text-vn-ink-soft">
-                  <li><strong className="block text-vn-ink">WhatsApp de vendas</strong><a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-vn-olive-700 underline">{WHATSAPP_LABEL}</a></li>
-                  <li><strong className="block text-vn-ink">Instagram</strong><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-vn-olive-700 underline">{INSTAGRAM_HANDLE}</a></li>
-                  <li><strong className="block text-vn-ink">E-mail</strong><a href={`mailto:${EMAIL}`} className="inline-flex min-h-11 items-center break-all text-vn-olive-700 underline">{EMAIL}</a></li>
-                  <li><strong className="block text-vn-ink">Onde estamos</strong><span className="inline-flex min-h-11 items-center">{CIDADE}</span></li>
-                </ul>
-              </section>
-
-              <section className="bg-alt p-6 md:p-10" aria-labelledby="mensagem-titulo">
-                <h2 id="mensagem-titulo" className="display-md">Envie uma mensagem</h2>
-                <form onSubmit={enviar} className="mt-7 space-y-5">
-                  <div><label htmlFor="contact-name" className="font-semibold text-vn-ink">Nome</label><input id="contact-name" name="name" required autoComplete="name" className={inputClass} /></div>
-                  <div><label htmlFor="contact-phone" className="font-semibold text-vn-ink">Telefone ou WhatsApp</label><input id="contact-phone" name="phone" required type="tel" autoComplete="tel" className={inputClass} /></div>
-                  <div><label htmlFor="contact-email" className="font-semibold text-vn-ink">E-mail</label><input id="contact-email" name="email" required type="email" autoComplete="email" className={inputClass} /></div>
-                  <div><label htmlFor="contact-message" className="font-semibold text-vn-ink">Como podemos ajudar?</label><textarea id="contact-message" name="message" required rows={5} className={inputClass} /></div>
-                  <button type="submit" disabled={status === "sending"} className="btn-ink disabled:cursor-not-allowed disabled:opacity-60">
-                    {status === "sending" ? "Enviando…" : "Enviar mensagem"}
-                  </button>
-                  <p aria-live="polite" className={`min-h-6 text-[1rem] ${status === "error" ? "text-destructive" : "text-vn-olive-700"}`}>
-                    {status === "success" && "Mensagem enviada. Em breve, nossa equipe falará com você."}
-                    {status === "error" && "Não foi possível enviar agora. Tente novamente ou fale conosco pelo WhatsApp."}
-                  </p>
-                </form>
-              </section>
+        <div className="mt-12 grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+          <div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <a href={whatsappCom("Olá! Vim pelo site da Sanrê e queria atendimento.")} target="_blank" rel="noopener noreferrer" className="btn-whats">
+                WhatsApp {WHATSAPP_LABEL}
+              </a>
+              <button onClick={() => abrirAssistente()} className="btn-line">Conversar aqui no site</button>
             </div>
+            <dl className="mt-10 border-t border-sr-line">
+              <div className="border-b border-sr-line py-4">
+                <dt className="nav-label">E-mail</dt>
+                <dd className="mt-1"><a href={`mailto:${EMAIL}`} className="break-all underline underline-offset-4">{EMAIL}</a></dd>
+              </div>
+              <div className="border-b border-sr-line py-4">
+                <dt className="nav-label">Instagram</dt>
+                <dd className="mt-1"><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">{INSTAGRAM_HANDLE}</a></dd>
+              </div>
+              {UNIDADES.map(u => (
+                <div key={u.slug} className="border-b border-sr-line py-4">
+                  <dt className="nav-label">Loja {u.cidade}</dt>
+                  <dd className="mt-1 text-sr-ink-soft">
+                    {u.logradouro}{u.complemento ? ` — ${u.complemento}` : ""}, {u.bairro}, {u.cidade}/{u.uf} ·{" "}
+                    <Link href={`/unidades/${u.slug}`} className="underline underline-offset-4">ver a loja</Link>
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
-        </section>
+
+          <section className="campos-retos border border-sr-line bg-white p-6 md:p-10" aria-labelledby="mensagem-titulo">
+            <h2 id="mensagem-titulo" className="display-md">Envie uma mensagem</h2>
+            <p className="mt-3 text-[0.92rem] text-sr-ink-soft">Para orçamento de lentes, use a página <Link href="/lentes-de-grau" className="underline underline-offset-4">Lentes de grau</Link> — lá dá para anexar a receita com segurança.</p>
+            <form onSubmit={enviar} className="mt-7 space-y-5">
+              <div><label htmlFor="contact-name" className="text-[0.92rem] font-medium">Nome</label><input id="contact-name" name="name" required autoComplete="name" className={campo} /></div>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div><label htmlFor="contact-phone" className="text-[0.92rem] font-medium">WhatsApp</label><input id="contact-phone" name="phone" required type="tel" autoComplete="tel" className={campo} /></div>
+                <div><label htmlFor="contact-email" className="text-[0.92rem] font-medium">E-mail</label><input id="contact-email" name="email" required type="email" autoComplete="email" className={campo} /></div>
+              </div>
+              <div><label htmlFor="contact-message" className="text-[0.92rem] font-medium">Como podemos ajudar?</label><textarea id="contact-message" name="message" required rows={5} className={campo} /></div>
+              <p className="text-[0.82rem] text-sr-ink-soft">Usamos seus dados só para responder a esta mensagem. Veja a <Link href="/privacidade" className="underline">política de privacidade</Link>.</p>
+              <button type="submit" disabled={status === "sending"} className="btn-ink">
+                {status === "sending" ? "Enviando…" : "Enviar mensagem"}
+              </button>
+              <p aria-live="polite" className={`min-h-6 ${status === "error" ? "text-sr-alert" : "text-sr-ok"}`}>
+                {status === "success" && "Mensagem enviada. A equipe responde em horário comercial."}
+                {status === "error" && "Não foi possível enviar agora. Tente de novo ou chame no WhatsApp."}
+              </p>
+            </form>
+          </section>
+        </div>
       </main>
       <Footer />
-      <WhatsAppFloat />
     </div>
   );
 }

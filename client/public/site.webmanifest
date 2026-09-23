@@ -1,15 +1,14 @@
 {
-  "name": "VIVI NOSRALLA",
-  "short_name": "VN",
-  "description": "Moda feminina atemporal — Monte Alto SP",
-  "lang": "pt-BR",
+  "name": "Óticas Sanrê",
+  "short_name": "Sanrê",
+  "description": "Óculos de sol, de grau e EPI — Cravinhos e Ribeirão Preto, desde 2004.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#faf9f3",
-  "theme_color": "#878f79",
+  "background_color": "#f6f4f0",
+  "theme_color": "#141414",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "/brand/app-icon.svg", "sizes": "any", "type": "image/svg+xml" }
+    { "src": "/brand/icone-sanre.svg", "sizes": "any", "type": "image/svg+xml" }
   ]
 }

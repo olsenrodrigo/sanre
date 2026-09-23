@@ -10,7 +10,7 @@
  * as tags fixas do `index.html` nunca são tocadas.
  */
 
-const MARCA = "VIVI NOSRALLA";
+const MARCA = "Óticas Sanrê";
 
 function definirMeta(seletor: string, attr: "name" | "property", chave: string, valor: string) {
   let el = document.head.querySelector<HTMLMetaElement>(seletor);
@@ -43,8 +43,17 @@ export interface DadosSeo {
   tipo?: "website" | "product" | "article";
 }
 
+/** Rota em que a página foi carregada: o JSON-LD que veio do servidor vale só para ela. */
+const CAMINHO_INICIAL = typeof window !== "undefined" ? window.location.pathname : "/";
+
 export function aplicarSeo({ titulo, descricao, caminho, imagem, tipo = "website" }: DadosSeo): void {
   const url = `${window.location.origin}${caminho}`;
+  // Navegou dentro da SPA: o JSON-LD renderizado pelo servidor (data-ssr-ld)
+  // descreve a página anterior e sai do documento.
+  if (caminho.split("?")[0] !== CAMINHO_INICIAL) {
+    document.head.querySelectorAll("script[data-ssr-ld]").forEach(el => el.remove());
+    document.head.querySelector('meta[name="robots"]')?.remove();
+  }
   const tituloCompleto = titulo.includes(MARCA) ? titulo : `${titulo} | ${MARCA}`;
 
   document.title = tituloCompleto;

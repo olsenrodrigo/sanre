@@ -5,6 +5,7 @@ import {
   productReviews, productRelations, bundles, bundleItems, tryonPhotos, tryonGenerations,
   shippingZones, shippingRates, storeSettings,
   collections, collectionProducts, lookbooks, lookbookItems, consentEvents,
+  productUnitStock,
   type Collection, type InsertCollection,
   type Lookbook, type InsertLookbook,
   type Subscription, type InsertSubscription,
@@ -53,9 +54,9 @@ export const db = new Proxy({} as ReturnType<typeof drizzle>, {
 // ─── Filtros do catálogo de moda ────────────────────────────────────────────
 // Convenção de variantes da loja: option1 = Tamanho, option2 = Cor.
 
-export type ProductSort = "newest" | "price_asc" | "price_desc" | "name_asc";
+export type ProductSort = "destaque" | "newest" | "price_asc" | "price_desc" | "name_asc";
 
-const PRODUCT_SORTS: ProductSort[] = ["newest", "price_asc", "price_desc", "name_asc"];
+const PRODUCT_SORTS: ProductSort[] = ["destaque", "newest", "price_asc", "price_desc", "name_asc"];
 
 /** Normaliza o `sort` vindo da query string; valor desconhecido cai em "newest". */
 export function parseProductSort(value: unknown): ProductSort {
@@ -64,11 +65,68 @@ export function parseProductSort(value: unknown): ProductSort {
 
 function productOrderBy(sort: ProductSort = "newest") {
   switch (sort) {
-    case "price_asc": return asc(sql`${products.price}::numeric`);
-    case "price_desc": return desc(sql`${products.price}::numeric`);
-    case "name_asc": return asc(products.title);
-    default: return desc(products.createdAt);
+    case "price_asc": return [asc(sql`${products.price}::numeric`), asc(products.id)];
+    case "price_desc": return [desc(sql`${products.price}::numeric`), asc(products.id)];
+    case "name_asc": return [asc(products.title), asc(products.id)];
+    // Vitrine: curadoria da loja primeiro (destaques), depois o que chegou por último.
+    case "destaque": return [desc(products.featured), desc(products.createdAt), asc(products.id)];
+    default: return [desc(products.createdAt), asc(products.id)];
   }
+}
+
+/** Filtros de óculos aceitos pela vitrine (todos opcionais, AND entre eles, OR dentro de cada lista). */
+export interface FiltrosOculos {
+  categoryIds?: number[];
+  brands?: string[];
+  shapes?: string[];
+  materials?: string[];
+  audiences?: string[];
+  frameColors?: string[];
+  polarized?: boolean;
+  mirrored?: boolean;
+  gradient?: boolean;
+  photochromic?: boolean;
+  acceptsRx?: boolean;
+  tryon?: boolean;
+  units?: string[];
+}
+
+/** Faixas de preço exibidas como atalho na vitrine. */
+export const FAIXAS_PRECO: { rotulo: string; min: number; max: number | null }[] = [
+  { rotulo: "Até R$ 300", min: 0, max: 300 },
+  { rotulo: "R$ 300 a R$ 600", min: 300, max: 600 },
+  { rotulo: "R$ 600 a R$ 1.000", min: 600, max: 1000 },
+  { rotulo: "R$ 1.000 a R$ 2.000", min: 1000, max: 2000 },
+  { rotulo: "Acima de R$ 2.000", min: 2000, max: null },
+];
+
+const emLista = (col: AnyPgColumn, valores: string[]) =>
+  sql`lower(coalesce(${col}, '')) IN (${sql.join(valores.map(v => sql`${v.toLowerCase()}`), sql`, `)})`;
+
+/** Condições SQL dos filtros de óculos — usadas na listagem e nas facetas. */
+function condicoesOculos(f: FiltrosOculos) {
+  const c = [];
+  if (f.categoryIds?.length) c.push(inArray(products.categoryId, f.categoryIds));
+  if (f.brands?.length) c.push(emLista(products.brand, f.brands));
+  if (f.shapes?.length) c.push(emLista(products.frameShape, f.shapes));
+  if (f.materials?.length) c.push(emLista(products.frameMaterial, f.materials));
+  if (f.audiences?.length) c.push(emLista(products.audience, f.audiences));
+  if (f.frameColors?.length) c.push(emLista(products.frameColor, f.frameColors));
+  if (f.polarized) c.push(eq(products.lensPolarized, true));
+  if (f.mirrored) c.push(eq(products.lensMirrored, true));
+  if (f.gradient) c.push(eq(products.lensGradient, true));
+  if (f.photochromic) c.push(eq(products.lensPhotochromic, true));
+  if (f.acceptsRx) c.push(eq(products.acceptsRx, true));
+  if (f.tryon) c.push(sql`${products.tryonImageUrl} IS NOT NULL`);
+  if (f.units?.length) {
+    c.push(sql`EXISTS (
+      SELECT 1 FROM ${productUnitStock}
+      WHERE ${productUnitStock.productId} = ${products.id}
+        AND ${productUnitStock.quantity} > 0
+        AND ${productUnitStock.unitSlug} IN (${sql.join(f.units.map(u => sql`${u}`), sql`, `)})
+    )`);
+  }
+  return c;
 }
 
 /**
@@ -396,11 +454,11 @@ export class DatabaseStorage {
   async listProducts(opts: {
     categoryId?: number; status?: string; published?: boolean;
     featured?: boolean; search?: string; limit?: number; offset?: number;
-    // Filtros de moda: option1 = Tamanho, option2 = Cor (ver script/catalogo.ts)
+    // Convenção de variantes: option1 = Tamanho, option2 = Cor
     sizes?: string[]; colors?: string[];
     minPrice?: number; maxPrice?: number;
     sort?: ProductSort;
-  } = {}): Promise<{ products: Product[]; total: number }> {
+  } & FiltrosOculos = {}): Promise<{ products: Product[]; total: number }> {
     const conditions = [];
     if (opts.categoryId) conditions.push(eq(products.categoryId, opts.categoryId));
     if (opts.status) conditions.push(eq(products.status, opts.status));
@@ -414,9 +472,13 @@ export class DatabaseStorage {
       const semAcento = (col: AnyPgColumn) =>
         sql`unaccent(lower(coalesce(${col}, ''))) LIKE unaccent(lower(${termo})) ESCAPE '\\'`;
       conditions.push(
-        or(semAcento(products.title), semAcento(products.sku), semAcento(products.brand))
+        or(
+          semAcento(products.title), semAcento(products.sku), semAcento(products.brand),
+          semAcento(products.modelCode), semAcento(products.frameShape), semAcento(products.frameColor),
+        )
       );
     }
+    conditions.push(...condicoesOculos(opts));
     // Tamanho e cor são condições independentes (AND entre elas, OR dentro de cada uma)
     if (opts.sizes?.length) conditions.push(variantOptionExists(variants.option1, opts.sizes, true));
     if (opts.colors?.length) conditions.push(variantOptionExists(variants.option2, opts.colors));
@@ -430,7 +492,7 @@ export class DatabaseStorage {
 
     const rows = await db.select().from(products)
       .where(where)
-      .orderBy(productOrderBy(opts.sort))
+      .orderBy(...productOrderBy(opts.sort))
       .limit(opts.limit ?? 50)
       .offset(opts.offset ?? 0);
 
@@ -644,35 +706,130 @@ export class DatabaseStorage {
   }
 
   /** Opções disponíveis para montar a UI de filtros da vitrine. */
+  /**
+   * Facetas da vitrine de óculos, com contagem. As contagens respeitam a
+   * categoria (sol, grau, infantil, EPI) mas não os demais filtros: a cliente
+   * vê quantos óculos existem em cada opção dentro da seção em que está.
+   */
   async listFilterFacets(categoryId?: number): Promise<{
     sizes: string[]; colors: string[]; minPrice: number; maxPrice: number;
+    total: number;
+    marcas: { valor: string; total: number }[];
+    formatos: { valor: string; total: number }[];
+    materiais: { valor: string; total: number }[];
+    publicos: { valor: string; total: number }[];
+    cores: { valor: string; hex: string | null; total: number }[];
+    lente: { polarizada: number; espelhada: number; degrade: number; fotossensivel: number };
+    aceitaGrau: number;
+    provador: number;
+    unidades: { slug: string; total: number }[];
+    faixas: { rotulo: string; min: number; max: number | null; total: number }[];
   }> {
     const base = [eq(products.status, "active"), eq(products.published, true)];
     if (categoryId) base.push(eq(products.categoryId, categoryId));
     const where = and(...base);
 
-    const [opts, range] = await Promise.all([
+    const contar = async (col: AnyPgColumn) => {
+      const rows = await db.select({ valor: col, total: sql<number>`count(*)::int` })
+        .from(products).where(and(where, sql`${col} IS NOT NULL AND ${col} <> ''`))
+        .groupBy(col);
+      return (rows as { valor: string; total: number }[])
+        .sort((a, b) => b.total - a.total || a.valor.localeCompare(b.valor, "pt-BR"));
+    };
+
+    const [marcas, formatos, materiais, publicos, coresRows, agreg, unidadesRows, opts] = await Promise.all([
+      contar(products.brand),
+      contar(products.frameShape),
+      contar(products.frameMaterial),
+      contar(products.audience),
+      db.select({
+        valor: products.frameColor,
+        hex: sql<string | null>`max(${products.frameColorHex})`,
+        total: sql<number>`count(*)::int`,
+      }).from(products).where(and(where, sql`${products.frameColor} IS NOT NULL`)).groupBy(products.frameColor),
+      db.select({
+        total: sql<number>`count(*)::int`,
+        min: sql<string | null>`min(${products.price}::numeric)`,
+        max: sql<string | null>`max(${products.price}::numeric)`,
+        polarizada: sql<number>`count(*) FILTER (WHERE ${products.lensPolarized})::int`,
+        espelhada: sql<number>`count(*) FILTER (WHERE ${products.lensMirrored})::int`,
+        degrade: sql<number>`count(*) FILTER (WHERE ${products.lensGradient})::int`,
+        fotossensivel: sql<number>`count(*) FILTER (WHERE ${products.lensPhotochromic})::int`,
+        aceitaGrau: sql<number>`count(*) FILTER (WHERE ${products.acceptsRx})::int`,
+        provador: sql<number>`count(*) FILTER (WHERE ${products.tryonImageUrl} IS NOT NULL)::int`,
+        faixas: sql<number[]>`ARRAY[${sql.join(FAIXAS_PRECO.map(f =>
+          f.max === null
+            ? sql`count(*) FILTER (WHERE ${products.price}::numeric >= ${f.min})::int`
+            : sql`count(*) FILTER (WHERE ${products.price}::numeric >= ${f.min} AND ${products.price}::numeric <= ${f.max})::int`
+        ), sql`, `)}]`,
+      }).from(products).where(where),
+      db.select({ slug: productUnitStock.unitSlug, total: sql<number>`count(DISTINCT ${products.id})::int` })
+        .from(productUnitStock)
+        .innerJoin(products, eq(products.id, productUnitStock.productId))
+        .where(and(where, sql`${productUnitStock.quantity} > 0`))
+        .groupBy(productUnitStock.unitSlug),
       db.selectDistinct({ size: variants.option1, color: variants.option2 })
         .from(variants)
         .innerJoin(products, eq(variants.productId, products.id))
         .where(and(where, eq(variants.active, true))),
-      db.select({
-        min: sql<string | null>`min(${products.price}::numeric)`,
-        max: sql<string | null>`max(${products.price}::numeric)`,
-      }).from(products).where(where),
     ]);
 
-    const sizes = Array.from(new Set(opts.map(o => o.size).filter((s): s is string => !!s)))
-      .sort(bySizeOrder);
-    const colors = Array.from(new Set(opts.map(o => o.color).filter((c): c is string => !!c)))
-      .sort((a, b) => a.localeCompare(b, "pt-BR"));
-
+    const a = agreg[0];
     return {
-      sizes,
-      colors,
-      minPrice: Math.floor(Number(range[0]?.min ?? 0)),
-      maxPrice: Math.ceil(Number(range[0]?.max ?? 0)),
+      sizes: Array.from(new Set(opts.map(o => o.size).filter((x): x is string => !!x))).sort(bySizeOrder),
+      colors: Array.from(new Set(opts.map(o => o.color).filter((x): x is string => !!x))).sort((x, y) => x.localeCompare(y, "pt-BR")),
+      minPrice: Math.floor(Number(a?.min ?? 0)),
+      maxPrice: Math.ceil(Number(a?.max ?? 0)),
+      total: a?.total ?? 0,
+      marcas, formatos, materiais, publicos,
+      cores: (coresRows as { valor: string; hex: string | null; total: number }[])
+        .sort((x, y) => y.total - x.total || x.valor.localeCompare(y.valor, "pt-BR")),
+      lente: {
+        polarizada: a?.polarizada ?? 0, espelhada: a?.espelhada ?? 0,
+        degrade: a?.degrade ?? 0, fotossensivel: a?.fotossensivel ?? 0,
+      },
+      aceitaGrau: a?.aceitaGrau ?? 0,
+      provador: a?.provador ?? 0,
+      unidades: unidadesRows as { slug: string; total: number }[],
+      faixas: FAIXAS_PRECO.map((f, i) => ({ ...f, total: Number(a?.faixas?.[i] ?? 0) })),
     };
+  }
+
+  /** Saldo por unidade de várias peças numa consulta só (evita N+1 na vitrine). */
+  async getUnitStockForProducts(productIds: number[]): Promise<Map<number, Record<string, number>>> {
+    const mapa = new Map<number, Record<string, number>>();
+    if (!productIds.length) return mapa;
+    const rows = await db.select().from(productUnitStock).where(inArray(productUnitStock.productId, productIds));
+    for (const r of rows) {
+      const atual = mapa.get(r.productId) ?? {};
+      atual[r.unitSlug] = r.quantity;
+      mapa.set(r.productId, atual);
+    }
+    return mapa;
+  }
+
+  async setUnitStock(productId: number, unitSlug: string, quantity: number): Promise<void> {
+    await db.insert(productUnitStock)
+      .values({ productId, unitSlug, quantity: Math.max(0, Math.trunc(quantity)) })
+      .onConflictDoUpdate({
+        target: [productUnitStock.productId, productUnitStock.unitSlug],
+        set: { quantity: Math.max(0, Math.trunc(quantity)), updatedAt: new Date() },
+      });
+  }
+
+  /** Marcas publicadas com contagem e faixa de preço — página /marcas e sitemap. */
+  async listBrands(): Promise<{ marca: string; total: number; min: number; max: number }[]> {
+    const rows = await db.select({
+      marca: products.brand,
+      total: sql<number>`count(*)::int`,
+      min: sql<string>`min(${products.price}::numeric)`,
+      max: sql<string>`max(${products.price}::numeric)`,
+    }).from(products)
+      .where(and(eq(products.status, "active"), eq(products.published, true), sql`${products.brand} IS NOT NULL`))
+      .groupBy(products.brand);
+    return rows
+      .map(r => ({ marca: r.marca as string, total: r.total, min: Number(r.min), max: Number(r.max) }))
+      .sort((x, y) => x.marca.localeCompare(y.marca, "pt-BR"));
   }
 
   async getProductById(id: number): Promise<Product | undefined> {

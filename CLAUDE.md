@@ -1,170 +1,64 @@
-# VIVI NOSRALLA — Loja Virtual
+# ÓTICAS SANRÊ — Portal e loja virtual
 
-Regras deste repositório para agentes (Claude Code e Codex). Complementa o harness
-global da Sintetiza em `~/.claude/sintetiza/harness.md` — **onde divergirem, este
-arquivo prevalece.**
-
-`AGENTS.md` na raiz é um espelho deste arquivo (symlink), lido nativamente pelo Codex CLI.
+Regras deste repositório para agentes (Claude Code e Codex). `AGENTS.md` é symlink deste arquivo.
+Plano de implementação e contratos entre módulos: `PLANO.md`.
 
 ## Contexto
 
-Loja de roupas e acessórios femininos da **Viviane Nosralla** (Monte Alto — SP).
-Fork do `whitelabellojavirtual`, rebrandado a partir do brandbook oficial.
-Cliente real, e-commerce transacional: erro de preço, de estoque ou de pagamento
-tem consequência financeira direta.
+Ótica com duas lojas: **Cravinhos** (desde 17/12/2004, Rua XV de Novembro, 662A) e **Ribeirão
+Preto** (desde 23/07/2026, Rua Altino Arantes, 811, anexo à PB Arts Gallery). Optica Sanre Ltda,
+CNPJ 07.151.777/0001-04. Fork do whitelabel de loja da Sintetiza (base: loja Vivi Nosralla).
+E-commerce real: erro de preço, estoque ou pagamento tem consequência financeira direta.
 
-**Single-tenant.** A regra #8 do harness (isolamento multi-tenant) não se aplica —
-o equivalente aqui é **ownership de carrinho e de pedido** (ver Invariantes).
-
-## Plane
-
-| Campo | Valor |
-|---|---|
-| Workspace | `sintetizaai` |
-| Projeto | `VIVI — Vivi Nosralla` |
-| Project ID | `3244eb33-5e26-463d-ab0e-90807c6150ea` |
-| Prefixo das tasks | `VIVI-NNN` |
-
-Fluxo: `/iniciar-task VIVI-NNN` → `/qa-test VIVI-NNN` → PR → `/fechar-task VIVI-NNN`.
-Branch `feature/VIVI-NNN-descricao`, PR com título `VIVI-NNN: descrição`.
-
-### Specs (SDD)
-
-Os 11 Epics do Plane têm spec versionada em `.sintetiza/specs/<epic-slug>/`
-(`requirements.md` · `design.md` · `tasks.md`):
-
-`catalogo-estoque-unificado` · `checkout-pagamentos-frete` · `clientes-indicadores` ·
-`consignado` · `financeiro-conciliacao` · `fiscal-nfce` · `ia-assistente-vendas` ·
-`ia-estudio-visual` · `implantacao-golive` · `loja-virtual-marca` · `pdv-etiquetas`
-
-Os critérios EARS do `requirements.md` são a **definição de pronto** — não o resumo
-em prosa da task. A **Estratégia de teste** do `design.md` define como verificar cada
-critério; use-a, não invente procedimento. Divergência entre spec e repo se **relata**,
-não se contorna. Planos de task ficam em `.sintetiza/specs/<epic>/plans/VIVI-NNN.md`.
+Single-tenant. O equivalente ao isolamento multi-tenant aqui é **ownership de carrinho, pedido e
+lead** — e, desde a 019, **receita** (dado de saúde, LGPD art. 11).
 
 ## Stack
 
 | Camada | Tecnologia |
 |---|---|
 | Front-end | React 19 · Vite 7 · TypeScript · Tailwind CSS v4 · wouter · TanStack Query |
-| Back-end | Express 5 · Drizzle ORM · PostgreSQL · ES Modules (`"type": "module"`) |
-| Pagamento | MercadoPago / Asaas atrás de um gateway próprio (mock no ambiente local) |
-| Frete | SmartEnvios (mock local) + zonas/taxas próprias no banco |
+| Back-end | Express 5 · Drizzle ORM · PostgreSQL · ES Modules |
+| Pagamento | MercadoPago / Asaas atrás de gateway próprio (mock local) |
+| Frete | SmartEnvios (mock local) + retirada nas duas lojas |
+| Provador | MediaPipe FaceLandmarker no navegador (nada sai do aparelho) |
 
 ## Comandos
 
 ```bash
-npm run dev      # API + front (tsx server/index.ts) — PORT do .env (5300 local; default 5000)
-npm run check    # tsc — ÚNICA verificação automatizada do repo (ver "Verificação")
+npm run dev      # API + front — PORT do .env
+npm run check    # tsc — precisa passar limpo
 npm run build    # tsx script/build.ts → dist/index.cjs
-npm run seed     # recria o catálogo (32 produtos); -- --keep preserva o existente
-npm run db:push  # drizzle-kit push
+npm run seed     # recria o catálogo de óculos a partir de script/catalogo.ts
+npm run db:push  # drizzle-kit push (no deploy roda ANTES das migrations/*.sql)
 ```
 
-Migrations SQL são aplicadas em ordem: `for f in migrations/*.sql; do psql $DATABASE_URL -f "$f"; done`.
+## Convenções
 
-## Arquitetura
+1. **Variantes: `option1` = Tamanho (calibre□ponte, ex. "58□14"), `option2` = Cor.**
+2. **Ficha de óculos em colunas** (`frame_shape`, `frame_material`, `audience`, `lens_*`,
+   `accepts_rx`, medidas, `ca_number`, `tryon_image_url`) — vocabulário em `client/src/lib/oculos.ts`.
+3. **Preço e desconto** vêm de `shared/pagamento.ts` nos dois lados. Nunca recalcule no componente.
+4. **Estoque por unidade** em `product_unit_stock`; `products.stock_quantity` é o saldo do e-commerce.
+5. **Migrations nunca são editadas depois de aplicadas**; schema.ts e migrations terminam iguais.
+6. **Toda query passa por `server/storage.ts`** (exceção documentada: `server/leads/`).
+7. **Validação com zod na borda.**
+8. **Marca**: SVG gerado por `script/marca/gerar_logo.py` (contornos da Montserrat medidos na arte
+   da loja). Nunca recompor a logomarca com webfont. Nude oficial `#998f7c` reprova AA como texto —
+   texto usa `sr-nude-600`+.
+9. **Unidades e horários** vêm de `shared/unidades.ts`. Horário não confirmado não é publicado.
+10. **Decreto 24.492/1934, art. 13**: site e assistente não indicam lente de grau.
 
-```
-client/src/
-  pages/store/       StorePage · ProductDetailPage · CartPage · CheckoutPage · OrderConfirmationPage
-  pages/admin/       20 telas (produtos, pedidos, cupons, bundles, assinaturas, relatórios…)
-  pages/institucional/  Sobre · Contato · Trocas · Privacidade · GuiaMedidas
-  context/           CartContext · AdminAuthContext (JWT)
-  locales/           pt.json · en.json · es.json
-server/
-  routes.ts          todas as rotas da API (~1800 linhas)
-  storage.ts         camada de dados (Drizzle) — toda query passa por aqui
-  auth.ts            JWT + bcrypt
-  gateway/           abstração de pagamento: escolhe mercadopago|asaas por config
-  {asaas,mercadopago,smartenvios}/   client · service · config · types (+ mcp.ts)
-shared/
-  schema.ts          24 tabelas Drizzle — fonte única do modelo de dados
-  pagamento.ts       regra de preço/desconto compartilhada front↔back
-  bundle-pricing.ts  precificação de combos
-script/              catalogo.ts (catálogo-semente) · seed.ts · build.ts
-migrations/          001…013, numeradas e sequenciais
-setup/               Docker, PM2 (ecosystem.config.cjs), install/update/migrate.sh
-```
+## Verificação
 
-## Convenções do projeto
+Sem suíte de testes automatizados. Antes de dizer "pronto": `npm run check` limpo, `npm run build`
+gerando `dist/index.cjs`, `curl` nas rotas tocadas e a tela aberta no navegador (1440 e 390 px, sem
+overflow horizontal, sem erro no console).
 
-1. **Variantes: `option1` = Tamanho, `option2` = Cor.** Vale no schema, no seed, no
-   admin e na importação CSV/XLSX. Inverter quebra filtro, grade e baixa de estoque.
-2. **Preço e desconto vêm de `shared/pagamento.ts`** (`PIX_DESCONTO = 0.05`,
-   `descontoPix()`) e de `shared/bundle-pricing.ts`. Front-end e back-end usam a
-   **mesma** função — nunca recalcule desconto no componente. Um bug já corrigido
-   aqui foi exibir 5% no PIX e não cobrar.
-3. **Baixa de estoque é por variante**: `storage.decrementStock(productId, qty, variantId)`.
-   Baixar só no produto deixa tamanho esgotado à venda.
-4. **Migrations nunca são editadas depois de aplicadas** — crie a próxima no número
-   seguinte, idempotente (`IF NOT EXISTS`). O schema em `shared/schema.ts` e as
-   migrations precisam terminar iguais: divergência entre os dois já derrubou todo
-   o checkout com 500 (`orders.subscription_id`, corrigido em `012`).
-5. **Toda query passa por `server/storage.ts`.** Não escreva Drizzle solto em `routes.ts`.
-6. **Busca ignora caixa e acento** (`unaccent`, migration `013`). Ao mexer em busca,
-   preserve isso — "trico" precisa achar "Tricô".
-7. **Validação com zod na borda** — payloads de API e webhooks validados antes de
-   tocar em lógica de negócio.
-8. **Identidade visual** (`client/src/index.css`, bloco `@theme`): `vn-olive-500`
-   `#878f79` é a cor da marca, mas reprova WCAG AA sobre branco (3.38:1) — **texto e
-   botões usam `vn-olive-600`**; o oliva puro fica para superfícies e elementos não
-   textuais. Títulos em Playfair Display, corpo em Quicksand. Os SVGs de
-   `client/public/brand/` foram vetorizados do brandbook: **nunca recomponha a marca
-   com webfont**.
+## Pendências de go-live
 
-## Invariantes (property-based — ver `~/.claude/sintetiza/invariantes.md`)
-
-Adaptados a este repo. Task que toca uma dessas áreas precisa cobrir a invariante:
-
-- **INV-A · Ownership** (substitui o INV-1 multi-tenant): nenhuma requisição altera
-  ou lê carrinho ou pedido de outro. Os IDs de carrinho são seriais — por isso as
-  rotas são `/api/cart/:sessionId/item/:itemId` e a checagem é pelo `sessionId`, não
-  pelo id do item. Cubra os quatro verbos, não só o GET.
-- **INV-B · PII e LGPD**: `GET /api/orders/:numero` é público. Não pode devolver CPF,
-  telefone nem endereço; e-mail vai mascarado; o número do pedido é longo o bastante
-  para não ser enumerável, com rate limit por IP. Log de corpo de requisição só em
-  rotas de catálogo — nunca em checkout, pedido ou cliente.
-- **INV-C · Dinheiro**: para todo carrinho, `total = subtotal − descontos + frete`,
-  nunca negativo; quantidade sofre clamp; variante é validada contra o produto. O
-  desconto exibido é o desconto cobrado.
-- **INV-D · Webhook idempotente**: MercadoPago, Asaas e SmartEnvios reentregam. O
-  mesmo evento N vezes produz o mesmo efeito que uma vez — inclusive fora de ordem.
-- **INV-E · Migrations idempotentes**: aplicar todas N vezes dá o mesmo schema.
-
-## Verificação — leia antes de dizer "pronto"
-
-⚠️ **Este repo não tem infraestrutura de teste**: sem `vitest`, sem `eslint`, sem
-script `npm test`, zero arquivos de teste. A regra 12 do harness ("build + lint +
-testes passam") hoje se resolve com:
-
-```bash
-npm run check    # tsc, precisa passar limpo
-npm run build    # precisa gerar dist/index.cjs
-```
-
-…mais **evidência manual** de cada critério: `curl` na rota com a resposta colada,
-`psql` conferindo o efeito no banco, ou o passo na UI com o resultado. Presumir não
-conta; cole comando e saída.
-
-Task que exija teste automatizado deve **pedir autorização ao dev antes de instalar**
-`vitest`/`fast-check` (dependência nova é decisão do dono do repo, regra 3 do harness).
-Instalados, propriedades vão para `tests/properties/<area>.prop.test.ts`.
-
-## Estado atual e pendências de go-live
-
-O `.env` não é versionado. Sem `ADMIN_EMAIL`/`ADMIN_PASSWORD` nenhum admin é criado
-(use "Primeiro acesso" em `/admin/login`); em produção, ausência de `JWT_SECRET`
-**derruba o boot de propósito** — não reintroduza segredo de fallback.
-
-Pagamento e frete estão em **modo mock** local (`MP_MOCK`, `ASAAS_MOCK`,
-`SMARTENVIOS_MOCK`): nenhuma cobrança real acontece no ambiente de desenvolvimento.
-
-Pendente para o go-live (`.sintetiza/specs/implantacao-golive/`):
-
-- [ ] Fotos de produto de estúdio em 3:4 (as atuais em `uploads/produtos/` são
-      provisórias, capturadas do Instagram em 523×697) — troca pelo admin, sem código
-- [ ] Conferir peças, preços e grades reais com a cliente
-- [ ] Credenciais de produção do gateway de pagamento e do frete
-- [ ] SMTP real para confirmação de pedido
-- [ ] CNPJ e endereço completo no rodapé e na política de privacidade
+- [ ] Horários das duas lojas (confirmar e ligar `horarioConfirmado`)
+- [ ] Catálogo real e fotos de estúdio (o catálogo-semente usa imagens de fabricante e do Instagram)
+- [ ] Estoque por unidade vindo do SS Ótica (API Consultiva — somente leitura)
+- [ ] Credenciais de pagamento/frete de produção, SMTP, domínio
+- [ ] Endpoint do agente de IA (`ASSISTENTE_URL`/`ASSISTENTE_TOKEN`) e do CRM (`CRM_WEBHOOK_URL`)

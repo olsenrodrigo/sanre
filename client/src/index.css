@@ -5,99 +5,104 @@
 
 /*
  * ============================================================================
- * VIVI NOSRALLA — Design System
- * Derivado do brandbook (insumos/ID VISUAL VIVI NOSRALLA +.pdf)
+ * ÓTICAS SANRÊ — Design System
+ * Fonte: manual da marca (insumos/Apresentação da marca - final.pdf) e a arte
+ * da logomarca enviada pela loja (insumos/PHOTO-2026-07-27-21-33-07.jpg).
  *
- * Cor principal: oliva #878f79 · Secundária: gelo #f1f1e7 · Areia #e4dcc9
- * Tipografia oficial: Dream Avenue (display, licenciada) + Quicksand (Google)
- * No site, Playfair Display substitui a Dream Avenue nos títulos — a
- * logomarca em si entra sempre como SVG vetorizado, nunca como webfont.
+ * Paleta oficial: Preto #000 · Chumbo #434343 · Nude #998f7c · Branco #fff
+ * Tipografia oficial: Montserrat (a logomarca é Montserrat; aqui ela entra
+ * como SVG vetorizado, nunca como texto).
  *
- * ── Conceito visual (2026) ───────────────────────────────────────────────
- * "Lookbook, não catálogo." A vitrine é montada como uma revista de moda:
- *  · nada de caixa central — as imagens sangram até a borda da tela;
- *  · chapas (plates) de foto sem raio e sem sombra, separadas por um fio;
- *  · a interface fica quase acromática (papel + tinta) para que a COR venha
- *    da roupa; o oliva desce de "cor de botão" para fio, rótulo e hover;
- *  · caixa-alta com tracking de etiqueta de roupa em toda a navegação.
- * A paleta e a logomarca do brandbook seguem intactas.
+ * ── Conceito visual: "a galeria" ─────────────────────────────────────────
+ * A loja de Ribeirão Preto fica dentro de uma galeria de arte (PB Arts) e
+ * expõe os óculos em cubos de acrílico. O site repete isso:
+ *  · fundo de papel off-white, preto de galeria, fios finos — nada de card
+ *    arredondado com sombra;
+ *  · cada óculos fica num "pedestal" cinza-névoa, como na vitrine de acrílico;
+ *  · a ficha do produto é uma etiqueta de museu: marca em caixa-alta, modelo,
+ *    material e cor em linhas curtas, preço por último;
+ *  · o nude oficial é a cor dos fios e dos rótulos; o dourado (acento do
+ *    protótipo aprovado) aparece só em detalhe, nunca em bloco de texto.
  * ============================================================================
  */
 
 @theme {
-  /* ── Oliva: escala construída sobre o #878f79 oficial ── */
-  --color-vn-olive-50: #f4f5f0;
-  --color-vn-olive-100: #e8eae0;
-  --color-vn-olive-200: #d3d7c7;
-  --color-vn-olive-300: #b4bca4;
-  --color-vn-olive-400: #9ba58a;
-  --color-vn-olive-500: #878f79; /* COR PRINCIPAL do brandbook */
-  --color-vn-olive-600: #6d7561; /* texto/botão sobre claro — AA 4.8:1 */
-  --color-vn-olive-700: #565d4c;
-  --color-vn-olive-800: #454a3e;
-  --color-vn-olive-900: #383c33;
+  /* ── Nude: escala construída sobre o #998f7c oficial ── */
+  --color-sr-nude-50: #f7f6f3;
+  --color-sr-nude-100: #eeebe5;
+  --color-sr-nude-200: #ddd7cc;
+  --color-sr-nude-300: #c6bdad;
+  --color-sr-nude-400: #ada390;
+  --color-sr-nude-500: #998f7c; /* NUDE oficial — fio, ícone, superfície; reprova AA como texto (3,2:1) */
+  --color-sr-nude-600: #6f6757; /* texto/rótulo sobre papel — AA 5,2:1 */
+  --color-sr-nude-700: #5a5346;
+  --color-sr-nude-800: #443e34;
+  --color-sr-nude-900: #2e2a23;
 
-  /* ── Neutros quentes ── */
-  --color-vn-ice: #f1f1e7; /* gelo oficial */
-  --color-vn-sand: #e4dcc9; /* areia do brandbook */
-  --color-vn-sand-300: #d5cfbe;
-  --color-vn-ink: #34372e; /* texto forte, quase-preto esverdeado */
-  --color-vn-ink-soft: #5d6155; /* texto secundário */
+  /* ── Neutros de galeria ── */
+  --color-sr-ink: #141414;       /* preto de galeria (texto forte, botões) */
+  --color-sr-ink-soft: #4a4843;  /* texto secundário — 8,6:1 sobre papel */
+  --color-sr-chumbo: #434343;    /* chumbo oficial */
+  --color-sr-paper: #f6f4f0;     /* papel off-white */
+  --color-sr-sand: #e9e5dd;      /* faixa alternada */
+  --color-sr-mist: #ecebe8;      /* pedestal do produto (acrílico sobre cinza) */
+  --color-sr-line: #dcd8d0;      /* fio */
 
-  /* ── Vinho: cor de ação e ênfase ── */
-  --color-vn-wine: #6b2336;
-  --color-vn-wine-light: #ad2a4c;
+  /* ── Acento ── */
+  --color-sr-gold: #b8975a;      /* dourado do protótipo — só detalhe/fio/ícone */
+  --color-sr-gold-700: #7c6333;  /* dourado legível como texto — AA 5,4:1 */
+  --color-sr-alert: #9a3324;     /* erro, esgotado, aviso */
+  --color-sr-ok: #2e6b4f;        /* disponível */
 
   /* ── Semânticos (mantêm compatibilidade com os componentes shadcn) ── */
-  --color-primary: #6d7561;
+  --color-primary: #141414;
   --color-primary-foreground: #ffffff;
-  --color-secondary: #6b2336;
+  --color-secondary: #434343;
   --color-secondary-foreground: #ffffff;
-  --color-accent: #ad2a4c;
-  --color-accent-foreground: #ffffff;
+  --color-accent: #b8975a;
+  --color-accent-foreground: #141414;
 
-  --color-background: #faf9f3;
-  --color-foreground: #34372e;
-  --color-muted: #f1f1e7;
-  --color-muted-foreground: #5d6155;
+  --color-background: #f6f4f0;
+  --color-foreground: #141414;
+  --color-muted: #eeebe5;
+  --color-muted-foreground: #4a4843;
   --color-card: #ffffff;
-  --color-card-foreground: #34372e;
+  --color-card-foreground: #141414;
   --color-popover: #ffffff;
-  --color-popover-foreground: #34372e;
+  --color-popover-foreground: #141414;
 
-  --color-border: #e3e0d2;
-  --color-input: #e3e0d2;
-  --color-ring: #878f79;
+  --color-border: #dcd8d0;
+  --color-input: #dcd8d0;
+  --color-ring: #998f7c;
 
-  --color-destructive: #b3261e;
+  --color-destructive: #9a3324;
   --color-destructive-foreground: #ffffff;
 
   /*
    * ── Tipografia ──
-   * Playfair Display substitui a Dream Avenue (licenciada): mesmo caráter de
-   * display serif de alto contraste e hastes finas. Foi escolhida no lugar da
-   * Cormorant Garamond porque esta desenha os diacríticos muito altos e
-   * destacados — em português ("você", "ê", "ã") o acento lê como sujeira.
+   * Montserrat (oficial) nos títulos e rótulos em caixa-alta — ecoa o "Ó T I C A S"
+   * da logomarca. DM Sans no corpo: mais estreita e mais legível em parágrafo
+   * que a Montserrat, que em texto corrido fica larga demais.
    */
-  --font-display: "Playfair Display", Georgia, ui-serif, serif;
-  --font-sans: "Quicksand", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Quicksand", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Playfair Display", Georgia, ui-serif, serif;
+  --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-label: "Montserrat", ui-sans-serif, system-ui, sans-serif;
 
-  /* ── Raios: só o backoffice (shadcn) ainda usa; a vitrine é reta ── */
-  --radius: 0.75rem;
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
+  /* ── Raios: só o backoffice (shadcn) usa; a vitrine é reta ── */
+  --radius: 0.5rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
 
-  /* ── Sombras quentes (nunca cinza puro) ── */
-  --shadow-card: 0 1px 2px rgb(52 55 46 / 0.05), 0 10px 30px rgb(52 55 46 / 0.07);
-  --shadow-card-hover: 0 2px 4px rgb(52 55 46 / 0.06), 0 16px 40px rgb(52 55 46 / 0.12);
+  --shadow-card: 0 1px 2px rgb(20 20 20 / 0.05), 0 10px 30px rgb(20 20 20 / 0.06);
+  --shadow-card-hover: 0 2px 4px rgb(20 20 20 / 0.06), 0 16px 40px rgb(20 20 20 / 0.1);
 
-  /* ── Medidas do layout editorial ── */
-  --vn-gutter: 2px; /* fio entre chapas de foto */
-  --vn-header: 4.75rem;
+  /* ── Medidas do layout ── */
+  --sr-gutter: 1px; /* fio entre pedestais */
+  --sr-header: 4.5rem;
 }
 
 @layer base {
@@ -117,16 +122,16 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.018em;
-    line-height: 1.04;
-    color: var(--color-vn-ink);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.08;
+    color: var(--color-sr-ink);
   }
 
   h5,
   h6 {
     @apply font-sans font-semibold;
-    color: var(--color-vn-ink);
+    color: var(--color-sr-ink);
   }
 
   p {
@@ -136,14 +141,14 @@
 
   /* Foco sempre visível — navegação por teclado */
   :focus-visible {
-    outline: 2px solid var(--color-vn-olive-600);
+    outline: 2px solid var(--color-sr-nude-600);
     outline-offset: 3px;
     border-radius: 0;
   }
 
   ::selection {
-    background: var(--color-vn-sand);
-    color: var(--color-vn-ink);
+    background: var(--color-sr-ink);
+    color: var(--color-sr-paper);
   }
 
   /* Evita o zoom automático do iOS ao focar campos */
@@ -161,23 +166,20 @@
 
   /*
    * ── Larguras ──
-   * `.bleed` é o novo padrão: ocupa a tela inteira e só reserva a margem de
-   * segurança lateral. `.container-vn` continua existindo para os fluxos de
-   * leitura e de compra (carrinho, checkout, institucional), onde uma linha
-   * de texto larga demais atrapalha.
+   * `.bleed` ocupa a tela inteira com a margem lateral de segurança.
+   * `.container-sr` é para leitura e compra (carrinho, checkout, institucional).
    */
   .bleed {
-    @apply w-full px-4 md:px-8 lg:px-10;
+    @apply w-full px-4 md:px-8 lg:px-12;
   }
 
-  .container-vn {
+  .container-sr {
     @apply mx-auto w-full px-4 md:px-8;
-    max-width: 72rem;
+    max-width: 76rem;
   }
 
-  /* Coluna de leitura confortável (65–75 caracteres) */
   .measure {
-    max-width: 34rem;
+    max-width: 36rem;
   }
 
   .section-padding {
@@ -185,136 +187,177 @@
   }
 
   /*
-   * ── Rótulo de etiqueta ──
-   * Caixa-alta com tracking largo: é a assinatura tipográfica da navegação,
-   * dos rótulos de seção e dos botões. Ecoa a assinatura do logo.
+   * ── Rótulo de galeria ──
+   * Montserrat em caixa-alta com tracking largo — é o "Ó T I C A S" da
+   * logomarca. Navegação, rótulos de seção, marcas e botões.
    */
   .eyebrow {
-    @apply font-sans font-semibold uppercase;
+    font-family: var(--font-label);
+    font-weight: 500;
+    text-transform: uppercase;
     font-size: 0.6875rem;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.28em;
     line-height: 1.4;
-    color: var(--color-vn-olive-600);
+    color: var(--color-sr-nude-600);
   }
 
-  /* Mesma etiqueta, sobre fundo escuro. O Tailwind 4 não deixa dar
-     `@apply` numa utility customizada, então a regra é repetida. */
-  .eyebrow-ice {
-    @apply font-sans font-semibold uppercase;
+  .eyebrow-light {
+    font-family: var(--font-label);
+    font-weight: 500;
+    text-transform: uppercase;
     font-size: 0.6875rem;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.28em;
     line-height: 1.4;
-    color: rgb(241 241 231 / 0.85);
+    color: rgb(246 244 240 / 0.78);
   }
 
-  /* Item de navegação / rótulo de interface */
   .nav-label {
-    @apply font-sans font-semibold uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.16em;
+    font-family: var(--font-label);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+  }
+
+  /* Marca do produto na etiqueta de galeria */
+  .label-marca {
+    font-family: var(--font-label);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    color: var(--color-sr-ink);
+  }
+
+  /* Dado técnico (medidas, código do modelo, CA) */
+  .dado {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
   }
 
   /* ── Escala de display ── */
   .display-hero {
     font-family: var(--font-display);
-    font-weight: 400;
-    font-size: clamp(2.375rem, 5.6vw, 4.75rem);
-    line-height: 0.98;
-    letter-spacing: -0.025em;
+    font-weight: 300;
+    font-size: clamp(2.4rem, 4.6vw, 4.35rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
   }
 
   .display-lg {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 300;
     font-size: clamp(1.875rem, 3.6vw, 3rem);
-    line-height: 1.04;
-    letter-spacing: -0.02em;
+    line-height: 1.06;
+    letter-spacing: -0.015em;
   }
 
   .display-md {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 300;
     font-size: clamp(1.5rem, 2.4vw, 2.125rem);
-    line-height: 1.1;
-    letter-spacing: -0.015em;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+
+  /* Título em caixa-alta espaçada, como a logomarca */
+  .display-caps {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    line-height: 1.15;
   }
 
   /*
    * ── Botões ──
-   * Retangulares, caixa-alta, tracking de etiqueta. A altura mínima de 3rem
-   * mantém o alvo de toque confortável para o público da marca.
-   *
-   * ATENÇÃO: estas classes definem `display: inline-flex`. Como estão na mesma
-   * camada das utilities do Tailwind, elas vencem um `hidden`/`lg:hidden`
-   * aplicado no mesmo elemento — para esconder um botão, ponha a classe de
-   * visibilidade num wrapper.
+   * Retos, caixa-alta Montserrat, alvo de toque ≥ 3rem.
+   * ATENÇÃO: definem `display: inline-flex` e vencem `hidden` no mesmo
+   * elemento — para esconder um botão, ponha a visibilidade num wrapper.
    */
   .btn-ink,
   .btn-line,
-  .btn-wine,
-  .btn-ice,
-  .btn-ice-line {
-    @apply inline-flex items-center justify-center gap-2.5 font-sans font-semibold uppercase transition-colors;
-    font-size: 0.75rem;
-    letter-spacing: 0.16em;
+  .btn-gold,
+  .btn-light,
+  .btn-light-line,
+  .btn-whats {
+    @apply inline-flex items-center justify-center gap-2.5 transition-colors;
+    font-family: var(--font-label);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
     min-height: 3rem;
     padding-inline: 1.75rem;
     border-radius: 0;
   }
 
   .btn-ink {
-    background: var(--color-vn-ink);
-    color: var(--color-vn-ice);
+    background: var(--color-sr-ink);
+    color: var(--color-sr-paper);
   }
   .btn-ink:hover {
-    background: var(--color-vn-olive-800);
+    background: var(--color-sr-chumbo);
+  }
+  .btn-ink:disabled {
+    background: var(--color-sr-nude-400);
+    cursor: not-allowed;
   }
 
   .btn-line {
-    color: var(--color-vn-ink);
-    border: 1px solid var(--color-vn-ink);
+    color: var(--color-sr-ink);
+    border: 1px solid var(--color-sr-ink);
     background: transparent;
   }
   .btn-line:hover {
-    background: var(--color-vn-ink);
-    color: var(--color-vn-ice);
+    background: var(--color-sr-ink);
+    color: var(--color-sr-paper);
   }
 
-  .btn-wine {
-    background: var(--color-vn-wine);
-    color: #fff;
+  /* Dourado: só para a ação de destaque da página (ex.: provador) */
+  .btn-gold {
+    background: var(--color-sr-gold);
+    color: var(--color-sr-ink);
   }
-  .btn-wine:hover {
-    background: var(--color-vn-wine-light);
+  .btn-gold:hover {
+    background: #c9ab72;
   }
 
-  /* Sobre fundo escuro */
-  .btn-ice {
-    background: var(--color-vn-ice);
-    color: var(--color-vn-ink);
+  .btn-light {
+    background: var(--color-sr-paper);
+    color: var(--color-sr-ink);
   }
-  .btn-ice:hover {
+  .btn-light:hover {
     background: #fff;
   }
 
-  .btn-ice-line {
+  .btn-light-line {
     background: transparent;
-    color: var(--color-vn-ice);
-    border: 1px solid rgb(241 241 231 / 0.4);
+    color: var(--color-sr-paper);
+    border: 1px solid rgb(246 244 240 / 0.45);
   }
-  .btn-ice-line:hover {
-    background: rgb(241 241 231 / 0.12);
+  .btn-light-line:hover {
+    background: rgb(246 244 240 / 0.12);
   }
 
-  /*
-   * Link de ação: rótulo em caixa-alta com um fio embaixo que se estende
-   * no hover. Substitui a seta genérica.
-   */
+  /* WhatsApp: verde escurecido para passar AA com texto branco (4,9:1) */
+  .btn-whats {
+    background: #1b7a47;
+    color: #fff;
+  }
+  .btn-whats:hover {
+    background: #16663b;
+  }
+
+  /* Link de ação: caixa-alta com fio que se estende no hover */
   .link-rule {
-    @apply relative inline-block font-sans font-semibold uppercase no-underline;
-    font-size: 0.75rem;
-    letter-spacing: 0.16em;
-    color: var(--color-vn-ink);
+    @apply relative inline-block no-underline;
+    font-family: var(--font-label);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    color: var(--color-sr-ink);
     padding-bottom: 0.35rem;
   }
   .link-rule::after {
@@ -332,32 +375,46 @@
     width: 100%;
   }
 
-  /* ── Chapas de foto: sem raio, sem sombra, fundo de espera oliva claro ── */
+  /* ── Chapas de foto editorial (Instagram, lojas): sem raio, sem sombra ── */
   .plate {
     @apply relative overflow-hidden;
-    background: var(--color-vn-olive-50);
+    background: var(--color-sr-nude-100);
     border-radius: 0;
   }
 
   /*
-   * Proporção retrato de moda — padrão de toda foto de produto.
-   * É exatamente a proporção nativa do acervo (523×697), então o
-   * `object-cover` das chapas preenche sem cortar nada da peça.
-   * Mudar este valor volta a decepar as fotos.
+   * ── Pedestal ──
+   * Onde o óculos fica exposto: fundo névoa, como o cubo de acrílico da loja.
+   * Fotos de fabricante vêm em fundo branco; `mix-blend-mode: multiply` funde
+   * o branco no névoa e o produto parece fotografado ali.
    */
-  .aspect-fashion {
-    aspect-ratio: 3 / 4;
+  .pedestal {
+    @apply relative overflow-hidden;
+    background: var(--color-sr-mist);
+  }
+  .pedestal img.produto {
+    mix-blend-mode: multiply;
+    object-fit: contain;
   }
 
-  /*
-   * ── Grade de vitrine ──
-   * Coladas: o fio de 2px entre as fotos é o que dá o ar de contato de
-   * fotografia. O nome e o preço respiram embaixo da imagem.
-   */
+  /* Proporção da vitrine de óculos (produto é largo) */
+  .aspect-vitrine {
+    aspect-ratio: 5 / 4;
+  }
+  /* Retrato editorial / foto com modelo */
+  .aspect-retrato {
+    aspect-ratio: 4 / 5;
+  }
+  /* Compatibilidade com telas herdadas */
+  .aspect-fashion {
+    aspect-ratio: 4 / 5;
+  }
+
+  /* Grade de vitrine: pedestais colados por um fio, como vitrine de galeria */
   .grid-vitrine {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--vn-gutter) var(--vn-gutter);
+    gap: 2.5rem var(--sr-gutter);
   }
   @media (min-width: 768px) {
     .grid-vitrine {
@@ -371,39 +428,55 @@
   }
 
   .bg-alt {
-    background-color: var(--color-vn-ice);
+    background-color: var(--color-sr-sand);
   }
 
   .bg-sand {
-    background-color: var(--color-vn-sand);
+    background-color: var(--color-sr-sand);
   }
 
-  /* Fio da marca — separador de seção */
+  .bg-ink {
+    background-color: var(--color-sr-ink);
+  }
+
   .rule {
-    border-top: 1px solid var(--color-vn-olive-200);
+    border-top: 1px solid var(--color-sr-line);
   }
 
-  .rule-ice {
-    border-top: 1px solid rgb(241 241 231 / 0.22);
+  .rule-light {
+    border-top: 1px solid rgb(246 244 240 / 0.2);
   }
 
-  /*
-   * A vitrine é reta. Os campos herdados do shadcn (Input, Textarea) trazem
-   * o raio do design system compartilhado, então quem marca `.campos-retos`
-   * zera o raio só nos seus descendentes — o backoffice continua arredondado.
-   */
+  /* Fio curto nude sob títulos — o traço do manual da marca */
+  .traco::after {
+    content: "";
+    display: block;
+    width: 3.5rem;
+    height: 1px;
+    margin-top: 1.25rem;
+    background: var(--color-sr-nude-500);
+  }
+  .traco-centro::after {
+    margin-inline: auto;
+  }
+
   .campos-retos :is(input, textarea, select) {
     border-radius: 0;
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }
 
 /*
- * ── Faixa de recados ──
- * O único movimento contínuo do site: uma faixa de avisos reais (frete,
- * troca, atendimento) que desliza devagar. Congela para quem pediu menos
- * movimento no sistema.
+ * ── Faixa de marcas ──
+ * O único movimento contínuo do site. Congela para quem pediu menos movimento.
  */
-@keyframes vn-marquee {
+@keyframes sr-marquee {
   from {
     transform: translateX(0);
   }
@@ -415,10 +488,9 @@
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: vn-marquee 46s linear infinite;
+  animation: sr-marquee 60s linear infinite;
 }
 
-/* Respeita quem pediu menos movimento no sistema */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

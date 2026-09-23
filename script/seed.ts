@@ -1,222 +1,265 @@
 /**
- * Popula a loja VIVI NOSRALLA: configurações, categorias, produtos, variantes,
- * imagens, cupom de boas-vindas e zonas de frete.
+ * Popula a Óticas Sanrê: configurações, categorias (sol, grau, infantil, EPI),
+ * catálogo-semente de óculos, variantes, imagens, estoque por loja, relações,
+ * cupom e frete.
  *
- * Uso:  npm run seed          (limpa o catálogo e recria)
- *       npm run seed -- --keep  (mantém o que já existe, só adiciona o que falta)
+ * O catálogo vem de `script/catalogo-oculos.json`, gerado por
+ * `script/marca/preparar_catalogo.py` a partir da pesquisa de produtos reais
+ * das marcas que a loja trabalha (fotos de fabricante + Instagram @oticasanre).
+ * É PROVISÓRIO: preços são de referência de mercado e o estoque por loja é
+ * demonstrativo até a integração com o SS Ótica.
  *
- * Convenção de variantes: option1 = Tamanho, option2 = Cor.
+ * Uso:  npm run seed            (limpa o catálogo e recria)
+ *       npm run seed -- --keep  (mantém o que existe)
+ *
+ * Convenção de variantes: option1 = Tamanho ("58□14"), option2 = Cor.
  */
-// PRIMEIRO import, sempre: povoa process.env antes de "../server/storage"
-// abrir o pool com DATABASE_URL.
 import "../server/env";
 
+import { existsSync, readFileSync } from "fs";
+import { resolve } from "path";
 import { sql } from "drizzle-orm";
 import { db } from "../server/storage";
 import {
-  categories, products, productImages, productAttributes, variants,
+  categories, products, productImages, productAttributes, variants, productUnitStock,
   storeSettings, coupons, shippingZones, shippingRates, productRelations,
 } from "@shared/schema";
-import { CATEGORIAS, PRODUTOS, CORES } from "./catalogo";
+import { TIPOS } from "@shared/oculos";
 
 const KEEP = process.argv.includes("--keep");
-const IMG = (arquivo: string) => `/uploads/produtos/${arquivo}`;
 
-/** SKU no padrão VN-<CATEGORIA>-<SEQ>[-<TAM>-<COR>] */
-function sku(categoria: string, seq: number, tamanho?: string, cor?: string) {
-  const cat = categoria.slice(0, 3).toUpperCase();
-  const base = `VN-${cat}-${String(seq).padStart(3, "0")}`;
-  if (!tamanho) return base;
-  const c = cor!.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^A-Za-z]/g, "").slice(0, 3).toUpperCase();
-  return `${base}-${tamanho}-${c}`;
+interface ItemCatalogo {
+  slug: string;
+  marca: string;
+  codigo: string | null;
+  nome: string;
+  tipo: "sol" | "grau" | "epi";
+  categoria: "oculos-de-sol" | "oculos-de-grau" | "infantil" | "epi";
+  publico: string | null;
+  formato: string | null;
+  material: string | null;
+  cor_armacao: string | null;
+  cor_armacao_hex: string | null;
+  lente: { cor?: string | null; polarizada?: boolean; espelhada?: boolean; degrade?: boolean; fotossensivel?: boolean; protecao_uv?: string | null } | null;
+  medidas: { lente_mm?: number | null; ponte_mm?: number | null; haste_mm?: number | null; altura_mm?: number | null } | null;
+  preco_brl: number;
+  descricao: string;
+  ca: string | null;
+  normas: string | null;
+  aceita_grau: boolean;
+  destaque?: boolean;
+  imagens: string[]; // já na ordem de exibição, em /uploads/produtos
+  tryon: string | null; // PNG frontal transparente
 }
 
-/** Estoque plausível: tamanhos do meio da grade saem mais, então têm mais peças. */
-function estoque(tamanho: string) {
-  const meio = ["P", "M", "G"].includes(tamanho);
-  return meio ? 4 + Math.floor(Math.random() * 4) : 2 + Math.floor(Math.random() * 3);
+const ARQUIVO_CATALOGO = resolve(process.cwd(), "script/catalogo-oculos.json");
+const CATALOGO: ItemCatalogo[] = existsSync(ARQUIVO_CATALOGO)
+  ? JSON.parse(readFileSync(ARQUIVO_CATALOGO, "utf-8"))
+  : [];
+
+/** Número determinístico a partir de um texto (estoque demonstrativo estável entre seeds). */
+function hash(txt: string): number {
+  let h = 2166136261;
+  for (const ch of txt) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
+  return Math.abs(h);
+}
+
+function sku(item: ItemCatalogo, seq: number) {
+  const marca = item.marca.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^A-Za-z0-9]/g, "").slice(0, 3).toUpperCase();
+  return `SR-${marca}-${String(seq).padStart(3, "0")}`;
 }
 
 async function limparCatalogo() {
   console.log("Limpando catálogo anterior…");
-  // ordem respeita as FKs
   await db.execute(sql`TRUNCATE TABLE
-    product_relations, product_images, product_attributes, variants, products, categories
+    product_relations, product_images, product_attributes, variants, product_unit_stock, products, categories
     RESTART IDENTITY CASCADE`);
 }
 
 async function seedConfiguracoes() {
   const dados = {
-    storeName: "VIVI NOSRALLA",
+    storeName: "Óticas Sanrê",
     storeDescription:
-      "Moda feminina atemporal para mulheres objetivas. Alfaiataria, tricô e peças de festa em Monte Alto (SP), com envio para todo o Brasil.",
-    logoUrl: "/brand/logo-vn-oliva.svg",
-    faviconUrl: "/brand/favicon.svg",
-    primaryColor: "#6d7561",
-    secondaryColor: "#6b2336",
-    accentColor: "#ad2a4c",
-    contactEmail: "contato@vivinosralla.com.br",
-    contactPhone: "1699173-7463",
-    contactWhatsapp: "5516991737463",
-    address: "Monte Alto — SP",
-    freeShippingAbove: "399.00",
-    maxInstallments: 6,
-    freeInstallments: 3,
+      "Ótica em Cravinhos desde 2004 e em Ribeirão Preto na PB Arts Gallery. Óculos de sol, de grau, infantis e EPI, com provador virtual e lentes de grau com receita.",
+    logoUrl: "/brand/logo-sanre.svg",
+    faviconUrl: "/favicon.svg",
+    primaryColor: "#141414",
+    secondaryColor: "#434343",
+    accentColor: "#b8975a",
+    contactEmail: "atendimento@oticasanre.com.br",
+    contactPhone: "(16) 99195-1430",
+    contactWhatsapp: "5516991951430",
+    address: "Rua XV de Novembro, 662A — Centro, Cravinhos/SP · Rua Altino Arantes, 811 — Ribeirão Preto/SP",
+    cnpj: "07.151.777/0001-04",
+    freeShippingAbove: "499.00",
+    maxInstallments: 10,
+    freeInstallments: 10,
     reviewsEnabled: true,
     reviewsRequireModeration: true,
+    pickupEnabled: true,
   };
-
   const existente = await db.select({ id: storeSettings.id }).from(storeSettings).limit(1);
-  if (existente.length) {
-    await db.update(storeSettings).set(dados).where(sql`${storeSettings.id} = ${existente[0].id}`);
-  } else {
-    await db.insert(storeSettings).values(dados);
-  }
+  if (existente.length) await db.update(storeSettings).set(dados).where(sql`${storeSettings.id} = ${existente[0].id}`);
+  else await db.insert(storeSettings).values(dados);
   console.log("✓ Configurações da loja");
 }
 
 async function seedCategorias() {
   const mapa = new Map<string, number>();
-  for (let i = 0; i < CATEGORIAS.length; i++) {
-    const c = CATEGORIAS[i];
+  for (let i = 0; i < TIPOS.length; i++) {
+    const t = TIPOS[i];
+    const existe = await db.select({ id: categories.id }).from(categories).where(sql`${categories.slug} = ${t.slug}`);
+    if (existe.length) {
+      mapa.set(t.slug, existe[0].id);
+      continue;
+    }
     const [row] = await db.insert(categories).values({
-      name: c.name,
-      slug: c.slug,
-      description: c.description,
-      imageUrl: IMG(c.imagem),
-      sortOrder: i + 1,
-      active: true,
+      name: t.titulo, slug: t.slug, description: t.resumo, sortOrder: i + 1, active: true,
     }).returning({ id: categories.id });
-    mapa.set(c.slug, row.id);
+    mapa.set(t.slug, row.id);
   }
-  console.log(`✓ ${CATEGORIAS.length} categorias`);
+  console.log(`✓ ${TIPOS.length} categorias`);
   return mapa;
 }
 
 async function seedProdutos(catIds: Map<string, number>) {
-  const idsPorSlug = new Map<string, number>();
   const porCategoria = new Map<string, number[]>();
+  const porMarca = new Map<string, number[]>();
 
-  for (let i = 0; i < PRODUTOS.length; i++) {
-    const p = PRODUTOS[i];
-    const categoryId = catIds.get(p.categoria);
-    if (!categoryId) throw new Error(`Categoria desconhecida: ${p.categoria} (${p.slug})`);
+  for (let i = 0; i < CATALOGO.length; i++) {
+    const item = CATALOGO[i];
+    const categoryId = catIds.get(item.categoria);
+    if (!categoryId) throw new Error(`Categoria desconhecida: ${item.categoria} (${item.slug})`);
+    const existe = await db.select({ id: products.id }).from(products).where(sql`${products.slug} = ${item.slug}`);
+    if (existe.length) continue;
+
+    const h = hash(item.slug);
+    // Estoque demonstrativo por loja (0 a 3), com a maioria dos itens em pelo menos uma loja.
+    const craw = h % 4;
+    const rib = (h >> 3) % 4;
+    const ecommerce = item.categoria === "epi" ? 20 : 2 + ((h >> 6) % 4);
+    const total = ecommerce;
+    const titulo = `${item.marca} ${item.nome}`.replace(/\s+/g, " ").trim();
+    const tamanho = item.medidas?.lente_mm && item.medidas?.ponte_mm ? `${item.medidas.lente_mm}□${item.medidas.ponte_mm}` : "Único";
 
     const [prod] = await db.insert(products).values({
       categoryId,
-      title: p.titulo,
-      slug: p.slug,
-      description: p.descricao,
-      brand: "Vivi Nosralla",
-      type: p.categoria,
-      tags: p.tags.join(", "),
-      sku: sku(p.categoria, i + 1),
-      price: p.preco.toFixed(2),
-      compareAtPrice: p.precoDe ? p.precoDe.toFixed(2) : null,
-      weightG: p.pesoG,
+      title: titulo,
+      slug: item.slug,
+      description: item.descricao,
+      vendor: item.marca,
+      brand: item.marca,
+      type: item.categoria,
+      tags: [item.tipo, item.formato, item.material, item.publico].filter(Boolean).join(", "),
+      sku: sku(item, i + 1),
+      price: item.preco_brl.toFixed(2),
+      weightG: item.categoria === "epi" ? 80 : 180,
       requiresShipping: true,
       trackInventory: true,
-      stockQuantity: 0, // recalculado abaixo a partir das variantes
+      stockQuantity: total,
       status: "active",
       published: true,
-      featured: !!p.destaque,
-      freeShipping: p.preco >= 399,
-      seoTitle: `${p.titulo} | VIVI NOSRALLA`,
-      seoDescription: p.descricao.slice(0, 155),
-      // O catálogo-semente já trazia a composição de cada peça; até existir a
-      // coluna, ela era descartada no seed. Medidas por tamanho ficam NULL de
-      // propósito: são dado real da peça, e vêm da cliente — inventar número
-      // aqui viraria troca e devolução na loja.
-      composition: p.composicao ?? null,
+      featured: !!item.destaque,
+      freeShipping: item.preco_brl >= 499,
+      seoTitle: `${titulo}${item.cor_armacao ? ` ${item.cor_armacao}` : ""} | Óticas Sanrê`,
+      seoDescription: item.descricao.slice(0, 155),
+      modelCode: item.codigo,
+      frameShape: item.formato,
+      frameMaterial: item.material,
+      audience: item.publico,
+      frameColor: item.cor_armacao,
+      frameColorHex: item.cor_armacao_hex,
+      lensColor: item.lente?.cor ?? null,
+      lensPolarized: !!item.lente?.polarizada,
+      lensMirrored: !!item.lente?.espelhada,
+      lensGradient: !!item.lente?.degrade,
+      lensPhotochromic: !!item.lente?.fotossensivel,
+      uvProtection: item.lente?.protecao_uv ?? null,
+      acceptsRx: item.aceita_grau,
+      lensWidthMm: item.medidas?.lente_mm ?? null,
+      bridgeMm: item.medidas?.ponte_mm ?? null,
+      templeMm: item.medidas?.haste_mm ?? null,
+      lensHeightMm: item.medidas?.altura_mm ?? null,
+      caNumber: item.ca,
+      safetyNorms: item.normas,
+      tryonImageUrl: item.tryon,
     }).returning({ id: products.id });
 
-    idsPorSlug.set(p.slug, prod.id);
-    porCategoria.set(p.categoria, [...(porCategoria.get(p.categoria) ?? []), prod.id]);
+    porCategoria.set(item.categoria, [...(porCategoria.get(item.categoria) ?? []), prod.id]);
+    porMarca.set(item.marca, [...(porMarca.get(item.marca) ?? []), prod.id]);
 
-    // Atributos que definem a grade
     await db.insert(productAttributes).values([
       { productId: prod.id, name: "Tamanho", position: 0 },
       { productId: prod.id, name: "Cor", position: 1 },
     ]);
-
-    // Imagens
-    await db.insert(productImages).values(
-      p.imagens.map((arquivo: string, idx: number) => ({
-        productId: prod.id,
-        url: IMG(arquivo),
-        altText: `${p.titulo} — Vivi Nosralla`,
-        position: idx,
-        isMain: idx === 0,
-      }))
-    );
-
-    // Grade tamanho × cor
-    let total = 0;
-    const linhas = [];
-    for (const cor of p.cores) {
-      if (!CORES[cor]) throw new Error(`Cor sem hex no catálogo: "${cor}" (${p.slug})`);
-      for (const tamanho of p.tamanhos) {
-        const qtd = estoque(tamanho);
-        total += qtd;
-        linhas.push({
+    if (item.imagens.length) {
+      await db.insert(productImages).values(
+        item.imagens.map((url, idx) => ({
           productId: prod.id,
-          sku: sku(p.categoria, i + 1, tamanho, cor),
-          price: p.preco.toFixed(2),
-          compareAtPrice: p.precoDe ? p.precoDe.toFixed(2) : null,
-          weightG: p.pesoG,
-          stockQuantity: qtd,
-          option1: tamanho,
-          option2: cor,
-          imageUrl: IMG(p.imagens[0]),
-          active: true,
-        });
-      }
+          url,
+          altText: /-modelo/.test(url)
+            ? `${titulo} no rosto`
+            : `${titulo}${item.cor_armacao ? ` ${item.cor_armacao}` : ""}${idx === 0 ? "" : ` — foto ${idx + 1}`}`,
+          position: idx,
+          isMain: idx === 0,
+          isTryonSource: false,
+        })),
+      );
     }
-    await db.insert(variants).values(linhas);
-    await db.update(products).set({ stockQuantity: total }).where(sql`${products.id} = ${prod.id}`);
+    await db.insert(variants).values({
+      productId: prod.id,
+      sku: sku(item, i + 1),
+      price: item.preco_brl.toFixed(2),
+      weightG: item.categoria === "epi" ? 80 : 180,
+      stockQuantity: total,
+      option1: tamanho,
+      option2: item.cor_armacao ?? "Única",
+      imageUrl: item.imagens[0] ?? null,
+      active: true,
+    });
+    const saldos = [
+      { productId: prod.id, unitSlug: "cravinhos", quantity: craw },
+      { productId: prod.id, unitSlug: "ribeirao-preto", quantity: rib },
+    ];
+    await db.insert(productUnitStock).values(saldos);
   }
-
-  console.log(`✓ ${PRODUTOS.length} produtos com variantes e imagens`);
-  return { idsPorSlug, porCategoria };
+  console.log(`✓ ${CATALOGO.length} óculos com imagens, variante e estoque por loja`);
+  return { porCategoria, porMarca };
 }
 
-/** "Complete o look": liga cada produto a outros dois da mesma categoria. */
-async function seedRelacionados(porCategoria: Map<string, number[]>) {
+/** Relacionados: dois da mesma marca e dois da mesma categoria. */
+async function seedRelacionados(porCategoria: Map<string, number[]>, porMarca: Map<string, number[]>) {
   const linhas: { productId: number; relatedProductId: number; sortOrder: number }[] = [];
-  for (const ids of Array.from(porCategoria.values())) {
-    if (ids.length < 2) continue;
-    ids.forEach((id: number, i: number) => {
-      [ids[(i + 1) % ids.length], ids[(i + 2) % ids.length]]
-        .filter(rel => rel !== id)
-        .forEach((rel, ordem) => linhas.push({ productId: id, relatedProductId: rel, sortOrder: ordem }));
+  const categoriaDe = new Map<number, number[]>();
+  porCategoria.forEach(ids => ids.forEach(id => categoriaDe.set(id, ids)));
+  porMarca.forEach(ids => {
+    ids.forEach((id, i) => {
+      const escolhidos = new Set<number>();
+      for (let k = 1; k < ids.length && escolhidos.size < 2; k++) escolhidos.add(ids[(i + k) % ids.length]);
+      const mesmos = categoriaDe.get(id) ?? [];
+      const pos = mesmos.indexOf(id);
+      for (let k = 1; k < mesmos.length && escolhidos.size < 4; k++) {
+        const cand = mesmos[(pos + k * 3) % mesmos.length];
+        if (cand !== id) escolhidos.add(cand);
+      }
+      Array.from(escolhidos).forEach((rel, ordem) => linhas.push({ productId: id, relatedProductId: rel, sortOrder: ordem }));
     });
-  }
+  });
   if (linhas.length) await db.insert(productRelations).values(linhas);
-  console.log(`✓ ${linhas.length} relações "complete o look"`);
+  console.log(`✓ ${linhas.length} relações de produto`);
 }
 
 async function seedCupomEFrete() {
-  const cupomExiste = await db.select({ id: coupons.id }).from(coupons)
-    .where(sql`${coupons.code} = 'BEMVINDA10'`).limit(1);
+  const cupomExiste = await db.select({ id: coupons.id }).from(coupons).where(sql`${coupons.code} = 'BEMVINDO10'`).limit(1);
   if (!cupomExiste.length) {
     await db.insert(coupons).values({
-      code: "BEMVINDA10",
-      type: "percentage",
-      value: "10.00",
-      minOrderValue: "199.00",
-      maxUses: 500,
-      active: true,
+      code: "BEMVINDO10", type: "percentage", value: "10.00", minOrderValue: "299.00", maxUses: 500, active: true,
     });
   }
-
   const zonasExistem = await db.select({ id: shippingZones.id }).from(shippingZones).limit(1);
   if (!zonasExistem.length) {
-    const [sp] = await db.insert(shippingZones)
-      .values({ name: "São Paulo", states: "SP", active: true })
-      .returning({ id: shippingZones.id });
-    const [br] = await db.insert(shippingZones)
-      .values({ name: "Demais estados", states: null, active: true })
-      .returning({ id: shippingZones.id });
+    const [sp] = await db.insert(shippingZones).values({ name: "São Paulo", states: "SP", active: true }).returning({ id: shippingZones.id });
+    const [br] = await db.insert(shippingZones).values({ name: "Demais estados", states: null, active: true }).returning({ id: shippingZones.id });
     await db.insert(shippingRates).values([
       { zoneId: sp.id, name: "Sedex", price: "24.90", estimatedDaysMin: 1, estimatedDaysMax: 3, active: true },
       { zoneId: sp.id, name: "PAC", price: "16.90", estimatedDaysMin: 3, estimatedDaysMax: 7, active: true },
@@ -224,21 +267,20 @@ async function seedCupomEFrete() {
       { zoneId: br.id, name: "PAC", price: "27.90", estimatedDaysMin: 6, estimatedDaysMax: 12, active: true },
     ]);
   }
-  console.log("✓ Cupom BEMVINDA10 e zonas de frete");
+  console.log("✓ Cupom BEMVINDO10 e zonas de frete");
 }
 
 async function main() {
-  console.log(`\nSeed VIVI NOSRALLA — banco: ${process.env.DATABASE_URL?.split("/").pop()}\n`);
+  console.log(`\nSeed Óticas Sanrê — banco: ${process.env.DATABASE_URL?.split("/").pop()?.split("?")[0]}\n`);
   if (!KEEP) await limparCatalogo();
-
   await seedConfiguracoes();
   const catIds = await seedCategorias();
-  const { porCategoria } = await seedProdutos(catIds);
-  await seedRelacionados(porCategoria);
+  if (!CATALOGO.length) console.warn("! script/catalogo-oculos.json ausente: só configurações e categorias.");
+  const { porCategoria, porMarca } = await seedProdutos(catIds);
+  if (!KEEP) await seedRelacionados(porCategoria, porMarca);
   await seedCupomEFrete();
-
-  const [{ n }] = await db.select({ n: sql<number>`count(*)` }).from(variants);
-  console.log(`\nPronto. ${PRODUTOS.length} produtos e ${n} variantes na vitrine.\n`);
+  const [{ n }] = await db.select({ n: sql<number>`count(*)` }).from(products);
+  console.log(`\nPronto. ${n} óculos na vitrine.\n`);
   process.exit(0);
 }
 

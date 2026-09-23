@@ -117,7 +117,7 @@ export default function AdminOrders() {
                           {new Date(order.createdAt).toLocaleDateString("pt-BR")}
                         </td>
                         <td className="px-4 py-3 text-right">
-                          <Link href={`/admin/pedidos/${order.id}`}>
+                          <Link href={`/admin/pedidos/${order.id}`} asChild>
                             <a className="text-sm text-blue-600 hover:underline no-underline">Ver</a>
                           </Link>
                         </td>

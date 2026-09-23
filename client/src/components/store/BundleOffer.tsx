@@ -52,24 +52,24 @@ export default function BundleOffer({ bundle, primaryColor = "#5B8C9B" }: { bund
     <div className="mt-8  border-2 p-5" style={{ borderColor: `${primaryColor}40`, background: `${primaryColor}0d` }}>
       <div className="flex items-center gap-2">
         <PackagePlus size={18} style={{ color: primaryColor }} />
-        <h3 className="text-lg font-bold text-vn-ink">{bundle.name}</h3>
+        <h3 className="text-lg font-bold text-sr-ink">{bundle.name}</h3>
         {savePct > 0 && <span className="px-2.5 py-0.5 text-xs font-bold text-white" style={{ background: primaryColor }}>−{savePct}%</span>}
       </div>
-      {bundle.description && <p className="mt-1 text-sm text-vn-ink-soft">{bundle.description}</p>}
+      {bundle.description && <p className="mt-1 text-sm text-sr-ink-soft">{bundle.description}</p>}
 
       <div className="mt-4 flex flex-wrap items-center gap-3">
         {bundle.components.map((c, i) => (
           <div key={c.productSlug + i} className="flex items-center gap-2">
             {c.image && <img src={c.image} alt="" className="h-12 w-12  object-cover" />}
-            <span className="text-sm text-vn-ink-soft">{c.quantity}x {c.productTitle}</span>
-            {i < bundle.components.length - 1 && <span className="text-vn-olive-300">+</span>}
+            <span className="text-sm text-sr-ink-soft">{c.quantity}x {c.productTitle}</span>
+            {i < bundle.components.length - 1 && <span className="text-sr-nude-300">+</span>}
           </div>
         ))}
       </div>
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <div>
-          {pricing.discount > 0 && <span className="mr-2 text-sm text-vn-ink-soft line-through">{brl(pricing.originalTotal)}</span>}
+          {pricing.discount > 0 && <span className="mr-2 text-sm text-sr-ink-soft line-through">{brl(pricing.originalTotal)}</span>}
           <span className="text-2xl font-bold" style={{ color: primaryColor }}>{brl(pricing.bundleTotal)}</span>
           {pricing.discount > 0 && <span className="ml-2 text-sm font-medium" style={{ color: primaryColor }}>economize {brl(pricing.discount)}</span>}
         </div>

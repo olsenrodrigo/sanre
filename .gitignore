@@ -15,3 +15,6 @@ uploads/*
 # Artefatos locais do Claude Code (worktrees de agente). As instruções do repo
 # ficam no CLAUDE.md/AGENTS.md versionados, não aqui.
 .claude/
+
+# Receitas (dado de saúde) — nunca versionar, nunca servir por static
+privado/

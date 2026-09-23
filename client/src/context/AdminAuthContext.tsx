@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 
 interface AdminUser { id: number; name: string; email: string; role: string; mustChangePassword?: boolean; }
 
@@ -15,17 +15,20 @@ interface AdminAuthContextType {
 const AdminAuthContext = createContext<AdminAuthContextType | null>(null);
 
 export function AdminAuthProvider({ children }: { children: ReactNode }) {
-  const [admin, setAdmin] = useState<AdminUser | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("admin_token");
-    const savedAdmin = localStorage.getItem("admin_user");
-    if (saved && savedAdmin) {
-      setToken(saved);
-      setAdmin(JSON.parse(savedAdmin));
+  // Sessão lida já no primeiro render: com o useEffect de antes, o AdminLayout
+  // via "sem token" e mandava para o login a cada recarga de página.
+  const lerSessao = (): { token: string | null; admin: AdminUser | null } => {
+    try {
+      const saved = localStorage.getItem("admin_token");
+      const savedAdmin = localStorage.getItem("admin_user");
+      if (saved && savedAdmin) return { token: saved, admin: JSON.parse(savedAdmin) };
+    } catch {
+      /* armazenamento indisponível */
     }
-  }, []);
+    return { token: null, admin: null };
+  };
+  const [admin, setAdmin] = useState<AdminUser | null>(() => lerSessao().admin);
+  const [token, setToken] = useState<string | null>(() => lerSessao().token);
 
   const setSession = (tok: string, usr: AdminUser) => {
     setToken(tok);

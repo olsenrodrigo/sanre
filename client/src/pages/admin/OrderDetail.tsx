@@ -86,7 +86,7 @@ export default function AdminOrderDetail() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <Link href="/admin/pedidos"><a className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg no-underline"><ArrowLeft size={18} /></a></Link>
+        <Link href="/admin/pedidos" asChild><a className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg no-underline"><ArrowLeft size={18} /></a></Link>
         <div>
           <h1 className="text-xl font-bold text-gray-900">Pedido #{order.orderNumber}</h1>
           <p className="text-xs text-gray-400">{new Date(order.createdAt).toLocaleString("pt-BR")}</p>

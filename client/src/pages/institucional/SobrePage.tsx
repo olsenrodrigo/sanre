@@ -1,91 +1,100 @@
+import { useEffect } from "react";
 import { Link } from "wouter";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import WhatsAppFloat from "@/components/layout/WhatsAppFloat";
-import { CIDADE, DESDE } from "@/lib/marca";
+import { aplicarSeo } from "@/lib/seo";
+import { UNIDADES } from "@shared/unidades";
 
-const CHAPAS: [string, string][] = [
-  ["vn-02.webp", "Cliente usando blazer de alfaiataria azul-marinho"],
-  ["vn-14.webp", "Camisa de tricoline com saia midi no provador da loja"],
-  ["vn-22.webp", "Produção feminina contemporânea selecionada pela VIVI NOSRALLA"],
-];
+const IMG = "/uploads/produtos";
 
+/**
+ * Sobre. Fonte do texto: site atual (oticasanre.com.br/sobre), Receita Federal
+ * e Instagram. Missão, visão e valores são os publicados pela própria loja.
+ */
 export default function SobrePage() {
+  useEffect(() => {
+    aplicarSeo({
+      titulo: "Sobre a Óticas Sanrê",
+      descricao:
+        "Fundada em 17 de dezembro de 2004 em Cravinhos, a Sanrê é referência em atendimento personalizado. Em 2026 abriu a segunda loja, em Ribeirão Preto, dentro da PB Arts Gallery.",
+      caminho: "/sobre",
+      imagem: `${IMG}/sr-loja-cravinhos.webp`,
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <main>
-        <section className="bleed pb-12 pt-16 md:pb-16 md:pt-24">
-          <p className="eyebrow">Sobre a VIVI NOSRALLA</p>
-          <h1 className="display-hero mt-5 max-w-4xl text-balance">
-            Moda para a vida real, desde {DESDE}
-          </h1>
-          <p className="measure mt-7 text-[1.125rem] leading-relaxed text-vn-ink-soft">
-            Atemporal, para mulheres objetivas. Nossa história é feita de escolhas cuidadosas,
-            conversa próxima e roupas que acompanham cada mulher com beleza e confiança.
-          </p>
+        <section className="bleed pb-14 pt-12 md:pt-20">
+          <p className="eyebrow">Desde 2004</p>
+          <h1 className="display-hero mt-5 max-w-4xl text-balance">Duas décadas cuidando de como Cravinhos enxerga.</h1>
         </section>
 
-        <div className="grid grid-cols-3 gap-[var(--vn-gutter)]">
-          {CHAPAS.map(([arquivo, alt]) => (
-            <div key={arquivo} className="plate aspect-fashion">
-              <img
-                src={`/uploads/produtos/${arquivo}`}
-                alt={alt}
-                loading="lazy"
-                className="h-full w-full object-cover"
-              />
-            </div>
-          ))}
-        </div>
-
-        <section className="bleed py-16 md:py-24">
-          <div className="rule grid gap-8 pt-8 md:grid-cols-12 md:gap-x-10">
-            <div className="md:col-span-5">
-              <p className="eyebrow">Nossa história</p>
-              <h2 className="display-lg mt-4 text-balance">Uma marca que nasceu do encontro</h2>
-            </div>
-            <div className="space-y-5 text-[1.0625rem] leading-relaxed text-vn-ink-soft md:col-span-6 md:col-start-7">
+        <section className="grid border-y border-sr-line lg:grid-cols-2">
+          <div className="plate min-h-[48vh]">
+            <img src={`${IMG}/sr-loja-cravinhos.webp`} alt="Atendimento na loja da Sanrê em Cravinhos" className="absolute inset-0 h-full w-full object-cover" />
+          </div>
+          <div className="px-5 py-14 md:px-12 lg:px-16 lg:py-20">
+            <div className="measure space-y-5 text-[1.05rem] leading-relaxed">
               <p>
-                A VIVI NOSRALLA nasceu em {DESDE}, em {CIDADE}, com o desejo de tornar o vestir mais
-                simples, elegante e verdadeiro. A loja física continua sendo nosso ponto de encontro:
-                um espaço para experimentar, conversar e descobrir novas possibilidades.
+                A Sanrê abriu as portas em <strong className="font-medium">17 de dezembro de 2004</strong>, no centro de Cravinhos,
+                fundada por Regiane Thomazello, técnica óptica. De lá para cá, virou a ótica de famílias inteiras: gente que fez
+                o primeiro óculos aqui e hoje traz os filhos.
               </p>
               <p>
-                Nossa curadoria é feita peça a peça. Entre alfaiataria, vestidos, tricô, conjuntos,
-                blusas e peças de festa, procuramos qualidade, versatilidade e aquele detalhe que faz
-                uma roupa permanecer no armário por muitas estações.
+                O trabalho é o mesmo desde o começo: orientação completa na escolha de óculos de grau, solares e lentes de
+                contato, com foco no conforto, no estilo e na necessidade de cada cliente — e com as marcas nacionais e
+                internacionais que a loja escolhe uma a uma.
+              </p>
+              <p>
+                Em <strong className="font-medium">23 de julho de 2026</strong>, a Sanrê abriu a segunda loja, em Ribeirão Preto,
+                dentro da PB Arts Gallery. Os óculos ficam expostos em cubos de acrílico, como obra — e o atendimento continua
+                sendo com hora marcada, café e tempo para experimentar.
               </p>
             </div>
           </div>
         </section>
 
-        <section className="bg-sand">
-          <div className="bleed py-16 md:py-24">
-            <div className="grid gap-8 md:grid-cols-12 md:gap-x-10">
-              <div className="md:col-span-5">
-                <p className="eyebrow text-vn-olive-700">Nosso compromisso</p>
-                <h2 className="display-lg mt-4 text-balance">
-                  Caimento que respeita corpos reais
-                </h2>
+        <section className="bleed section-padding">
+          <div className="grid gap-px bg-sr-line md:grid-cols-3">
+            {[
+              ["Missão", "Proporcionar saúde visual com excelência, conforto e estilo."],
+              ["Visão", "Ser referência regional em qualidade óptica e atendimento personalizado."],
+              ["Valores", "Ética, confiança, inovação e cuidado com o cliente."],
+            ].map(([t, d]) => (
+              <div key={t} className="bg-sr-paper p-8">
+                <p className="eyebrow">{t}</p>
+                <p className="mt-4 font-display text-[1.3rem] font-light leading-snug">{d}</p>
               </div>
-              <div className="md:col-span-6 md:col-start-7">
-                <p className="text-[1.0625rem] leading-relaxed text-vn-ink-soft">
-                  Atendemos mulheres dos 30 aos 70 anos porque estilo não tem prazo. Observamos
-                  modelagem, tecido e conforto para indicar o que realmente funciona em cada corpo e
-                  rotina. Esse cuidado atravessa o balcão da loja e chega a todo o Brasil pelo nosso
-                  atendimento online.
-                </p>
-                <Link href="/loja" className="btn-ink mt-9 no-underline">
-                  Conheça nossa curadoria
-                </Link>
-              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="grid border-t border-sr-line lg:grid-cols-3">
+          {[
+            [`${IMG}/sr-vitrine-acrilico.webp`, "Vitrine de acrílico na loja de Ribeirão Preto"],
+            [`${IMG}/sr-pbarts.webp`, "Totem da PB Arts Gallery com a marca Sanrê"],
+            [`${IMG}/sr-inauguracao.webp`, "Inauguração da loja de Ribeirão Preto"],
+          ].map(([src, alt]) => (
+            <div key={src} className="plate aspect-[4/3]">
+              <img src={src} alt={alt} loading="lazy" className="h-full w-full object-cover" />
             </div>
+          ))}
+        </section>
+
+        <section className="bleed section-padding text-center">
+          <h2 className="display-md">Venha conhecer</h2>
+          <p className="mx-auto mt-4 max-w-xl text-sr-ink-soft">
+            {UNIDADES.map(u => `${u.cidade}: ${u.logradouro}`).join(" · ")}
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link href="/unidades" className="btn-ink">Ver as lojas</Link>
+            <Link href="/loja" className="btn-line">Ver os óculos</Link>
           </div>
         </section>
       </main>
       <Footer />
-      <WhatsAppFloat />
     </div>
   );
 }

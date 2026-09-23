@@ -1,70 +1,52 @@
+import { useEffect } from "react";
+import { Link } from "wouter";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import WhatsAppFloat from "@/components/layout/WhatsAppFloat";
-import { whatsappCom } from "@/lib/marca";
+import { aplicarSeo } from "@/lib/seo";
+import { WHATSAPP_LABEL, EMAIL } from "@/lib/marca";
 
+/**
+ * Trocas, devoluções e garantia. O texto fica no que a lei garante (CDC) e no
+ * que a loja já pratica; condições comerciais além disso dependem de
+ * confirmação da Sanrê — TODO(loja): revisar antes do go-live.
+ */
 export default function TrocasPage() {
+  useEffect(() => {
+    aplicarSeo({
+      titulo: "Trocas, devoluções e garantia",
+      descricao: "Direito de arrependimento em 7 dias para compras pelo site, garantia legal e do fabricante, e como funciona a troca de óculos com lentes de grau.",
+      caminho: "/trocas-e-devolucoes",
+    });
+  }, []);
+  const Bloco = ({ t, children }: { t: string; children: React.ReactNode }) => (
+    <section className="border-t border-sr-line py-8">
+      <h2 className="display-md">{t}</h2>
+      <div className="mt-4 space-y-3 leading-relaxed text-sr-ink">{children}</div>
+    </section>
+  );
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main>
-        <section className="bleed py-16 md:py-24">
-          <div className="w-full">
-            <p className="eyebrow">Atendimento e cuidado</p>
-            <h1 className="display-hero mt-5 max-w-4xl text-balance">Trocas e devoluções</h1>
-            <p className="mt-6 max-w-3xl text-[1.125rem] leading-relaxed text-vn-ink-soft">
-              Queremos que sua escolha vista bem e faça sentido para você. Reunimos aqui as condições e o passo a passo para uma solicitação tranquila.
-            </p>
-          </div>
-        </section>
-
-        <section className="bleed py-16 md:py-24 bg-alt">
-          <div className="w-full grid gap-8 md:grid-cols-2">
-            <article className="bg-white p-7 md:p-9">
-              <h2 className="display-md">Devolução por arrependimento</h2>
-              <p className="mt-4 text-[1.0625rem] text-vn-ink-soft">
-                Em compras online, você pode desistir da compra em até 7 dias corridos após o recebimento, conforme o artigo 49 do Código de Defesa do Consumidor. Nesse caso, a devolução e o frete de retorno ficam por nossa conta.
-              </p>
-            </article>
-            <article className="bg-white p-7 md:p-9">
-              <h2 className="display-md">Troca de tamanho</h2>
-              <p className="mt-4 text-[1.0625rem] text-vn-ink-soft">
-                Para trocar o tamanho, fale conosco em até 30 dias corridos após o recebimento. O frete de retorno e o novo envio ficam por conta da cliente, salvo quando houver erro no pedido ou defeito confirmado.
-              </p>
-            </article>
-            <article className="bg-white p-7 md:p-9">
-              <h2 className="display-md">Condições da peça</h2>
-              <p className="mt-4 text-[1.0625rem] text-vn-ink-soft">
-                A peça deve estar sem uso, sem lavagem, sem odores ou ajustes, com a etiqueta original fixada e, sempre que possível, em sua embalagem. Após o recebimento, faremos uma conferência antes de concluir a troca ou devolução.
-              </p>
-            </article>
-            <article className="bg-white p-7 md:p-9">
-              <h2 className="display-md">Defeito ou envio incorreto</h2>
-              <p className="mt-4 text-[1.0625rem] text-vn-ink-soft">
-                Se a peça apresentar defeito ou for diferente do pedido, avise nossa equipe e envie fotos. Após a confirmação, assumimos os custos de frete e orientamos a solução adequada.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section className="bleed py-16 md:py-24">
-          <div className="w-full max-w-4xl">
-            <h2 className="display-md">Como solicitar</h2>
-            <ol className="mt-6 list-decimal space-y-3 pl-6 text-[1.0625rem] text-vn-ink-soft">
-              <li>Entre em contato pelo WhatsApp e informe o número do pedido.</li>
-              <li>Conte o motivo da solicitação e, se necessário, envie fotos da peça.</li>
-              <li>Aguarde as orientações de postagem antes de enviar o produto.</li>
-            </ol>
-            <h2 className="display-md mt-12">Reembolso</h2>
-            <p className="mt-5 text-[1.0625rem] text-vn-ink-soft">
-              Depois que a peça chegar e for conferida, solicitaremos o reembolso em até 7 dias úteis. O valor será devolvido pelo mesmo meio de pagamento; o prazo para aparecer na conta ou fatura depende da instituição financeira e, no cartão, pode seguir o fechamento da fatura.
-            </p>
-            <a href={whatsappCom("Olá! Gostaria de solicitar uma troca ou devolução.")} target="_blank" rel="noopener noreferrer" className="btn-wine mt-9 no-underline">Solicitar pelo WhatsApp</a>
-          </div>
-        </section>
+      <main className="container-sr pb-24 pt-12 md:pt-16">
+        <article className="mx-auto max-w-3xl">
+          <p className="eyebrow">Ajuda</p>
+          <h1 className="display-lg mt-4 mb-10">Trocas, devoluções e garantia</h1>
+          <Bloco t="Compras pelo site: 7 dias para desistir">
+            <p>Pelo Código de Defesa do Consumidor (art. 49), você pode desistir de uma compra feita pelo site em até 7 dias corridos a partir do recebimento ou da retirada, sem precisar explicar o motivo. O óculos deve voltar sem sinais de uso, com embalagem, estojo e etiquetas.</p>
+            <p>Fale com a gente pelo WhatsApp {WHATSAPP_LABEL} ou por {EMAIL}: combinamos a devolução numa das lojas ou pelo correio e o valor é estornado pela mesma forma de pagamento.</p>
+          </Bloco>
+          <Bloco t="Óculos com lentes de grau">
+            <p>As lentes de grau são feitas sob medida para a sua receita. Por isso, depois da sua aprovação do orçamento, elas não entram no direito de arrependimento — o que não impede de resolvermos qualquer problema: se houver defeito de fabricação, erro de montagem ou dificuldade de adaptação, a consultora revisa as medidas e o ajuste com você.</p>
+          </Bloco>
+          <Bloco t="Garantia">
+            <p>Todo produto tem a garantia legal de 90 dias para defeitos (CDC, art. 26) e a garantia do fabricante, que varia por marca e vem informada na nota fiscal ou no certificado do produto. A garantia não cobre desgaste natural, riscos e quebras por queda ou mau uso.</p>
+          </Bloco>
+          <Bloco t="Ajuste de armação">
+            <p>Ajuste de hastes e plaquetas é feito nas lojas de Cravinhos e Ribeirão Preto. <Link href="/unidades" className="underline underline-offset-4">Ver endereços</Link>.</p>
+          </Bloco>
+        </article>
       </main>
       <Footer />
-      <WhatsAppFloat />
     </div>
   );
 }

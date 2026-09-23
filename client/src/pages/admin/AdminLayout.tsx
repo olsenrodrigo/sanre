@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Package, ShoppingBag, Users as UsersIcon, Settings,
   Upload, Tag, LogOut, Menu, X, ExternalLink, Store, FolderOpen, Star,
   BarChart2, UserCog, Repeat, ShoppingCart, MessageSquare, Package2
-} from "lucide-react";
+, Inbox } from "lucide-react";
 import { useAdminAuth } from "@/context/AdminAuthContext";
 
 const ALL_NAV_ITEMS = [
@@ -16,6 +16,7 @@ const ALL_NAV_ITEMS = [
   { href: "/admin/avaliacoes", icon: MessageSquare, label: "Avaliações", roles: ["admin", "operacao"] },
   { href: "/admin/kits", icon: Package2, label: "Kits", roles: ["admin", "operacao"] },
   { href: "/admin/pedidos", icon: ShoppingBag, label: "Pedidos", roles: ["admin", "financeiro"] },
+  { href: "/admin/leads", icon: Inbox, label: "Orçamentos e reservas", roles: ["admin", "operacao"] },
   { href: "/admin/assinaturas", icon: Repeat, label: "Assinaturas", roles: ["admin", "financeiro"] },
   { href: "/admin/carrinhos", icon: ShoppingCart, label: "Carrinhos", roles: ["admin", "operacao"] },
   { href: "/admin/clientes", icon: UsersIcon, label: "Clientes", roles: ["admin", "financeiro"] },

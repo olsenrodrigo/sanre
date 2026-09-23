@@ -1,22 +1,12 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { corHex, precoBR } from "@/lib/marca";
+import { ScanFace } from "lucide-react";
+import { precoBR, parcela } from "@/lib/marca";
+import { descontoPix } from "@shared/pagamento";
+import { FORMATOS, MATERIAIS, rotulo, type ProdutoVitrine } from "@/lib/oculos";
+import { UNIDADES } from "@shared/unidades";
 
-export interface ProdutoCard {
-  id: number;
-  title: string;
-  slug: string;
-  price: string;
-  compareAtPrice?: string | null;
-  mainImage?: string | null;
-  images?: { url: string; altText?: string | null }[];
-  stockQuantity: number;
-  status: string;
-  cores?: string[];
-  /** Grade do hover: um item por tamanho distinto entre as variações ativas. */
-  tamanhos?: { tamanho: string; disponivel: boolean }[];
-}
+export type ProdutoCard = ProdutoVitrine & { status?: string };
 
 interface ProductCardProps {
   product: ProdutoCard;
@@ -24,194 +14,130 @@ interface ProductCardProps {
   priority?: boolean;
 }
 
+/** Foto com modelo (ou ambiente) ocupa o pedestal inteiro; foto de fabricante fica "exposta". */
+export function ehFotoEditorial(url: string): boolean {
+  return /-(modelo|look|ambiente)\b/i.test(url);
+}
+
+/** Tira a marca do começo do título: "Ray-Ban Aviator Classic" → "Aviator Classic". */
+export function nomeSemMarca(titulo: string, marca?: string | null): string {
+  if (marca && titulo.toLowerCase().startsWith(marca.toLowerCase())) {
+    return titulo.slice(marca.length).replace(/^[\s—–-]+/, "");
+  }
+  return titulo;
+}
+
 /**
- * Card de produto da vitrine.
+ * Card de produto — etiqueta de galeria.
  *
- * Chapa reta, sem sombra e sem raio: a foto é o card. As setas trocam a
- * imagem sem tirar a cliente da grade — dá para conferir o caimento de
- * costas antes de decidir abrir a peça.
- *
- * Com o ponteiro sobre a chapa, a segunda foto entra no lugar da capa e a
- * grade de tamanhos sobe por baixo (REQ-2.8, REQ-2.14): dá para varrer a
- * vitrine sabendo o que serve, sem abrir peça por peça.
- *
- * Roupa exige escolher tamanho, então o card NÃO adiciona ao carrinho
- * direto: escolher o tamanho aqui leva à peça com ele já selecionado
- * (REQ-2.10). A cliente ainda vê medida e composição antes de comprar.
+ * O óculos fica exposto num pedestal névoa (a foto de fabricante em fundo
+ * branco se funde por `multiply`, como se estivesse no cubo de acrílico da
+ * loja). No hover entra a segunda foto — de preferência no rosto. Embaixo, a
+ * ficha como etiqueta de museu: MARCA, modelo, formato e material, preço.
  */
 export default function ProductCard({ product, priority = false }: ProductCardProps) {
-  const [indice, setIndice] = useState(0);
-  // Hover e foco compartilham o mesmo estado: sem isso a grade seria
-  // inalcançável por teclado (REQ-2.12). `pointer: coarse` nunca liga —
-  // no toque não existe hover, e o dedo na foto tem de abrir a peça (REQ-2.13).
-  const [aberto, setAberto] = useState(false);
+  const [hover, setHover] = useState(false);
 
-  const emEstoque = product.stockQuantity > 0;
-  const temDesconto =
-    !!product.compareAtPrice && Number(product.compareAtPrice) > Number(product.price);
-  const descontoPct = temDesconto
-    ? Math.round((1 - Number(product.price) / Number(product.compareAtPrice)) * 100)
-    : 0;
-
-  // A capa vem primeiro; as demais fotos entram na ordem do catálogo, sem repetir.
   const capa = product.mainImage ?? product.images?.[0]?.url ?? null;
-  const fotos = capa
-    ? [capa, ...(product.images ?? []).map(i => i.url).filter(u => u !== capa)]
-    : [];
-  const varias = fotos.length > 1;
-  // A troca no hover só vale enquanto a cliente não assumiu o comando pelas
-  // setas: depois disso, mandar a foto de volta sozinha seria roubo de controle.
-  const trocaNoHover = aberto && varias && indice === 0;
-  const atual = (trocaNoHover ? fotos[1] : fotos[indice]) ?? capa;
+  const segunda = (product.images ?? []).map(i => i.url).find(u => u !== capa) ?? null;
+  const atual = hover && segunda ? segunda : capa;
+  const editorial = atual ? ehFotoEditorial(atual) : false;
 
-  const tamanhos = product.tamanhos ?? [];
-  const mostraGrade = aberto && emEstoque && tamanhos.length > 0;
+  const preco = Number(product.price);
+  const temDesconto = !!product.compareAtPrice && Number(product.compareAtPrice) > preco;
+  const descontoPct = temDesconto ? Math.round((1 - preco / Number(product.compareAtPrice)) * 100) : 0;
+  const esgotado = (product.stockQuantity ?? 1) <= 0 && !product.continueSellingOutOfStock;
 
-  const irPara = (passo: number) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIndice(i => (i + passo + fotos.length) % fotos.length);
-  };
+  const ficha = [rotulo(FORMATOS, product.frameShape), rotulo(MATERIAIS, product.frameMaterial), product.frameColor]
+    .filter(Boolean)
+    .join(" · ");
+
+  const unidades = UNIDADES.filter(u => (product.unidades?.[u.slug] ?? 0) > 0);
+
+  const selos: string[] = [];
+  if (product.lensPolarized) selos.push("Polarizado");
+  if (product.caNumber) selos.push(`CA ${product.caNumber}`);
 
   return (
     <article
       className="group relative"
-      onMouseEnter={() => setAberto(true)}
-      onMouseLeave={() => setAberto(false)}
-      // Foco em qualquer elemento interno abre a grade; sair dela fecha.
-      onFocus={() => setAberto(true)}
-      onBlur={e => {
-        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setAberto(false);
-      }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
     >
-      <div className="plate aspect-fashion">
-        {atual ? (
-          <img
-            key={atual}
-            src={atual}
-            alt={product.title}
-            width={523}
-            height={697}
-            loading={priority ? "eager" : "lazy"}
-            fetchPriority={priority ? "high" : undefined}
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center text-vn-olive-300">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden>
-              <rect x="3" y="3" width="18" height="18" />
-              <circle cx="8.5" cy="8.5" r="1.5" />
-              <polyline points="21 15 16 10 5 21" />
-            </svg>
-          </div>
-        )}
+      <Link href={`/loja/produto/${product.slug}`} className="block no-underline" aria-label={`${product.brand ?? ""} ${product.title}`.trim()}>
+        <div className="pedestal aspect-vitrine">
+          {atual ? (
+            <img
+              key={atual}
+              src={atual}
+              alt={product.title}
+              width={800}
+              height={640}
+              loading={priority ? "eager" : "lazy"}
+              fetchPriority={priority ? "high" : undefined}
+              className={
+                editorial
+                  ? "h-full w-full object-cover"
+                  : "produto h-full w-full p-[9%] transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+              }
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center text-sr-nude-300">Sem foto</div>
+          )}
 
-        {varias && (
-          <>
-            <button
-              type="button"
-              onClick={irPara(-1)}
-              aria-label={`Foto anterior de ${product.title}`}
-              className="absolute left-0 top-1/2 z-20 hidden h-11 w-9 -translate-y-1/2 items-center justify-center bg-background/70 text-vn-ink opacity-0 transition-opacity hover:bg-background focus-visible:opacity-100 group-hover:opacity-100 md:flex"
-            >
-              <ChevronLeft size={17} aria-hidden />
-            </button>
-            <button
-              type="button"
-              onClick={irPara(1)}
-              aria-label={`Próxima foto de ${product.title}`}
-              className="absolute right-0 top-1/2 z-20 hidden h-11 w-9 -translate-y-1/2 items-center justify-center bg-background/70 text-vn-ink opacity-0 transition-opacity hover:bg-background focus-visible:opacity-100 group-hover:opacity-100 md:flex"
-            >
-              <ChevronRight size={17} aria-hidden />
-            </button>
-          </>
-        )}
-
-        {temDesconto && emEstoque && (
-          <span className="nav-label absolute left-0 top-0 z-10 bg-vn-wine px-2.5 py-1.5 text-white">
-            −{descontoPct}%
-          </span>
-        )}
-
-        {!emEstoque && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-vn-ice/75">
-            <span className="nav-label border border-vn-ink px-4 py-2 text-vn-ink">Esgotado</span>
-          </div>
-        )}
-
-        {/* Grade de tamanhos (REQ-2.8 … REQ-2.12).
-            z-30 fica acima do link esticado (z-10) e das setas (z-20), senão o
-            clique no tamanho seria engolido pela capa clicável do card.
-            `hidden` até md e `pointer-coarse:hidden`: no toque não há hover, e
-            o dedo na foto precisa abrir a peça (REQ-2.13). */}
-        {mostraGrade && (
-          <div className="pointer-coarse:hidden absolute inset-x-0 bottom-0 z-30 hidden justify-center gap-1.5 overflow-x-auto bg-background/92 px-3 py-2.5 backdrop-blur-[2px] md:flex">
-            {tamanhos.map(({ tamanho, disponivel }) =>
-              disponivel ? (
-                <Link
-                  key={tamanho}
-                  href={`/loja/produto/${product.slug}?tamanho=${encodeURIComponent(tamanho)}`}
-                  aria-label={`${product.title}, tamanho ${tamanho}`}
-                  className="nav-label flex h-9 min-w-9 shrink-0 items-center justify-center border border-vn-olive-200 px-2 text-vn-ink no-underline transition-colors hover:border-vn-olive-600 hover:bg-vn-olive-600 hover:text-white focus-visible:border-vn-olive-600"
-                >
-                  {tamanho}
-                </Link>
-              ) : (
-                // Esgotado continua visível e não acionável (REQ-2.9): sumir
-                // com ele esconderia que a peça existe naquele tamanho.
-                <span
-                  key={tamanho}
-                  aria-disabled="true"
-                  title={`Tamanho ${tamanho} esgotado`}
-                  className="nav-label flex h-9 min-w-9 shrink-0 items-center justify-center border border-vn-olive-200/50 px-2 text-vn-ink-soft/45 line-through"
-                >
-                  {tamanho}
-                </span>
-              ),
+          <div className="pointer-events-none absolute left-3 top-3 flex flex-col items-start gap-1.5">
+            {temDesconto && (
+              <span className="nav-label bg-sr-ink px-2 py-1 text-[0.62rem] text-sr-paper">−{descontoPct}%</span>
+            )}
+            {esgotado && (
+              <span className="nav-label bg-sr-paper px-2 py-1 text-[0.62rem] text-sr-alert">Esgotado</span>
             )}
           </div>
-        )}
-      </div>
-
-      {/* O respiro à direita separa o texto desta coluna do da coluna vizinha,
-          já que as chapas ficam a 2px uma da outra. */}
-      <div className="pb-1 pr-5 pt-3.5 md:pr-8">
-        {!!product.cores?.length && (
-          <ul className="mb-2.5 flex items-center gap-[3px]" aria-label="Cores disponíveis">
-            {product.cores.slice(0, 6).map(cor => (
-              <li
-                key={cor}
-                title={cor}
-                className="h-[3px] w-5 border border-vn-olive-200/60"
-                style={{ background: corHex(cor) }}
-              >
-                <span className="sr-only">{cor}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        <h3 className="font-sans text-[0.9375rem] font-medium leading-snug text-vn-ink">
-          {/* Link esticado: cobre a chapa inteira sem envolver as setas. */}
-          <Link
-            href={`/loja/produto/${product.slug}`}
-            className="no-underline before:absolute before:inset-0 before:z-10 before:content-['']"
-          >
-            {product.title}
-          </Link>
-        </h3>
-
-        <div className="mt-1 flex items-baseline gap-2">
-          <span className="font-sans text-[0.9375rem] text-vn-ink-soft">
-            {precoBR(product.price)}
-          </span>
-          {temDesconto && (
-            <span className="font-sans text-[0.8125rem] text-vn-ink-soft/60 line-through">
-              {precoBR(product.compareAtPrice!)}
+          {product.tryonImageUrl && (
+            <span
+              className="pointer-events-none absolute right-3 top-3 inline-flex items-center gap-1.5 bg-sr-paper/90 px-2 py-1 text-[0.62rem] nav-label text-sr-ink"
+              title="Dá para experimentar no provador virtual"
+            >
+              <ScanFace size={12} className="text-sr-gold-700" aria-hidden />
+              Provador
             </span>
           )}
         </div>
-      </div>
+
+        <div className="px-1 pt-4">
+          <p className="label-marca">{product.brand}</p>
+          <h3 className="mt-1.5 font-sans text-[0.98rem] font-normal leading-snug tracking-normal text-sr-ink">
+            {nomeSemMarca(product.title, product.brand)}
+          </h3>
+          {ficha && <p className="mt-1 text-[0.82rem] text-sr-ink-soft">{ficha}</p>}
+
+          <div className="mt-3 flex flex-wrap items-baseline gap-x-2">
+            {temDesconto && (
+              <span className="text-[0.82rem] text-sr-nude-600 line-through">{precoBR(product.compareAtPrice!)}</span>
+            )}
+            <span className="font-label text-[0.95rem] font-medium text-sr-ink">{precoBR(preco)}</span>
+          </div>
+          <p className="mt-0.5 text-[0.78rem] text-sr-ink-soft">
+            10x de {parcela(preco)} · {precoBR(preco - descontoPix(preco))} no PIX
+          </p>
+
+          {(unidades.length > 0 || selos.length > 0) && (
+            <p className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.74rem] text-sr-ink-soft">
+              {unidades.map(u => (
+                <span key={u.slug} className="inline-flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-sr-ok" aria-hidden />
+                  {u.cidade}
+                </span>
+              ))}
+              {selos.map(s => (
+                <span key={s} className="text-sr-nude-600">
+                  {s}
+                </span>
+              ))}
+            </p>
+          )}
+        </div>
+      </Link>
     </article>
   );
 }

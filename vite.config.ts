@@ -45,7 +45,8 @@ export default defineConfig({
     allowedHosts: true,
     fs: {
       strict: true,
-      deny: ["**/.*"],
+      // `privado/` guarda receitas (dado de saúde): o dev server não pode servi-las por /@fs.
+      deny: ["**/.*", "**/privado/**"],
     },
   },
 });

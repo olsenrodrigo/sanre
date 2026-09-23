@@ -1,5 +1,5 @@
-import { Switch, Route, useLocation } from "wouter";
-import { useEffect, useRef } from "react";
+import { Switch, Route, Redirect, useLocation } from "wouter";
+import { useEffect, useRef, lazy, Suspense } from "react";
 import CookieConsent from "@/components/CookieConsent";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -7,36 +7,45 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
-import StorePage from "@/pages/store/StorePage";
+import StorePage, { secao } from "@/pages/store/StorePage";
+import { MarcasPage, MarcaPage } from "@/pages/conteudo/MarcasPages";
+import { UnidadesPage, UnidadePage } from "@/pages/conteudo/UnidadesPages";
+import { GuiasPage, GuiaPage } from "@/pages/conteudo/GuiasPages";
+import FormatoRostoPage from "@/pages/conteudo/FormatoRostoPage";
+import TamanhoOculosPage from "@/pages/conteudo/TamanhoOculosPage";
 import ProductDetailPage from "@/pages/store/ProductDetailPage";
-import CartPage from "@/pages/store/CartPage";
-import CheckoutPage from "@/pages/store/CheckoutPage";
-import OrderConfirmationPage from "@/pages/store/OrderConfirmationPage";
-import AdminLoginPage from "@/pages/admin/LoginPage";
-import AdminLayout from "@/pages/admin/AdminLayout";
-import AdminDashboard from "@/pages/admin/Dashboard";
-import AdminProducts from "@/pages/admin/Products";
-import AdminProductForm from "@/pages/admin/ProductForm";
-import AdminOrders from "@/pages/admin/Orders";
-import AdminOrderDetail from "@/pages/admin/OrderDetail";
-import AdminCustomers from "@/pages/admin/Customers";
-import AdminImport from "@/pages/admin/Import";
-import AdminSettings from "@/pages/admin/Settings";
-import AdminCoupons from "@/pages/admin/Coupons";
-import AdminSubscriptions from "@/pages/admin/Subscriptions";
-import AdminAbandonedCarts from "@/pages/admin/AbandonedCarts";
-import AdminReviews from "@/pages/admin/Reviews";
-import AdminBundles from "@/pages/admin/Bundles";
-import AdminCategories from "@/pages/admin/Categories";
-import AdminFeaturedProducts from "@/pages/admin/FeaturedProducts";
-import AdminUsers from "@/pages/admin/Users";
-import AdminReports from "@/pages/admin/Reports";
-import AdminChangePassword from "@/pages/admin/ChangePasswordPage";
+const CartPage = lazy(() => import("@/pages/store/CartPage"));
+const CheckoutPage = lazy(() => import("@/pages/store/CheckoutPage"));
+const OrderConfirmationPage = lazy(() => import("@/pages/store/OrderConfirmationPage"));
+const AdminLoginPage = lazy(() => import("@/pages/admin/LoginPage"));
+const AdminLayout = lazy(() => import("@/pages/admin/AdminLayout"));
+const AdminDashboard = lazy(() => import("@/pages/admin/Dashboard"));
+const AdminProducts = lazy(() => import("@/pages/admin/Products"));
+const AdminProductForm = lazy(() => import("@/pages/admin/ProductForm"));
+const AdminOrders = lazy(() => import("@/pages/admin/Orders"));
+const AdminOrderDetail = lazy(() => import("@/pages/admin/OrderDetail"));
+const AdminCustomers = lazy(() => import("@/pages/admin/Customers"));
+const AdminImport = lazy(() => import("@/pages/admin/Import"));
+const AdminSettings = lazy(() => import("@/pages/admin/Settings"));
+const AdminCoupons = lazy(() => import("@/pages/admin/Coupons"));
+const AdminSubscriptions = lazy(() => import("@/pages/admin/Subscriptions"));
+const AdminAbandonedCarts = lazy(() => import("@/pages/admin/AbandonedCarts"));
+const AdminReviews = lazy(() => import("@/pages/admin/Reviews"));
+const AdminBundles = lazy(() => import("@/pages/admin/Bundles"));
+const AdminCategories = lazy(() => import("@/pages/admin/Categories"));
+const AdminFeaturedProducts = lazy(() => import("@/pages/admin/FeaturedProducts"));
+const AdminUsers = lazy(() => import("@/pages/admin/Users"));
+const AdminReports = lazy(() => import("@/pages/admin/Reports"));
+const AdminChangePassword = lazy(() => import("@/pages/admin/ChangePasswordPage"));
 import SobrePage from "@/pages/institucional/SobrePage";
 import ContatoPage from "@/pages/institucional/ContatoPage";
-import TrocasPage from "@/pages/institucional/TrocasPage";
-import PrivacidadePage from "@/pages/institucional/PrivacidadePage";
-import GuiaMedidasPage from "@/pages/institucional/GuiaMedidasPage";
+const TrocasPage = lazy(() => import("@/pages/institucional/TrocasPage"));
+const PrivacidadePage = lazy(() => import("@/pages/institucional/PrivacidadePage"));
+const ProvadorPage = lazy(() => import("@/pages/ProvadorPage"));
+const LentesDeGrauPage = lazy(() => import("@/pages/LentesDeGrauPage"));
+const EmpresasPage = lazy(() => import("@/pages/EmpresasPage"));
+const AdminLeads = lazy(() => import("@/pages/admin/Leads"));
+import AssistenteWidget from "@/components/assistente/AssistenteWidget";
 import { CartProvider } from "@/context/CartContext";
 import { AdminAuthProvider } from "@/context/AdminAuthContext";
 
@@ -72,6 +81,12 @@ function RolarParaOTopo() {
   return null;
 }
 
+const LojaPage = () => <StorePage />;
+const SecaoSol = secao("oculos-de-sol");
+const SecaoGrau = secao("oculos-de-grau");
+const SecaoInfantil = secao("infantil");
+const SecaoEpi = secao("epi");
+
 function Router() {
   return (
     <Switch>
@@ -79,7 +94,13 @@ function Router() {
       <Route path="/" component={Home} />
 
       {/* Loja */}
-      <Route path="/loja" component={StorePage} />
+      <Route path="/loja" component={LojaPage} />
+      <Route path="/oculos-de-sol" component={SecaoSol} />
+      <Route path="/oculos-de-grau" component={SecaoGrau} />
+      <Route path="/infantil" component={SecaoInfantil} />
+      <Route path="/epi" component={SecaoEpi} />
+      <Route path="/marcas" component={MarcasPage} />
+      <Route path="/marcas/:slug" component={MarcaPage} />
       <Route path="/loja/produto/:slug" component={ProductDetailPage} />
       <Route path="/loja/carrinho" component={CartPage} />
       <Route path="/loja/checkout" component={CheckoutPage} />
@@ -90,7 +111,18 @@ function Router() {
       <Route path="/contato" component={ContatoPage} />
       <Route path="/trocas-e-devolucoes" component={TrocasPage} />
       <Route path="/privacidade" component={PrivacidadePage} />
-      <Route path="/guia-de-medidas" component={GuiaMedidasPage} />
+      <Route path="/tamanho-do-oculos" component={TamanhoOculosPage} />
+      <Route path="/guia-de-medidas">{() => <Redirect to="/tamanho-do-oculos" />}</Route>
+      <Route path="/unidades" component={UnidadesPage} />
+      <Route path="/unidades/:slug" component={UnidadePage} />
+      <Route path="/guia" component={GuiasPage} />
+      <Route path="/guia/:slug" component={GuiaPage} />
+      <Route path="/formato-do-rosto" component={FormatoRostoPage} />
+
+      {/* Diferenciais Sanrê */}
+      <Route path="/provador" component={ProvadorPage} />
+      <Route path="/lentes-de-grau" component={LentesDeGrauPage} />
+      <Route path="/empresas" component={EmpresasPage} />
 
       {/* Admin */}
       <Route path="/admin/login" component={AdminLoginPage} />
@@ -113,6 +145,7 @@ function Router() {
       <Route path="/admin/configuracoes" component={() => <AdminLayout><AdminSettings /></AdminLayout>} />
       <Route path="/admin/usuarios" component={() => <AdminLayout><AdminUsers /></AdminLayout>} />
       <Route path="/admin/relatorios" component={() => <AdminLayout><AdminReports /></AdminLayout>} />
+      <Route path="/admin/leads" component={() => <AdminLayout><AdminLeads /></AdminLayout>} />
 
       <Route component={NotFound} />
     </Switch>
@@ -169,9 +202,12 @@ function App() {
         <AdminAuthProvider>
           <CartProvider>
             <RolarParaOTopo />
-            <Router />
+            <Suspense fallback={<div className="min-h-screen bg-background" />}>
+              <Router />
+            </Suspense>
             <Toaster />
             {!isAdmin && <CookieConsent />}
+            {!isAdmin && <AssistenteWidget />}
           </CartProvider>
         </AdminAuthProvider>
       </TooltipProvider>

@@ -1,59 +1,61 @@
+import { useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import WhatsAppFloat from "@/components/layout/WhatsAppFloat";
-import { EMAIL } from "@/lib/marca";
+import { aplicarSeo } from "@/lib/seo";
+import { EMAIL, RAZAO_SOCIAL, CNPJ } from "@/lib/marca";
 
-const secoes = [
-  ["Dados que coletamos", "Podemos coletar dados fornecidos no cadastro e no checkout, como nome, e-mail, telefone, CPF quando necessário, endereço de entrega e informações do pedido. Também registramos dados de navegação, preferências, itens do carrinho e carrinhos abandonados para manter a experiência de compra e, quando permitido, retomar o atendimento."],
-  ["Como usamos seus dados", "Usamos essas informações para criar e administrar sua conta, processar pagamentos e pedidos, entregar produtos, prestar atendimento, prevenir fraudes, cumprir obrigações legais e fiscais e melhorar a loja. Comunicações promocionais são enviadas com consentimento ou outra base legal aplicável, sempre com opção de cancelamento."],
-  ["Bases legais", "O tratamento ocorre conforme a Lei Geral de Proteção de Dados (LGPD), principalmente para executar o contrato de compra, cumprir obrigações legais, atender interesses legítimos com respeito aos seus direitos e, quando exigido, com seu consentimento."],
-  ["Compartilhamento", "Compartilhamos somente os dados necessários com meios de pagamento, instituições financeiras, plataformas de tecnologia, transportadoras e serviços de entrega. Esses parceiros recebem as informações indispensáveis para executar suas funções e devem protegê-las de acordo com a legislação."],
-  ["Provador virtual", "Se você usar o Provador Virtual, a foto que enviar é tratada apenas para gerar a simulação daquela peça em você. Para isso, ela é enviada ao Higgsfield, provedor de inteligência artificial parceiro, que pode processá-la em servidores fora do Brasil — essa transferência internacional acontece exclusivamente para essa finalidade. A foto é apagada em até 24 horas e a simulação em até 7 dias, automaticamente. Você pode apagar as duas antes disso, a qualquer momento, pelo botão \"Apagar minha foto\" na própria página da peça, ou pelo canal de privacidade abaixo. Sua foto não entra no catálogo, não fica visível para a equipe da loja e não é usada para treinar modelos de inteligência artificial. O envio só acontece depois do seu aceite explícito, e o recurso é destinado a maiores de 18 anos."],
-  ["Cookies", "Usamos cookies essenciais para o funcionamento da loja, a manutenção do carrinho e a segurança. Cookies de análise e publicidade podem ser usados para entender a navegação e melhorar nossas comunicações. O aviso do componente CookieConsent permite aceitar ou gerenciar essa escolha, quando aplicável; você também pode ajustar cookies no navegador."],
-  ["Conservação e segurança", "Mantemos os dados pelo tempo necessário às finalidades informadas e aos prazos legais. Adotamos medidas técnicas e administrativas para reduzir riscos de acesso, alteração, perda ou divulgação indevida, embora nenhum ambiente digital seja totalmente isento de riscos."],
-];
-
+/**
+ * Política de privacidade (LGPD). Cobre os tratamentos que o site realmente
+ * faz: compra, contato, orçamento com receita (dado de saúde, art. 11),
+ * provador (processado no aparelho), assistente e cookies.
+ * TODO(loja): revisar com o jurídico da Sanrê antes do go-live.
+ */
 export default function PrivacidadePage() {
+  useEffect(() => {
+    aplicarSeo({
+      titulo: "Política de privacidade",
+      descricao: "Como a Óticas Sanrê trata seus dados: compras, contato, receitas enviadas para orçamento, provador virtual, assistente e cookies.",
+      caminho: "/privacidade",
+    });
+  }, []);
+  const Bloco = ({ t, children }: { t: string; children: React.ReactNode }) => (
+    <section className="border-t border-sr-line py-7">
+      <h2 className="font-display text-[1.35rem] font-light">{t}</h2>
+      <div className="mt-3 space-y-3 leading-relaxed text-sr-ink">{children}</div>
+    </section>
+  );
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main>
-        <section className="bleed py-16 md:py-24">
-          <div className="w-full max-w-4xl">
-            <p className="eyebrow">Seus dados, nosso cuidado</p>
-            <h1 className="display-hero mt-5 max-w-4xl text-balance">Política de privacidade</h1>
-            <p className="mt-6 text-[1.125rem] text-vn-ink-soft">Última atualização: 11 de agosto de 2026.</p>
-            <p className="mt-5 text-[1.0625rem] leading-relaxed text-vn-ink-soft">
-              Esta política explica como a VIVI NOSRALLA trata dados pessoais durante sua navegação, compra e relacionamento conosco.
-            </p>
-          </div>
-        </section>
-
-        <section className="bleed py-16 md:py-24 bg-alt">
-          <div className="w-full max-w-4xl space-y-10">
-            {secoes.map(([titulo, texto]) => (
-              <section key={titulo} aria-labelledby={`secao-${titulo.toLowerCase().replaceAll(" ", "-")}`}>
-                <h2 id={`secao-${titulo.toLowerCase().replaceAll(" ", "-")}`} className="display-md">{titulo}</h2>
-                <p className="mt-4 text-[1.0625rem] leading-relaxed text-vn-ink-soft">{texto}</p>
-              </section>
-            ))}
-            <section aria-labelledby="direitos-titulo">
-              <h2 id="direitos-titulo" className="display-md">Seus direitos</h2>
-              <p className="mt-4 text-[1.0625rem] leading-relaxed text-vn-ink-soft">
-                Você pode solicitar confirmação e acesso aos dados, correção, anonimização, bloqueio ou eliminação quando cabíveis, portabilidade, informação sobre compartilhamentos, revisão de decisões automatizadas e revogação do consentimento. Alguns dados poderão ser mantidos para cumprir deveres legais.
-              </p>
-            </section>
-            <section aria-labelledby="canal-titulo">
-              <h2 id="canal-titulo" className="display-md">Canal de privacidade</h2>
-              <p className="mt-4 text-[1.0625rem] leading-relaxed text-vn-ink-soft">
-                Para exercer seus direitos ou tirar dúvidas, escreva para <a href={`mailto:${EMAIL}`} className="inline-flex min-h-11 items-center break-all font-semibold text-vn-olive-700 underline">{EMAIL}</a>. Poderemos pedir informações para confirmar sua identidade e proteger seus dados.
-              </p>
-            </section>
-          </div>
-        </section>
+      <main className="container-sr pb-24 pt-12 md:pt-16">
+        <article className="mx-auto max-w-3xl">
+          <p className="eyebrow">LGPD</p>
+          <h1 className="display-lg mt-4 mb-6">Política de privacidade</h1>
+          <p className="mb-8 text-sr-ink-soft">Controladora: {RAZAO_SOCIAL}, CNPJ {CNPJ}. Contato do encarregado: {EMAIL}.</p>
+          <Bloco t="Compras e entregas">
+            <p>Nome, CPF, contato e endereço são usados para emitir nota fiscal, processar o pagamento (pelos gateways Mercado Pago ou Asaas) e entregar ou separar o pedido para retirada. Guardamos pelo prazo exigido pela legislação fiscal.</p>
+          </Bloco>
+          <Bloco t="Receitas enviadas para orçamento">
+            <p>A receita de óculos é dado pessoal sensível (saúde). Só a recebemos com o seu consentimento específico, usamos apenas para montar o orçamento das lentes e ela fica acessível somente à equipe da loja. O arquivo é apagado automaticamente em até 90 dias, ou antes, se você pedir.</p>
+          </Bloco>
+          <Bloco t="Provador virtual">
+            <p>A imagem da câmera ou a foto que você escolhe é processada no seu próprio aparelho, pelo navegador. Ela não é enviada nem gravada pela Sanrê. As fotos que você tirar no provador ficam só no seu aparelho.</p>
+          </Bloco>
+          <Bloco t="Assistente e WhatsApp">
+            <p>As mensagens trocadas com a Assistente Sanrê são usadas para responder você e, quando necessário, passar o atendimento a uma consultora. Não envie receita, CPF ou dados de cartão pelo chat do site. Ao continuar pelo WhatsApp, a conversa segue também as regras do WhatsApp.</p>
+          </Bloco>
+          <Bloco t="Contato, reservas e empresas">
+            <p>Nome, telefone e e-mail informados em formulários de contato, reserva de armação ou atendimento a empresas são usados para responder o seu pedido.</p>
+          </Bloco>
+          <Bloco t="Cookies">
+            <p>Usamos cookies necessários para o carrinho funcionar. Cookies de medição e de anúncios só são ativados com a sua autorização, no aviso de cookies.</p>
+          </Bloco>
+          <Bloco t="Seus direitos">
+            <p>Você pode pedir acesso, correção, portabilidade ou exclusão dos seus dados e revogar consentimentos a qualquer momento pelo e-mail {EMAIL}.</p>
+          </Bloco>
+        </article>
       </main>
       <Footer />
-      <WhatsAppFloat />
     </div>
   );
 }

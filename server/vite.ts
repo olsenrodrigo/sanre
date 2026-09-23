@@ -5,6 +5,7 @@ import viteConfig from "../vite.config";
 import fs from "fs";
 import path from "path";
 import { nanoid } from "nanoid";
+import { renderizarShell, origemDoRequest } from "./seo/ssr";
 
 const viteLogger = createLogger();
 
@@ -20,9 +21,11 @@ export async function setupVite(server: Server, app: Express) {
     configFile: false,
     customLogger: {
       ...viteLogger,
+      // Antes: process.exit(1) em qualquer erro do Vite — uma requisição a um
+      // caminho negado (/@fs/.../.env) ou um arquivo salvo pela metade
+      // derrubava o servidor de desenvolvimento inteiro.
       error: (msg, options) => {
         viteLogger.error(msg, options);
-        process.exit(1);
       },
     },
     server: serverOptions,
@@ -49,7 +52,8 @@ export async function setupVite(server: Server, app: Express) {
         `src="/src/main.tsx?v=${nanoid()}"`,
       );
       const page = await vite.transformIndexHtml(url, template);
-      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+      const { html, status } = await renderizarShell(url, page, origemDoRequest(req));
+      res.status(status).set({ "Content-Type": "text/html" }).end(html);
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);
       next(e);

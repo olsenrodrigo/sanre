@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { FORMATOS, MATERIAIS, PUBLICOS } from "@/lib/oculos";
 import { useParams, useLocation, Link } from "wouter";
 import { ArrowLeft, Upload, X, Plus, Star, Trash2, ImagePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -29,6 +30,14 @@ export default function AdminProductForm() {
     freeShipping: false, trackInventory: true, categoryId: "",
     seoTitle: "", seoDescription: "",
   });
+  // Ficha de óculos (migration 018) — separada do form base para não misturar tipos
+  const [oculos, setOculos] = useState({
+    modelCode: "", frameShape: "", frameMaterial: "", audience: "", frameColor: "", frameColorHex: "",
+    lensColor: "", uvProtection: "", lensWidthMm: "", bridgeMm: "", templeMm: "", lensHeightMm: "",
+    caNumber: "", safetyNorms: "", tryonImageUrl: "",
+    lensPolarized: false, lensMirrored: false, lensGradient: false, lensPhotochromic: false, acceptsRx: false,
+  });
+  const [unidades, setUnidades] = useState({ cravinhos: "0", "ribeirao-preto": "0" });
 
   useEffect(() => {
     adminFetch("/api/admin/categories").then(r => r.json()).then(setCategories).catch(() => {});
@@ -46,6 +55,20 @@ export default function AdminProductForm() {
           trackInventory: data.trackInventory !== false,
           categoryId: data.categoryId ? String(data.categoryId) : "",
           seoTitle: data.seoTitle || "", seoDescription: data.seoDescription || "",
+        });
+        setOculos({
+          modelCode: data.modelCode || "", frameShape: data.frameShape || "", frameMaterial: data.frameMaterial || "",
+          audience: data.audience || "", frameColor: data.frameColor || "", frameColorHex: data.frameColorHex || "",
+          lensColor: data.lensColor || "", uvProtection: data.uvProtection || "",
+          lensWidthMm: data.lensWidthMm ? String(data.lensWidthMm) : "", bridgeMm: data.bridgeMm ? String(data.bridgeMm) : "",
+          templeMm: data.templeMm ? String(data.templeMm) : "", lensHeightMm: data.lensHeightMm ? String(data.lensHeightMm) : "",
+          caNumber: data.caNumber || "", safetyNorms: data.safetyNorms || "", tryonImageUrl: data.tryonImageUrl || "",
+          lensPolarized: !!data.lensPolarized, lensMirrored: !!data.lensMirrored, lensGradient: !!data.lensGradient,
+          lensPhotochromic: !!data.lensPhotochromic, acceptsRx: !!data.acceptsRx,
+        });
+        setUnidades({
+          cravinhos: String(data.unidades?.cravinhos ?? 0),
+          "ribeirao-preto": String(data.unidades?.["ribeirao-preto"] ?? 0),
         });
         setImages(data.images || []);
         setVariants(data.variants || []);
@@ -66,11 +89,20 @@ export default function AdminProductForm() {
       toast({ title: "Nome e preço são obrigatórios", variant: "destructive" }); return;
     }
     setSaving(true);
+    const mm = (v: string) => (v ? Number(v) : null);
     const body = {
       ...form,
       categoryId: form.categoryId ? Number(form.categoryId) : null,
       stockQuantity: Number(form.stockQuantity),
       weightG: form.weightG ? Number(form.weightG) : null,
+      ...oculos,
+      frameShape: oculos.frameShape || null,
+      frameMaterial: oculos.frameMaterial || null,
+      audience: oculos.audience || null,
+      tryonImageUrl: oculos.tryonImageUrl || null,
+      lensWidthMm: mm(oculos.lensWidthMm), bridgeMm: mm(oculos.bridgeMm),
+      templeMm: mm(oculos.templeMm), lensHeightMm: mm(oculos.lensHeightMm),
+      unidades: { cravinhos: Number(unidades.cravinhos || 0), "ribeirao-preto": Number(unidades["ribeirao-preto"] || 0) },
     };
     try {
       const r = isEdit
@@ -138,7 +170,7 @@ export default function AdminProductForm() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <Link href="/admin/produtos"><a className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg no-underline"><ArrowLeft size={18} /></a></Link>
+        <Link href="/admin/produtos" asChild><a className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg no-underline"><ArrowLeft size={18} /></a></Link>
         <div>
           <h1 className="text-xl font-bold text-gray-900">{isEdit ? "Editar produto" : "Novo produto"}</h1>
           {isEdit && <p className="text-xs text-gray-400">ID: {id}</p>}
@@ -164,7 +196,7 @@ export default function AdminProductForm() {
               </div>
               <div>
                 <Label>Slug (URL)</Label>
-                <Input value={form.slug} onChange={e => setForm(f => ({ ...f, slug: e.target.value }))} placeholder="camiseta-azul" className="mt-1" />
+                <Input value={form.slug} onChange={e => setForm(f => ({ ...f, slug: e.target.value }))} placeholder="ray-ban-aviator-dourado" className="mt-1" />
                 <p className="text-xs text-gray-400 mt-1">/loja/produto/{form.slug || "..."}</p>
               </div>
               <div>
@@ -176,7 +208,7 @@ export default function AdminProductForm() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label>Marca / Brand</Label>
-                  <Input value={form.brand} onChange={e => setForm(f => ({...f, brand: e.target.value}))} placeholder="Nike" className="mt-1" />
+                  <Input value={form.brand} onChange={e => setForm(f => ({...f, brand: e.target.value}))} placeholder="Ray-Ban" className="mt-1" />
                 </div>
                 <div>
                   <Label>Fornecedor</Label>
@@ -186,13 +218,68 @@ export default function AdminProductForm() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label>Tipo</Label>
-                  <Input value={form.type} onChange={e => setForm(f => ({...f, type: e.target.value}))} placeholder="Camiseta" className="mt-1" />
+                  <Input value={form.type} onChange={e => setForm(f => ({...f, type: e.target.value}))} placeholder="Óculos de sol" className="mt-1" />
                 </div>
                 <div>
                   <Label>Tags</Label>
-                  <Input value={form.tags} onChange={e => setForm(f => ({...f, tags: e.target.value}))} placeholder="verão, casual, promoção" className="mt-1" />
+                  <Input value={form.tags} onChange={e => setForm(f => ({...f, tags: e.target.value}))} placeholder="polarizado, verão" className="mt-1" />
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Ficha do óculos */}
+          <div className="bg-white rounded-xl shadow-sm p-5">
+            <h3 className="font-semibold text-gray-800 mb-1">Ficha do óculos</h3>
+            <p className="text-xs text-gray-500 mb-4">É por estes campos que a vitrine filtra (formato, material, lente, público, loja).</p>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div><Label>Código do modelo</Label><Input value={oculos.modelCode} onChange={e => setOculos(o => ({ ...o, modelCode: e.target.value }))} placeholder="RB3025" className="mt-1" /></div>
+              <div><Label>Formato</Label>
+                <select value={oculos.frameShape} onChange={e => setOculos(o => ({ ...o, frameShape: e.target.value }))} className="mt-1 w-full border rounded-md h-10 px-2 text-sm">
+                  <option value="">—</option>
+                  {Object.entries(FORMATOS).map(([v, r]) => <option key={v} value={v}>{r}</option>)}
+                </select></div>
+              <div><Label>Material</Label>
+                <select value={oculos.frameMaterial} onChange={e => setOculos(o => ({ ...o, frameMaterial: e.target.value }))} className="mt-1 w-full border rounded-md h-10 px-2 text-sm">
+                  <option value="">—</option>
+                  {Object.entries(MATERIAIS).map(([v, r]) => <option key={v} value={v}>{r}</option>)}
+                </select></div>
+              <div><Label>Para quem</Label>
+                <select value={oculos.audience} onChange={e => setOculos(o => ({ ...o, audience: e.target.value }))} className="mt-1 w-full border rounded-md h-10 px-2 text-sm">
+                  <option value="">—</option>
+                  {Object.entries(PUBLICOS).map(([v, r]) => <option key={v} value={v}>{r}</option>)}
+                </select></div>
+              <div><Label>Cor da armação</Label><Input value={oculos.frameColor} onChange={e => setOculos(o => ({ ...o, frameColor: e.target.value }))} placeholder="Dourado" className="mt-1" /></div>
+              <div><Label>Hex da cor</Label><Input value={oculos.frameColorHex} onChange={e => setOculos(o => ({ ...o, frameColorHex: e.target.value }))} placeholder="#c2a15a" className="mt-1" /></div>
+              <div><Label>Cor da lente</Label><Input value={oculos.lensColor} onChange={e => setOculos(o => ({ ...o, lensColor: e.target.value }))} placeholder="Verde G-15" className="mt-1" /></div>
+              <div><Label>Proteção</Label><Input value={oculos.uvProtection} onChange={e => setOculos(o => ({ ...o, uvProtection: e.target.value }))} placeholder="100% UV" className="mt-1" /></div>
+              <div><Label>Lente (mm)</Label><Input type="number" value={oculos.lensWidthMm} onChange={e => setOculos(o => ({ ...o, lensWidthMm: e.target.value }))} className="mt-1" /></div>
+              <div><Label>Ponte (mm)</Label><Input type="number" value={oculos.bridgeMm} onChange={e => setOculos(o => ({ ...o, bridgeMm: e.target.value }))} className="mt-1" /></div>
+              <div><Label>Haste (mm)</Label><Input type="number" value={oculos.templeMm} onChange={e => setOculos(o => ({ ...o, templeMm: e.target.value }))} className="mt-1" /></div>
+              <div><Label>Altura da lente (mm)</Label><Input type="number" value={oculos.lensHeightMm} onChange={e => setOculos(o => ({ ...o, lensHeightMm: e.target.value }))} className="mt-1" /></div>
+              <div><Label>CA (EPI)</Label><Input value={oculos.caNumber} onChange={e => setOculos(o => ({ ...o, caNumber: e.target.value }))} className="mt-1" /></div>
+              <div className="col-span-2"><Label>Norma (EPI)</Label><Input value={oculos.safetyNorms} onChange={e => setOculos(o => ({ ...o, safetyNorms: e.target.value }))} placeholder="ABNT NBR ISO 16321" className="mt-1" /></div>
+            </div>
+            <div className="flex flex-wrap gap-x-6 gap-y-2 mt-4 text-sm">
+              {([["lensPolarized", "Polarizada"], ["lensMirrored", "Espelhada"], ["lensGradient", "Degradê"], ["lensPhotochromic", "Fotossensível"], ["acceptsRx", "Aceita lente de grau"]] as const).map(([k, r]) => (
+                <label key={k} className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={oculos[k]} onChange={e => setOculos(o => ({ ...o, [k]: e.target.checked }))} className="w-4 h-4" /> {r}
+                </label>
+              ))}
+            </div>
+            <div className="grid grid-cols-2 gap-4 mt-5 pt-4 border-t">
+              <div><Label>Estoque loja Cravinhos</Label><Input type="number" min="0" value={unidades.cravinhos} onChange={e => setUnidades(u => ({ ...u, cravinhos: e.target.value }))} className="mt-1" /></div>
+              <div><Label>Estoque loja Ribeirão Preto</Label><Input type="number" min="0" value={unidades["ribeirao-preto"]} onChange={e => setUnidades(u => ({ ...u, "ribeirao-preto": e.target.value }))} className="mt-1" /></div>
+            </div>
+            <div className="mt-5 pt-4 border-t">
+              <Label>Imagem do provador virtual</Label>
+              <p className="text-xs text-gray-500 mt-1">Vista FRONTAL em PNG com fundo transparente. Envie a imagem na galeria abaixo e clique em "Provador" sobre ela.</p>
+              {oculos.tryonImageUrl ? (
+                <div className="mt-2 flex items-center gap-3">
+                  <img src={oculos.tryonImageUrl} alt="" className="h-12 bg-[repeating-conic-gradient(#eee_0_25%,#fff_0_50%)] bg-[length:12px_12px] rounded" />
+                  <button type="button" onClick={() => setOculos(o => ({ ...o, tryonImageUrl: "" }))} className="text-xs text-red-600 underline">Remover do provador</button>
+                </div>
+              ) : <p className="text-xs text-gray-400 mt-2">Sem imagem — o óculos não aparece no provador.</p>}
             </div>
           </div>
 
@@ -210,6 +297,7 @@ export default function AdminProductForm() {
                   )}
                   <div className="absolute inset-0 rounded-lg bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1">
                     <button onClick={() => handleSetMain(img.id)} title="Definir como principal" className="p-1 bg-yellow-400 rounded text-white text-xs"><Star size={12} /></button>
+                    <button onClick={() => setOculos(o => ({ ...o, tryonImageUrl: img.url }))} title="Usar no provador virtual" className="px-1 py-0.5 bg-white rounded text-gray-800 text-[10px] font-medium">Provador</button>
                     <button onClick={() => handleDeleteImage(img.id)} className="p-1 bg-red-500 rounded text-white"><X size={12} /></button>
                   </div>
                 </div>
@@ -260,7 +348,7 @@ export default function AdminProductForm() {
               </div>
               <div>
                 <Label>SKU</Label>
-                <Input value={form.sku} onChange={e => setForm(f => ({...f, sku: e.target.value}))} placeholder="CAM-AZL-M" className="mt-1" />
+                <Input value={form.sku} onChange={e => setForm(f => ({...f, sku: e.target.value}))} placeholder="SR-RAY-001" className="mt-1" />
               </div>
               <div>
                 <Label>Código de barras</Label>

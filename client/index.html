@@ -4,49 +4,52 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>VIVI NOSRALLA | Moda feminina atemporal — Monte Alto SP</title>
+    <!--sanre:head-->
+    <title>Óticas Sanrê | Óculos de sol, de grau e EPI em Cravinhos e Ribeirão Preto</title>
     <meta
       name="description"
-      content="Alfaiataria, vestidos, tricô e peças de festa para mulheres objetivas. Loja em Monte Alto (SP) com envio para todo o Brasil. Moda, beleza e poder desde 2017."
+      content="Ótica em Cravinhos desde 2004 e em Ribeirão Preto na PB Arts Gallery. Ray-Ban, Oakley, Prada, Gucci, Tom Ford e mais, com provador virtual, lentes de grau com receita e retirada na loja."
     />
-    <meta name="theme-color" content="#878f79" />
-
-    <meta property="og:site_name" content="VIVI NOSRALLA" />
-    <meta property="og:title" content="VIVI NOSRALLA | Moda feminina atemporal" />
+    <meta property="og:site_name" content="Óticas Sanrê" />
+    <meta property="og:title" content="Óticas Sanrê | Óculos de sol, de grau e EPI" />
     <meta
       property="og:description"
-      content="Alfaiataria, vestidos, tricô e peças de festa. Monte Alto (SP), enviamos para todo o Brasil."
+      content="Cravinhos desde 2004 e Ribeirão Preto na PB Arts Gallery. Provador virtual, lentes de grau com receita e retirada na loja."
     />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
-    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image" content="/og-image.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="VIVI NOSRALLA | Moda feminina atemporal" />
-    <meta
-      name="twitter:description"
-      content="Alfaiataria, vestidos, tricô e peças de festa. Monte Alto (SP), enviamos para todo o Brasil."
-    />
-    <meta name="twitter:image" content="/og-image.png" />
+    <meta name="twitter:image" content="/og-image.jpg" />
+    <!--/sanre:head-->
 
-    <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
+    <meta name="theme-color" content="#141414" />
+    <!--
+      O servidor preenche #root com o conteúdo da rota em HTML (para buscador e
+      IA que não executam JavaScript). Com JavaScript, o React assume a página e
+      esse bloco não aparece — sem "flash" de conteúdo cru.
+    -->
+    <script>document.documentElement.classList.add("js")</script>
+    <style>.js [data-ssr]{display:none}</style>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <!--
-      Tipografia da marca: Quicksand é a fonte secundária oficial do brandbook;
-      Playfair Display substitui a Dream Avenue (licenciada) nos títulos.
+      Tipografia: Montserrat é a fonte oficial do manual da marca (títulos e
+      rótulos); DM Sans no texto corrido. A logomarca é SVG, não depende daqui.
     -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Quicksand:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Montserrat:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--sanre:ssr--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -45,7 +45,7 @@ export default function Dashboard() {
           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
           <p className="text-gray-500 text-sm mt-0.5">{new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" })}</p>
         </div>
-        <Link href="/admin/produtos/novo">
+        <Link href="/admin/produtos/novo" asChild>
           <a className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 no-underline flex items-center gap-2">
             + Novo produto
           </a>
@@ -72,7 +72,7 @@ export default function Dashboard() {
       <div className="bg-white rounded-xl shadow-sm">
         <div className="flex items-center justify-between p-5 border-b">
           <h2 className="font-semibold text-gray-800">Pedidos recentes</h2>
-          <Link href="/admin/pedidos">
+          <Link href="/admin/pedidos" asChild>
             <a className="text-sm text-blue-600 hover:underline no-underline flex items-center gap-1">Ver todos <ArrowRight size={14} /></a>
           </Link>
         </div>
@@ -97,7 +97,7 @@ export default function Dashboard() {
                 {stats?.recentOrders?.map((order: any) => (
                   <tr key={order.id} className="border-t hover:bg-gray-50 transition-colors">
                     <td className="px-5 py-3">
-                      <Link href={`/admin/pedidos/${order.id}`}>
+                      <Link href={`/admin/pedidos/${order.id}`} asChild>
                         <a className="font-mono text-sm font-semibold text-blue-600 no-underline hover:underline">#{order.orderNumber}</a>
                       </Link>
                     </td>

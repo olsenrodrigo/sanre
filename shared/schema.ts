@@ -1,7 +1,7 @@
 import { sql } from "drizzle-orm";
 import {
   pgTable, text, varchar, serial, timestamp, integer, boolean,
-  decimal, jsonb, pgEnum, customType
+  decimal, jsonb, pgEnum, customType, primaryKey
 } from "drizzle-orm/pg-core";
 
 /** `bytea` não tem tipo nativo no Drizzle; a chave do provedor vive cifrada. */
@@ -198,6 +198,30 @@ export const products = pgTable("products", {
   // {"P": {"busto": 88, "cintura": 70, "comprimento": 96}, "M": {...}}
   measurements: jsonb("measurements").$type<MedidasPorTamanho>(),
   collectionId: integer("collection_id"),
+  // ─── Ficha de óculos (migration 018) ───────────────────────────────────
+  // Formato, material, lente e medidas são o que decide a compra — e é por
+  // eles que a vitrine filtra, por isso colunas e não JSON.
+  modelCode: text("model_code"),
+  frameShape: text("frame_shape"),
+  frameMaterial: text("frame_material"),
+  audience: text("audience"), // feminino | masculino | unissex | infantil
+  frameColor: text("frame_color"),
+  frameColorHex: text("frame_color_hex"),
+  lensColor: text("lens_color"),
+  lensPolarized: boolean("lens_polarized").notNull().default(false),
+  lensMirrored: boolean("lens_mirrored").notNull().default(false),
+  lensGradient: boolean("lens_gradient").notNull().default(false),
+  lensPhotochromic: boolean("lens_photochromic").notNull().default(false),
+  uvProtection: text("uv_protection"),
+  acceptsRx: boolean("accepts_rx").notNull().default(false),
+  lensWidthMm: integer("lens_width_mm"),
+  bridgeMm: integer("bridge_mm"),
+  templeMm: integer("temple_mm"),
+  lensHeightMm: integer("lens_height_mm"),
+  caNumber: text("ca_number"),
+  safetyNorms: text("safety_norms"),
+  // Vista frontal com fundo transparente — o provador em RA desenha esta imagem.
+  tryonImageUrl: text("tryon_image_url"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -772,3 +796,57 @@ export const studioVariants = pgTable("studio_variants", {
 });
 
 export type StudioVariant = typeof studioVariants.$inferSelect;
+
+
+// ─── Estoque por unidade (migration 018) ────────────────────────────────────
+// Saldo de cada loja física. Virá do SS Ótica (somente leitura); até lá,
+// painel e seed. `products.stock_quantity` segue sendo o saldo do e-commerce.
+export const productUnitStock = pgTable("product_unit_stock", {
+  productId: integer("product_id").notNull(),
+  unitSlug: text("unit_slug").notNull(), // cravinhos | ribeirao-preto
+  quantity: integer("quantity").notNull().default(0),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (t) => [primaryKey({ columns: [t.productId, t.unitSlug] })]);
+
+export type ProductUnitStock = typeof productUnitStock.$inferSelect;
+
+// ─── Leads do site (migration 019) ──────────────────────────────────────────
+// Orçamento de grau, reserva para experimentar e pedido de empresas (EPI).
+// O protocolo vai na mensagem do WhatsApp para a assistente reconhecer o lead.
+export const leads = pgTable("leads", {
+  id: serial("id").primaryKey(),
+  protocol: text("protocol").notNull().unique(),
+  kind: text("kind").notNull(), // orcamento_grau | reserva | empresa | contato
+  status: text("status").notNull().default("novo"),
+  unitSlug: text("unit_slug"),
+  productId: integer("product_id"),
+  name: text("name").notNull(),
+  phone: text("phone").notNull(),
+  email: text("email"),
+  company: text("company"),
+  payload: jsonb("payload").$type<Record<string, unknown>>().notNull().default({}),
+  source: text("source").notNull().default("site"),
+  consentVersion: text("consent_version"),
+  consentedAt: timestamp("consented_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export type Lead = typeof leads.$inferSelect;
+export type InsertLead = typeof leads.$inferInsert;
+
+// Receita anexada ao orçamento de grau — dado de saúde (LGPD art. 11):
+// nunca servida por rota pública, sempre com prazo de expurgo.
+export const prescriptionFiles = pgTable("prescription_files", {
+  id: serial("id").primaryKey(),
+  leadId: integer("lead_id").notNull(),
+  token: text("token").notNull().unique(),
+  filePath: text("file_path").notNull(),
+  mimeType: text("mime_type").notNull(),
+  sizeBytes: integer("size_bytes").notNull(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  purgedAt: timestamp("purged_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export type PrescriptionFile = typeof prescriptionFiles.$inferSelect;

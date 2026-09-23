@@ -20,8 +20,12 @@ import {
 } from "./asaas";
 import { loadConfig as loadMpConfig, validateWebhookSignature as validateMpWebhook } from "./mercadopago";
 import { sendOrderConfirmationEmail, sendShippingEmail } from "./notify";
-import { registerShippingRoutes, createLabelForOrder } from "./smartenvios-integration";
+import { registerShippingRoutes, createLabelForOrder, cotarFreteServidor } from "./smartenvios-integration";
+import { unidadePorSlug } from "@shared/unidades";
 import { registerProvadorRoutes } from "./provador/routes";
+import { registerAssistenteRoutes } from "./assistente/routes";
+import { registerLeadsRoutes } from "./leads/routes";
+import { registerSeoRoutes } from "./seo/rotas";
 import { resolvePaymentConfig, methodConfig } from "./gateway/payment-config";
 
 // ─── Saneamento de query params públicos ─────────────────────────────────────
@@ -236,6 +240,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   }, express.static(uploadsDir));
 
   registerProvadorRoutes(app);
+  registerAssistenteRoutes(app);
+  registerLeadsRoutes(app);
 
   // ──────────────────────────────────────────────────────────────────────────
   // PUBLIC ROUTES
@@ -253,149 +259,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   });
 
   // Store settings (public)
-  // ─── SEO e GEO ─────────────────────────────────────────────────────────────
-  /*
-   * A origem vem do request, não de constante: a mesma imagem roda em
-   * localhost, em staging e no domínio final, e um sitemap com a URL errada é
-   * pior que sitemap nenhum — o Google indexa o endereço que você mandou.
-   */
-  const origemDe = (req: any): string => {
-    const configurada = (process.env.PUBLIC_URL || "").replace(/\/$/, "");
-    if (configurada) return configurada;
-    const proto = String(req.headers["x-forwarded-proto"] || req.protocol || "http").split(",")[0];
-    return `${proto}://${req.get("host")}`;
-  };
-
-  const escaparXml = (s: string) =>
-    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-     .replace(/"/g, "&quot;").replace(/'/g, "&apos;");
-
-  app.get("/sitemap.xml", async (req, res) => {
-    const origem = origemDe(req);
-    // Só peça publicada e coleção ativa: despublicar tira do sitemap na
-    // requisição seguinte, sem cache nosso no meio (REQ-5.5).
-    const { products: prods } = await storage.listProducts({
-      status: "active", published: true, limit: 5000, offset: 0,
-    });
-
-    const url = (caminho: string, lastmod?: Date | null) =>
-      `  <url>\n    <loc>${escaparXml(origem + caminho)}</loc>` +
-      (lastmod ? `\n    <lastmod>${new Date(lastmod).toISOString().slice(0, 10)}</lastmod>` : "") +
-      `\n  </url>`;
-
-    const corpo = [
-      '<?xml version="1.0" encoding="UTF-8"?>',
-      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-      url("/"),
-      url("/loja"),
-      url("/sobre"),
-      url("/contato"),
-      url("/trocas-e-devolucoes"),
-      url("/privacidade"),
-      url("/guia-de-medidas"),
-      // As coleções ficam FORA do sitemap até existir a página pública que as
-      // renderiza: hoje `/api/store/collections/:slug` devolve os dados, mas
-      // nenhuma tela os consome, e `/loja/colecao/<slug>` cairia no not-found
-      // da SPA. Anunciar ao Google uma URL que responde 404 é pior que não
-      // anunciar nada. Reativar junto com a tela (ver VIVI-42).
-      ...prods.map(p => url(`/loja/produto/${p.slug}`, p.updatedAt)),
-      "</urlset>",
-    ].join("\n");
-
-    res.type("application/xml");
-    res.set("Cache-Control", "public, max-age=3600");
-    return res.send(corpo);
-  });
-
-  app.get("/robots.txt", (req, res) => {
-    const origem = origemDe(req);
-    res.type("text/plain");
-    res.set("Cache-Control", "public, max-age=3600");
-    return res.send(
-      [
-        "User-agent: *",
-        "Disallow: /admin",
-        "Disallow: /api",
-        "Allow: /",
-        "",
-        `Sitemap: ${origem}/sitemap.xml`,
-        "",
-      ].join("\n"),
-    );
-  });
-
-  /*
-   * llms.txt — a versão do robots.txt para engine de IA (REQ-6.1).
-   *
-   * Quem pergunta a uma IA "onde compro alfaiataria feminina em Monte Alto"
-   * precisa que a resposta saiba que esta loja existe, o que vende e por onde
-   * navegar. É texto para máquina ler, então diz o essencial sem enfeite.
-   */
-  app.get("/llms.txt", async (req, res) => {
-    const origem = origemDe(req);
-    const cats = await storage.listCategories();
-    res.type("text/plain");
-    res.set("Cache-Control", "public, max-age=3600");
-    return res.send(
-      [
-        "# VIVI NOSRALLA",
-        "",
-        "> Loja de roupas e acessórios femininos em Monte Alto, São Paulo, Brasil.",
-        "> Alfaiataria, vestidos, tricô e peças de festa. Envio para todo o Brasil.",
-        "",
-        "## Catálogo",
-        "",
-        ...cats.map(c => `- [${c.name}](${origem}/loja?category=${c.id})`),
-        "",
-        "## Caminhos",
-        "",
-        `- Vitrine: ${origem}/loja`,
-        `- Peça: ${origem}/loja/produto/{slug}`,
-        `- Feed de catálogo (JSON): ${origem}/feed/catalogo.json`,
-        `- Guia de medidas: ${origem}/guia-de-medidas`,
-        `- Trocas e devoluções: ${origem}/trocas-e-devolucoes`,
-        `- Contato: ${origem}/contato`,
-        "",
-      ].join("\n"),
-    );
-  });
-
-  /** Catálogo legível por máquina (REQ-6.2, REQ-6.3). Só peça publicada. */
-  app.get("/feed/catalogo.json", async (req, res) => {
-    const origem = origemDe(req);
-    const { products: prods } = await storage.listProducts({
-      status: "active", published: true, limit: 5000, offset: 0,
-    });
-    const ids = prods.map(p => p.id);
-    const [imagens, grades] = await Promise.all([
-      storage.getImagesForProducts(ids),
-      storage.getVariantsForProducts(ids),
-    ]);
-
-    res.set("Cache-Control", "public, max-age=1800");
-    return res.json({
-      loja: "VIVI NOSRALLA",
-      cidade: "Monte Alto, SP, Brasil",
-      atualizadoEm: new Date().toISOString(),
-      pecas: prods.map(p => {
-        const vs = grades.get(p.id) ?? [];
-        const imgs = imagens.get(p.id) ?? [];
-        return {
-          slug: p.slug,
-          nome: p.title,
-          preco: Number(p.price),
-          moeda: "BRL",
-          tamanhos: [...new Set(vs.map(v => v.option1).filter(Boolean))],
-          cores: [...new Set(vs.map(v => v.option2).filter(Boolean))],
-          composicao: p.composition ?? null,
-          medidas: p.measurements ?? null,
-          disponivel: p.stockQuantity > 0 || p.continueSellingOutOfStock,
-          imagem: imgs[0] ? origem + imgs[0].url : null,
-          url: `${origem}/loja/produto/${p.slug}`,
-        };
-      }),
-    });
-  });
+  // ─── SEO e GEO (sitemap, robots, llms.txt, feed) — ver server/seo/ ─────────
+  registerSeoRoutes(app);
 
   /*
    * Registro do consentimento de cookies (REQ-7.2, REQ-7.3).
@@ -510,20 +375,38 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   // Featured products (public)
   app.get("/api/store/featured", async (_req, res) => {
-    const { products: prods } = await storage.listProducts({ status: "active", published: true, featured: true, limit: 8, offset: 0 });
-    const porProduto = await storage.getImagesForProducts(prods.map(p => p.id));
+    const { products: prods } = await storage.listProducts({ status: "active", published: true, featured: true, limit: 8, offset: 0, sort: "destaque" });
+    const idsF = prods.map(p => p.id);
+    const [porProduto, estoqueF] = await Promise.all([
+      storage.getImagesForProducts(idsF),
+      storage.getUnitStockForProducts(idsF),
+    ]);
     const enriched = prods.map(p => {
       const imgs = porProduto.get(p.id) ?? [];
-      return { ...p, mainImage: imgs.find(i => i.isMain)?.url || imgs[0]?.url || null };
+      return {
+        ...p,
+        costPerItem: undefined,
+        mainImage: imgs.find(i => i.isMain)?.url || imgs[0]?.url || null,
+        images: imgs.slice(0, 2),
+        unidades: estoqueF.get(p.id) ?? {},
+      };
     });
     return res.json(enriched);
   });
 
   // Opções de filtro da vitrine (tamanhos, cores, faixa de preço)
   app.get("/api/store/filters", async (req, res) => {
-    const categoryId = idValido(req.query.category_id);
+    let categoryId = idValido(req.query.category_id);
+    const tipo = limparTexto(req.query.tipo);
+    if (!categoryId && tipo) categoryId = (await storage.getCategoryBySlug(tipo))?.id;
     res.set("Cache-Control", "public, max-age=120");
     return res.json(await storage.listFilterFacets(categoryId));
+  });
+
+  // Marcas publicadas (página /marcas)
+  app.get("/api/store/brands", async (_req, res) => {
+    res.set("Cache-Control", "public, max-age=120");
+    return res.json(await storage.listBrands());
   });
 
   // Products (public)
@@ -564,31 +447,55 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     if (!minimo.ok) return res.status(400).json({ error: "parametro_invalido", field: minimo.campo });
     const maximo = lerPreco("maxPrice", "max_price");
     if (!maximo.ok) return res.status(400).json({ error: "parametro_invalido", field: maximo.campo });
+    // Categoria por id (?category=3) ou por slug (?tipo=oculos-de-sol,infantil)
+    const slugsTipo = csv(req.query.tipo);
+    let categoryIds: number[] | undefined;
+    if (slugsTipo?.length) {
+      const cats = await storage.listCategories(true);
+      categoryIds = cats.filter(c => slugsTipo.includes(c.slug)).map(c => c.id);
+      if (!categoryIds.length) categoryIds = [-1]; // slug desconhecido → vitrine vazia, não a loja inteira
+    }
+    const sim = (v: unknown) => v === "1" || v === "true";
     const { products: prods, total } = await storage.listProducts({
       categoryId: idValido(category),
+      categoryIds,
       status: "active", published: true,
       featured: featured === "true" ? true : undefined,
       search: limparTexto(search) || undefined, limit: lim, offset: off,
       sizes: csv(req.query.size),
-      colors: csv(req.query.color),
       minPrice: minimo.valor,
       maxPrice: maximo.valor,
       sort: parseProductSort(req.query.sort),
+      // Filtros de óculos
+      brands: csv(req.query.marca),
+      shapes: csv(req.query.formato),
+      materials: csv(req.query.material),
+      audiences: csv(req.query.publico),
+      frameColors: csv(req.query.cor ?? req.query.color),
+      polarized: sim(req.query.polarizado),
+      mirrored: sim(req.query.espelhado),
+      gradient: sim(req.query.degrade),
+      photochromic: sim(req.query.fotossensivel),
+      acceptsRx: sim(req.query.grau),
+      tryon: sim(req.query.tryon),
+      units: csv(req.query.unidade)?.filter(u => u === "cravinhos" || u === "ribeirao-preto"),
     });
     // attach main image + as 2 primeiras (o card usa a segunda no hover)
     const ids = prods.map(p => p.id);
-    const [porProduto, tamanhosPorProduto] = await Promise.all([
+    const [porProduto, tamanhosPorProduto, estoqueUnidades] = await Promise.all([
       storage.getImagesForProducts(ids),
       storage.getSizesForProducts(ids),
+      storage.getUnitStockForProducts(ids),
     ]);
     const enriched = prods.map(p => {
       const imgs = porProduto.get(p.id) ?? [];
       return {
         ...p,
+        costPerItem: undefined, // custo nunca sai na API pública
         mainImage: imgs.find(i => i.isMain)?.url || imgs[0]?.url || null,
         images: imgs.slice(0, 2),
-        // Grade de tamanhos do hover do card (REQ-2.8, REQ-2.9).
         tamanhos: tamanhosPorProduto.get(p.id) ?? [],
+        unidades: estoqueUnidades.get(p.id) ?? {},
       };
     });
     return res.json({ products: enriched, total, page: Number(page), pages: Math.ceil(total / lim) });
@@ -599,11 +506,21 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     // Slug inexistente e peça em rascunho respondem igual: revelar a diferença
     // entregaria o calendário de lançamento da loja (REQ-3.4).
     if (!product) return res.status(404).json({ error: "nao_encontrado" });
-    const [images, variantList] = await Promise.all([
+    const [images, variantList, estoqueUnidades, cats] = await Promise.all([
       storage.getProductImages(product.id),
       storage.getVariantsByProduct(product.id),
+      storage.getUnitStockForProducts([product.id]),
+      storage.listCategories(true),
     ]);
-    return res.json({ ...product, images, variants: variantList });
+    const categoria = cats.find(c => c.id === product.categoryId);
+    return res.json({
+      ...product,
+      costPerItem: undefined,
+      images,
+      variants: variantList.map(v => ({ ...v, cost: undefined })),
+      unidades: estoqueUnidades.get(product.id) ?? {},
+      categoria: categoria ? { slug: categoria.slug, name: categoria.name } : null,
+    });
   });
 
   // ─── Avaliações de produtos ────────────────────────────────────────────────
@@ -680,11 +597,21 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       storage.getRelatedProducts(product.id),
       storage.listBundlesForProduct(product.id),
     ]);
-    // O card de produto precisa da imagem principal
-    const porProduto = await storage.getImagesForProducts(related.map((p: any) => p.id));
+    // O card de produto precisa da imagem principal, da segunda (hover) e do saldo por loja
+    const idsRel = related.map((p: any) => p.id);
+    const [porProduto, estoqueRel] = await Promise.all([
+      storage.getImagesForProducts(idsRel),
+      storage.getUnitStockForProducts(idsRel),
+    ]);
     const relatedComImagem = related.map((p: any) => {
       const imgs = porProduto.get(p.id) ?? [];
-      return { ...p, mainImage: imgs.find(i => i.isMain)?.url || imgs[0]?.url || null };
+      return {
+        ...p,
+        costPerItem: undefined,
+        mainImage: imgs.find(i => i.isMain)?.url || imgs[0]?.url || null,
+        images: imgs.slice(0, 2),
+        unidades: estoqueRel.get(p.id) ?? {},
+      };
     });
     return res.json({ related: relatedComImagem, bundles });
   });
@@ -836,7 +763,35 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       return res.status(400).json({ message: "Carrinho vazio" });
     }
 
-    const shippingAmount = data.shippingAmount || 0;
+    /*
+     * Frete conferido no servidor (INV-C). Retirada numa loja da Sanrê é
+     * grátis e exige unidade válida; entrega usa o preço da cotação feita
+     * aqui para o serviço escolhido — nunca o valor que veio do navegador.
+     */
+    let shippingAmount = 0;
+    const retirada = /^retirada/i.test(data.shippingService ?? "");
+    if (retirada) {
+      const slugUnidade = String(data.shippingCarrier ?? "").replace(/^loja:/, "");
+      if (!unidadePorSlug(slugUnidade)) {
+        return res.status(400).json({ message: "Escolha a loja para retirada." });
+      }
+    } else if (data.channel !== "whatsapp") {
+      try {
+        const subtotalCarrinho = cart.items.reduce((s: number, i: any) => s + Number(i.unitPrice) * i.quantity, 0);
+        const opcoes = await cotarFreteServidor(
+          data.shippingCep,
+          cart.items.map((i: any) => ({ productId: i.productId, quantity: i.quantity, unitPrice: i.unitPrice })),
+          subtotalCarrinho,
+        );
+        const escolhida = opcoes.find(o => o.service === data.shippingService) ?? null;
+        if (!escolhida) return res.status(400).json({ message: "Opção de frete inválida. Calcule o frete de novo." });
+        shippingAmount = escolhida.free ? 0 : escolhida.finalValue;
+      } catch (e: any) {
+        return res.status(502).json({ message: "Não foi possível confirmar o frete agora. Tente de novo." });
+      }
+    } else {
+      shippingAmount = data.shippingAmount || 0;
+    }
 
     // Canal WhatsApp: cria o pedido sem cobrança online (pagamento negociado no chat).
     const viaWhatsapp = data.channel === "whatsapp";
@@ -1604,14 +1559,16 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   app.get("/api/admin/products/:id", requireAdmin, async (req, res) => {
     const product = await storage.getProductById(Number(req.params.id));
     if (!product) return res.status(404).json({ message: "Produto não encontrado" });
-    const [images, variantList] = await Promise.all([
+    // Admin vê custo; a rota pública é que esconde.
+    const [images, variantList, estoqueUnidades] = await Promise.all([
       storage.getProductImages(product.id),
       storage.getVariantsByProduct(product.id),
+      storage.getUnitStockForProducts([product.id]),
     ]);
-    return res.json({ ...product, images, variants: variantList });
+    return res.json({ ...product, images, variants: variantList, unidades: estoqueUnidades.get(product.id) ?? {} });
   });
   app.post("/api/admin/products", requireAdmin, async (req, res) => {
-    const { variants: variantsData, ...productData } = req.body;
+    const { variants: variantsData, unidades: _unidades, ...productData } = req.body;
     const slug = productData.slug || slugify(productData.title);
     const product = await storage.createProduct({ ...productData, slug });
     if (variantsData?.length) {
@@ -1622,8 +1579,15 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     return res.status(201).json(product);
   });
   app.put("/api/admin/products/:id", requireAdmin, async (req, res) => {
-    const { variants: variantsData, images: _images, ...productData } = req.body;
+    const { variants: variantsData, images: _images, unidades, ...productData } = req.body;
     const product = await storage.updateProduct(Number(req.params.id), productData);
+    // Estoque por loja (até a integração com o SS Ótica, é mantido aqui)
+    if (unidades && typeof unidades === "object") {
+      for (const slug of ["cravinhos", "ribeirao-preto"]) {
+        const qtd = Number((unidades as Record<string, unknown>)[slug]);
+        if (Number.isFinite(qtd) && qtd >= 0) await storage.setUnitStock(product.id, slug, qtd);
+      }
+    }
     return res.json(product);
   });
   app.delete("/api/admin/products/:id", requireAdmin, async (req, res) => {

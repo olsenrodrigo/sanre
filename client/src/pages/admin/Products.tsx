@@ -50,7 +50,7 @@ export default function AdminProducts() {
           <h1 className="text-2xl font-bold text-gray-900">Produtos</h1>
           <p className="text-gray-500 text-sm mt-0.5">{total} produto(s) cadastrado(s)</p>
         </div>
-        <Link href="/admin/produtos/novo">
+        <Link href="/admin/produtos/novo" asChild>
           <a className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 no-underline">
             <Plus size={16} /> Novo produto
           </a>
@@ -75,7 +75,7 @@ export default function AdminProducts() {
           <div className="text-center py-16 text-gray-400">
             <Package size={40} className="mx-auto mb-2 opacity-30" />
             <p>Nenhum produto encontrado</p>
-            <Link href="/admin/produtos/novo"><a className="text-blue-600 text-sm mt-1 hover:underline no-underline inline-block">Criar primeiro produto</a></Link>
+            <Link href="/admin/produtos/novo" asChild><a className="text-blue-600 text-sm mt-1 hover:underline no-underline inline-block">Criar primeiro produto</a></Link>
           </div>
         ) : (
           <>
@@ -122,7 +122,7 @@ export default function AdminProducts() {
                       </td>
                       <td className="px-4 py-3 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <Link href={`/admin/produtos/${p.id}`}>
+                          <Link href={`/admin/produtos/${p.id}`} asChild>
                             <a className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-lg no-underline transition-colors" title="Editar">
                               <Edit size={15} />
                             </a>

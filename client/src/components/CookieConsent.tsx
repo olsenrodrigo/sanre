@@ -93,27 +93,25 @@ export default function CookieConsent() {
       role="dialog"
       aria-live="polite"
       aria-label="Privacidade"
-      className="fixed inset-x-0 bottom-0 z-[60] border-t border-gray-200 bg-white/95 backdrop-blur px-4 py-4 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]"
+      className="fixed inset-x-0 bottom-0 z-[60] border-t border-sr-line bg-sr-paper/97 px-4 py-4 backdrop-blur"
     >
       <div className="mx-auto flex max-w-5xl flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="max-w-2xl text-sm leading-relaxed text-gray-600">
-          Usamos cookies e pixels de análise para entender como a loja é usada e melhorar sua
-          experiência. Você pode aceitar ou recusar — só carregamos essas ferramentas com o seu
-          consentimento.
+        <p className="max-w-2xl text-sm leading-relaxed text-sr-ink-soft">
+          Usamos cookies de medição para entender como o site é usado. Só ligamos essas ferramentas
+          se você aceitar. <a href="/privacidade" className="underline underline-offset-4">Privacidade</a>
         </p>
         <div className="flex shrink-0 gap-2">
           <button
             type="button"
             onClick={() => decide(false)}
-            className="rounded-full border border-gray-300 px-5 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-50"
+            className="btn-line min-h-[2.5rem] px-5"
           >
             Recusar
           </button>
           <button
             type="button"
             onClick={() => decide(true)}
-            className="rounded-full px-5 py-2 text-sm font-semibold text-white"
-            style={{ background: primaryColor }}
+            className="btn-ink min-h-[2.5rem] px-5"
           >
             Aceitar
           </button>

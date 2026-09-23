@@ -119,7 +119,7 @@ export default function AdminLoginPage() {
         <div className="text-center mb-6">
           <img src="/brand/app-icon.svg" alt="" aria-hidden className="w-14 h-14 mx-auto mb-3" />
           <h1 className="text-xl font-bold text-gray-900">Painel Administrativo</h1>
-          <p className="text-gray-500 text-sm mt-1">Vivi Nosralla</p>
+          <p className="text-gray-500 text-sm mt-1">Óticas Sanrê</p>
         </div>
 
         {/* OTP State */}
